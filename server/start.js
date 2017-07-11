@@ -40,19 +40,34 @@ app.use((err, req, res, next) => {
 })
 
 if (module === require.main) {
-	db.sync({force: true})
-	.then(() => {
-		console.log('synced database')
-			const server = app.listen(
-			require('../').port,
-			() => {
-				console.log('connected')
-				const { address, port } = server.address()
-				const host = address === '::' ? 'localhost' : address
-				const urlSafeHost = host.includes(':') ? `[${host}]` : host
-				console.log(`Listening on http://${urlSafeHost}:${port}`)
+	const setUp = (reattempt = false) => {
+		db.sync({force: true})
+		.then(() => {
+			console.log('synced database')
+				const server = app.listen(
+				require('../').port,
+				() => {
+					console.log('connected')
+					const { address, port } = server.address()
+					console.log(server.address(), 'SERVr ADDReSS')
+					const host = address === '::' ? 'localhost' : address
+					const urlSafeHost = host.includes(':') ? `[${host}]` : host
+					console.log(`Listening on http://${urlSafeHost}:${port}`)
+				}
+			)
+		})
+		.catch(err => {
+			console.error('failed to sync', err)
+			if (!reattempt) {
+				console.log('reattempting start up')
+				return new Promise((res, _) => {
+					require('child_process').exec(`createdb "${require('../').name}"`, res)
+				})
+				.then(() => setUp(true))
+			} else {
+				console.error('failed to reattempt sync')
 			}
-		)
-	})
-	.catch(err => console.error('failed to sync', err))
+		})
+	}
+	setUp()
 }
