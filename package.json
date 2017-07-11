@@ -5,15 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pg-init": "createdb boiledeggs",
-    "start": "webpack -w & nodemon ./server/start.js",
-    "build": "webpack",
-    "build-watch": "npm run build -- -w"
+    "start-dev": "webpack -w & NODE_ENV=development nodemon ./server --watch server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.15.3",

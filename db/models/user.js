@@ -1,4 +1,4 @@
-const db = require('./')
+const db = require('../')
     , { STRING } = require('sequelize')
 
 const schema = {

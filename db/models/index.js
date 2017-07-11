@@ -1,13 +1,6 @@
-const app = require('../..')
-    , name = app.env.DATABASE_NAME || app.name
-    , url = app.env.DATABASE_URL || `postgres://localhost:5432/${name}`
-    , Sequelize = require('Sequelize')
+const db = require('../')
+    , Users = require('./user')
 
-module.exports = new Sequelize(url, {
-  define: {
-    freezeTableName: true,
-    timestamps: true,
-    underscored: true
-  },
-  logging: false
-})
+// define associations
+
+module.exports = db
