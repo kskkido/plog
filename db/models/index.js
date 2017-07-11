@@ -3,7 +3,7 @@ const app = require('../..')
     , url = app.env.DATABASE_URL || `postgres://localhost:5432/${name}`
     , Sequelize = require('Sequelize')
 
-const db = module.exports = new Sequelize(url, {
+module.exports = new Sequelize(url, {
   define: {
     freezeTableName: true,
     timestamps: true,
