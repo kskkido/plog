@@ -16,6 +16,7 @@
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
+    "has-flag": "^2.0.0",
     "history": "^4.6.3",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
