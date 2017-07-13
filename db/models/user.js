@@ -1,12 +1,9 @@
-const db = require('../')
-    , { STRING, VIRTUAL } = require('sequelize')
+const { STRING, VIRTUAL } = require('sequelize')
     , bcrypt = require('bcryptjs')
 
+console.log(VIRTUAL, 'WHAT THE FUCK')
 const schema = {
-  userName: {
-    type: STRING,
-    defaultValue: 'John_Doe'
-  },
+  name: STRING,
   email: {
     type: STRING,
     allowNull: false,
@@ -41,7 +38,7 @@ const options = {
   classMethods: {}
 }
 
-module.exports = db.define('users', schema, options)
+module.exports = db => db.define('users', schema, options)
 
 
 // utils
