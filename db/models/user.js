@@ -1,5 +1,6 @@
-const db = require('./')
-    , { STRING } = require('sequelize')
+const db = require('../')
+    , { STRING, VIRTUAL } = require('sequelize')
+    , bcrypt = require('bcryptjs')
 
 const schema = {
   userName: {
@@ -8,23 +9,46 @@ const schema = {
   },
   email: {
     type: STRING,
+    allowNull: false,
+    unique: true,
     validate: {
       isEmail: true
     }
-  }
+  },
+  google_id: STRING,
+  password_digest: STRING,
+  password: VIRTUAL
 }
 
 const options = {
-  getterMethods: {
-    emailName() {
-      return {userName: this.userName, email: this.email}
+  indexes: [{fields: ['email'], unique: true}],
+  hooks: {
+    beforeCreate: setEmailAndPassword,
+    beforeUpdate: setEmailAndPassword
+  },
+  getterMethods: {},
+  setterMethods: {},
+  instanceMethods: {
+    authenticate(text) {
+      return new Promise((resolve, reject) =>
+        bcrypt.compare(text, this.password_digest, (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        })
+      )
     }
   },
-  setterMethods: {
-    email(newEmail) {
-      this.setDataValue('email', newEmail)
-    }
-  }
+  classMethods: {}
 }
 
 module.exports = db.define('users', schema, options)
+
+
+// utils
+function setEmailAndPassword (user) {
+  user.email = user.email && user.email.toLowerCase();
+  if (!user.password) return Promise.resolve(user); // google OAuth means user may not have a password
+  return bcrypt.hash(user.get('password'), 10)
+    .then(hash => user.set('password_digest', hash))
+    .catch(err => console.error(err));
+}

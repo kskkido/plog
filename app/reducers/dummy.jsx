@@ -11,7 +11,7 @@ const initialState = {
 
 /* ====== DEFINE REDUCER ====== */
 export default (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
   case AUTHENTICATE:
     return Object.assign({}, state, {authenticated: true})
 

@@ -4,23 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "pg-init": "createdb boiledeggs",
-    "start": "webpack -w & nodemon ./server/start.js",
-    "build": "webpack",
-    "build-watch": "npm run build -- -w"
+    "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js db/**/*.test.js",
+    "start-dev": "webpack -w & NODE_ENV=development nodemon ./server --watch server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
+    "has-flag": "^2.0.0",
     "history": "^4.6.3",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^6.2.4",
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
@@ -37,6 +38,11 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "chai": "^4.1.0",
+    "enzyme": "^2.9.1",
+    "mocha": "^3.4.2",
+    "supertest": "^3.0.0",
     "webpack": "^2.6.1"
   }
 }
