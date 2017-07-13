@@ -21,7 +21,7 @@ passport.deserializeUser((id, done) => {
 });
 
 // define passport strategies
-passport.use(new (require('passport-google-oauth').Strategy)(
+passport.use(new (require('passport-google-oauth').OAuth2Strategy)(
   configs.google.authorization, (token, refreshToken, profile, done) => {
     User.findOrCreate({
       where: {google_id: profile.id},
