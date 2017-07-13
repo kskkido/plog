@@ -45,7 +45,7 @@ module.exports = app
 
 if (module === require.main) {
 	db.syncAndLaunch(
-		(_) => {
+		() => {
 			console.log('successfully synced database')
 			const server = app.listen(
 			require('../').port,
@@ -57,5 +57,5 @@ if (module === require.main) {
 				console.log(`Listening on http://${urlSafeHost}:${port}`)
 			})
 		}
-	)
+	)()
 }

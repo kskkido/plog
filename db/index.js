@@ -31,5 +31,5 @@ db.syncAndLaunch = (callback) => {
       }
     })
   }
-  return attemptSync()
+  return attemptSync
 }
