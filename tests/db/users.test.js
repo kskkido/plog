@@ -2,7 +2,6 @@ const request = require('supertest')
     , { expect } = require('chai')
     , db = require('../../db/models')
     , User = db.model('users')
-    , app = require('../../server')
     , name = 'test1'
     , email = 'test1@test.com'
     , password = 'test1password'
