@@ -8,53 +8,40 @@ const { join } = require('path')
 		, dbStore = new SequelizeStore({db})
 		, passport = require('passport')
 
+app
 // logging middleware
-app.use(require('morgan')('dev'))
+	.use(require('morgan')('dev'))
 
 // body parsing middleware
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+	.use(bodyParser.urlencoded({extended: false}))
+	.use(bodyParser.json())
 
 // define user sessions
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'insecure secret',
-	store: dbStore,
-  resave: false,
-  saveUninitialized: false
-}))
+	.use(session({
+		secret: process.env.SESSION_SECRET || 'insecure secret',
+		store: dbStore,
+		resave: false,
+		saveUninitialized: false
+	}))
 
 // define passport
-app.use(passport.initialize())
-app.use(passport.session())
-
-passport.serializeUser((user, done) => {
-  try {
-    done(null, user.id);
-  } catch (err) {
-    done(err);
-  }
-});
-
-passport.deserializeUser((id, done) => {
-  db.User.findById(id)
-    .then(user => done(null, user))
-    .catch(done);
-});
+	.use(passport.initialize())
+	.use(passport.session())
 
 // redirect to api routes
-app.use('/api', require('./api'))
+	.use('/api', require('./api'))
 
-app.use(express.static(join(__dirname, '../app/public')))
+	.use(express.static(join(__dirname, '../app/public')))
 
-app.get('*', (req, res, next) => {
-	res.sendFile(join(__dirname, '../app/public'))
-})
+	.get('*', (req, res, next) => {
+		res.sendFile(join(__dirname, '../app/public'))
+	})
 
 // error handling middlware
-app.use((err, req, res, next) => {
-	console.error(err)
-	res.status(err.status || 500).send(err.message || 'Internal server error')
-})
+	.use((err, req, res, next) => {
+		console.error(err)
+		res.status(err.status || 500).send(err.message || 'Internal server error')
+	})
 
 if (module === require.main) {
 	db.syncAndLaunch(
@@ -70,5 +57,5 @@ if (module === require.main) {
 				console.log(`Listening on http://${urlSafeHost}:${port}`)
 			})
 		}
-	)()
+	)
 }

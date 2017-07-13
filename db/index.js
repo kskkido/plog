@@ -13,6 +13,7 @@ const db = module.exports = new Sequelize(url, {
   logging: false
 })
 
+// syncs database and runs callback if successful, called in ../server
 db.syncAndLaunch = (callback) => {
   const attemptSync = (reattempt = false) => {
     db.sync(sync)
@@ -30,5 +31,5 @@ db.syncAndLaunch = (callback) => {
       }
     })
   }
-  return attemptSync
+  return attemptSync()
 }

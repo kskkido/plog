@@ -20,6 +20,7 @@
     "history": "^4.6.3",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^6.2.4",
     "react": "^15.6.0",
     "react-dom": "^15.6.0",

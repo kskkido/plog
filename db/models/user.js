@@ -25,18 +25,18 @@ const options = {
     beforeCreate: setEmailAndPassword,
     beforeUpdate: setEmailAndPassword
   },
-
-  getterMethods: {
-    emailName() {
-      return {userName: this.userName, email: this.email}
+  getterMethods: {},
+  setterMethods: {},
+  instanceMethods: {
+    authenticate(text) {
+      return new Promise((resolve, reject) =>
+        bcrypt.compare(text, this.password_digest, (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        })
+      )
     }
   },
-  setterMethods: {
-    email(newEmail) {
-      this.setDataValue('email', newEmail)
-    }
-  },
-  instanceMethods: {},
   classMethods: {}
 }
 
