@@ -15,7 +15,8 @@ const schema = {
       isEmail: true
     }
   },
-  passwordDigest: STRING,
+  google_id: STRING,
+  password_digest: STRING,
   password: VIRTUAL
 }
 
@@ -48,6 +49,6 @@ function setEmailAndPassword (user) {
   user.email = user.email && user.email.toLowerCase();
   if (!user.password) return Promise.resolve(user); // google OAuth means user may not have a password
   return bcrypt.hash(user.get('password'), 10)
-    .then(hash => user.set('passwordDigest', hash))
+    .then(hash => user.set('password_digest', hash))
     .catch(err => console.error(err));
 }
