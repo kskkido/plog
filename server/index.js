@@ -8,7 +8,7 @@ const { join } = require('path')
 		, dbStore = new SequelizeStore({db})
 		, passport = require('passport')
 
-app
+module.exports = app
 // logging middleware
 	.use(require('morgan')('dev'))
 

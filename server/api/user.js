@@ -12,6 +12,11 @@ router.param('id', (req, res, next, id) => {
 })
 
 router.route('/')
+.get((req, res, next) => {
+  User.findAll()
+    .then(users => res.json(users))
+    .catch(next)
+})
 .post((req, res, next) => {
   User.create(req.body)
     .then(user => {
