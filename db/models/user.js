@@ -1,4 +1,5 @@
-const { STRING, VIRTUAL } = require('sequelize')
+const db = require('../')
+    , { STRING, VIRTUAL } = require('sequelize')
     , bcrypt = require('bcryptjs')
 
 console.log(VIRTUAL, 'WHAT THE FUCK')
@@ -14,7 +15,7 @@ const schema = {
   },
   google_id: STRING,
   password_digest: STRING,
-  password: VIRTUAL
+  password: STRING
 }
 
 const options = {
@@ -38,7 +39,7 @@ const options = {
   classMethods: {}
 }
 
-module.exports = db => db.define('users', schema, options)
+module.exports = db.define('users', schema, options)
 
 
 // utils

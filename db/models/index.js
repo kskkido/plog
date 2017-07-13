@@ -1,5 +1,5 @@
 const db = require('../')
-    , Users = require('./user')(db)
+    , Users = require('./user')
 
 // define associations
 console.log(Users, 'YO')

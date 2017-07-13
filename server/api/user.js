@@ -27,3 +27,13 @@ router.route('/')
     })
     .catch(next)
 })
+
+router.route('/:id')
+.get((req, res, next) => {
+  res.json(req.targetUser)
+})
+.put((req, res, next) => {
+  req.targetUser.update(req.body)
+  .then(user => res.status(201).json(user))
+  .catch(next)
+})
