@@ -57,5 +57,5 @@ if (module === require.main) {
 				console.log(`Listening on http://${urlSafeHost}:${port}`)
 			})
 		}
-	)()
+	)
 }

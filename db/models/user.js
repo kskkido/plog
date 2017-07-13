@@ -2,7 +2,15 @@ const db = require('../')
     , { STRING, VIRTUAL } = require('sequelize')
     , bcrypt = require('bcryptjs')
 
-console.log(VIRTUAL, 'WHAT THE FUCK')
+// utils
+function setEmailAndPassword (user) {
+  user.email = user.email && user.email.toLowerCase();
+  if (!user.password) return Promise.resolve(user);
+  return bcrypt.hash(user.get('password'), 10)
+    .then(hash => user.set('password_digest', hash))
+    .catch(err => console.error(err));
+}
+
 const schema = {
   name: STRING,
   email: {
@@ -23,30 +31,15 @@ const options = {
   hooks: {
     beforeCreate: setEmailAndPassword,
     beforeUpdate: setEmailAndPassword
-  },
-  getterMethods: {},
-  setterMethods: {},
-  instanceMethods: {
-    authenticate(text) {
-      return new Promise((resolve, reject) =>
-        bcrypt.compare(text, this.password_digest, (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        })
-      )
-    }
-  },
-  classMethods: {}
+  }
 }
 
-module.exports = db.define('users', schema, options)
-
-
-// utils
-function setEmailAndPassword (user) {
-  user.email = user.email && user.email.toLowerCase();
-  if (!user.password) return Promise.resolve(user); // google OAuth means user may not have a password
-  return bcrypt.hash(user.get('password'), 10)
-    .then(hash => user.set('password_digest', hash))
-    .catch(err => console.error(err));
+const User = module.exports = db.define('users', schema, options)
+// define instance methods
+User.prototype.authenticate = function(plaintext) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(plaintext, this.password_digest,
+    (err, result) => {
+      err ? reject(err) : resolve(result)})
+  })
 }

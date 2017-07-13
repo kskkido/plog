@@ -9,7 +9,7 @@ const numberOfUsers = 3
 
 const defineDummyUser = id => {
   return {
-    id,
+    uniqueId: id,
     name: `test${id}`,
     email: `test${id}@test.com`,
     password: `test${id}password`
@@ -35,38 +35,35 @@ describe('User api', () => {
   })
 
   describe('/api/users', () => {
-    it('GET: can get all users', done => {
-      request(app)
+    it('GET: can get all users', () => {
+      return request(app)
       .get('/api/users')
       .then(res => {
         expect(res.body.length).to.equal(numberOfUsers)
         expect(res.body[0].name).to.equal('test1')
-        done()
       })
-      .catch(done)
+      .catch(console.error)
     })
 
-    it('GET /:id: can get a specific user', done => {
-      request(app)
+    it('GET /:id: can get a specific user', () => {
+      return request(app)
       .get('/api/users/2')
       .then(res => {
         expect(res.body.name).to.equal('test2')
-        done()
       })
-      .catch(done)
+      .catch()
     })
 
-    it('PUT: can modify a specific user', done => {
+    it('PUT: can modify a specific user', () => {
       const newName = 'notTest3'
-      request(app)
+      return request(app)
       .put('/api/users/3')
       .send({name: newName})
       .then(res => {
         expect(res.body.id).to.equal(3)
         expect(res.body.name).to.equal(newName)
-        done()
       })
-      .catch(done)
+      .catch(console.error)
     })
   })
 })
