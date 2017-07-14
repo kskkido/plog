@@ -4,7 +4,7 @@ A simple fullstack javascript web application boilerplate inspired by [Bones](ht
 # File Structure
 ```
 .
-+-- app
++-- client
 |   +-- components          <-- React components
 |       +-- Root.js              <-- Sample react component
 |   +-- public              <-- Static files
