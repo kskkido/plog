@@ -1,10 +1,10 @@
-const { env } = require('../..')
+const { env, baseUrl } = require('../..')
 
 module.exports = {
   google: {
     authorization: {
-      clientID: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientID: env.GOOGLE_CLIENT_ID || 'blah',
+      clientSecret: env.GOOGLE_CLIENT_SECRET || 'blahblah',
       callbackURL: 'login/google/callback',
     },
     request: {

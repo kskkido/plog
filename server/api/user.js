@@ -1,5 +1,5 @@
 const router = module.exports = require('express').Router()
-    , User = require('../../db/models').model('users')
+    , User = require('../../db').model('users')
 
 router.param('id', (req, res, next, id) => {
   User.findById(id)
@@ -12,6 +12,11 @@ router.param('id', (req, res, next, id) => {
 })
 
 router.route('/')
+.get((req, res, next) => {
+  User.findAll()
+    .then(users => res.json(users))
+    .catch(next)
+})
 .post((req, res, next) => {
   User.create(req.body)
     .then(user => {
@@ -21,4 +26,14 @@ router.route('/')
       })
     })
     .catch(next)
+})
+
+router.route('/:id')
+.get((req, res, next) => {
+  res.json(req.targetUser)
+})
+.put((req, res, next) => {
+  req.targetUser.update(req.body)
+  .then(user => res.status(201).json(user))
+  .catch(next)
 })

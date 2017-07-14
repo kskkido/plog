@@ -2,13 +2,13 @@ const { join } = require('path')
 		, bodyParser = require('body-parser')
 		, express = require('express')
 		, app = express()
-		, db = require('../db/models')
+		, db = require('../db')
 		, session = require('express-session')
 		, SequelizeStore = require('connect-session-sequelize')(session.Store)
 		, dbStore = new SequelizeStore({db})
 		, passport = require('passport')
 
-app
+module.exports = app
 // logging middleware
 	.use(require('morgan')('dev'))
 
@@ -45,7 +45,7 @@ app
 
 if (module === require.main) {
 	db.syncAndLaunch(
-		(_) => {
+		() => {
 			console.log('successfully synced database')
 			const server = app.listen(
 			require('../').port,
