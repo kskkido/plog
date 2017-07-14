@@ -1,8 +1,8 @@
-const db = require('../')
+/* eslint-disable camelcase */
+const db = require('../_db')
     , { STRING, VIRTUAL } = require('sequelize')
     , bcrypt = require('bcryptjs')
 
-// utils
 function setEmailAndPassword (user) {
   user.email = user.email && user.email.toLowerCase();
   if (!user.password) return Promise.resolve(user);
@@ -23,7 +23,7 @@ const schema = {
   },
   google_id: STRING,
   password_digest: STRING,
-  password: STRING
+  password: VIRTUAL
 }
 
 const options = {
@@ -31,7 +31,7 @@ const options = {
   hooks: {
     beforeCreate: setEmailAndPassword,
     beforeUpdate: setEmailAndPassword
-  }
+  },
 }
 
 const User = module.exports = db.define('users', schema, options)

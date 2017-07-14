@@ -1,6 +1,6 @@
 const request = require('supertest')
     , { expect } = require('chai')
-    , db = require('../../db/models')
+    , db = require('../../db')
     , User = db.model('users')
     , name = 'test1'
     , email = 'test1@test.com'

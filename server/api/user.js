@@ -1,5 +1,5 @@
 const router = module.exports = require('express').Router()
-    , User = require('../../db/models').model('users')
+    , User = require('../../db').model('users')
 
 router.param('id', (req, res, next, id) => {
   User.findById(id)
