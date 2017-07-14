@@ -3,8 +3,6 @@ const router = module.exports = require('express').Router()
     , passport = require('passport')
     , configs = require('./authConfig')
 
-// define oauth
-
 // define serialize and deserialize users
 passport.serializeUser((user, done) => {
   try {
@@ -19,6 +17,7 @@ passport.deserializeUser((id, done) => {
     .then(user => done(null, user))
     .catch(done);
 });
+
 // define passport strategies
 passport.use(new (require('passport-google-oauth').OAuth2Strategy)(
   configs.google.authorization, (token, refreshToken, profile, done) => {
@@ -52,7 +51,7 @@ passport.use(new (require('passport-local').Strategy)(
   }
 ))
 
-// Standard login, logout with passport
+// routes
 router.post('/login/local', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login'}))
 
 router.get('/login/:strategy', (req, res, next) => (
@@ -68,5 +67,5 @@ router.get('/logout', (req, res, next) => {
   res.sendStatus(200)
 })
 
-// who am i
+// returns user object assign to session
 router.get('/me', (req, res) => res.json(req.user))
