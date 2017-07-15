@@ -31,10 +31,10 @@ module.exports = app
 // redirect to api routes
 	.use('/api', require('./api'))
 
-	.use(express.static(join(__dirname, '../app/public')))
+	.use(express.static(join(__dirname, '../client/public')))
 
 	.get('*', (req, res, next) => {
-		res.sendFile(join(__dirname, '../app/public'))
+		res.sendFile(join(__dirname, '../client/public'))
 	})
 
 // error handling middlware
