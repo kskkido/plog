@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 
-const Root = () => (
-  <div id="root">
-    <h1>ITS THE ROOT</h1>
+const Main = () => (
+  <div id="Main">
+    <h1>ITS THE Main</h1>
   </div>
 )
 
@@ -13,7 +13,7 @@ class LocalContainer extends Component {
   }
 
   render() {
-    return <Root />
+    return <Main />
   }
 }
 
