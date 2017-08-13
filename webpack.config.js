@@ -6,7 +6,7 @@ module.exports = {
 	},
 	devtool: 'source-map',
 	resolve: {
-		extensions: ['.js', '.jsx', '.json', '*']
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*']
 	},
 	module: {
 		rules: [{
@@ -16,6 +16,11 @@ module.exports = {
 			options: {
 				presets: ['react', 'es2015']
 			}
+		},
+		{
+			test: /\.ts?x$/,
+			exclude: /(node_modules|bower_components)/,
+			loader: 'awesome-typescript-loader'
 		}]
 	}
 }

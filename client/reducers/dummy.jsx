@@ -2,7 +2,7 @@
 const AUTHENTICATE = 'AUTHENTICATE'
 
 /* ====== DEFINE ACTION CREATORS ====== */
-const authenticate = () => ({type: AUTHENTICATE})
+export const authenticate = () => ({type: AUTHENTICATE})
 
 /* ====== DEFINE INITIAL STATE ====== */
 const initialState = {
