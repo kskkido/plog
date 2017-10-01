@@ -1,10 +1,18 @@
+const { join } = require('path'),
+			NODE_ENV = require('./').env.NODE_ENV
+
+const webpack = require('webpack'),
+			LiveReloadPlugin = require('webpack-livereload-plugin'),
+			CompressionPlugin = require('compression-webpack-plugin')
+
+
 module.exports = {
 	entry: './client/index.jsx',
 	output: {
-		path: __dirname + '/client/public',
+		path:  join(__dirname, '/client/public'),
 		filename: 'bundle.js'
 	},
-	devtool: 'source-map',
+	devtool: NODE_ENV !== 'production' && 'source-map',
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*']
 	},
@@ -22,5 +30,38 @@ module.exports = {
 			exclude: /(node_modules|bower_components)/,
 			loader: 'awesome-typescript-loader'
 		}]
-	}
+	},
+	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: '\'' + NODE_ENV + '\''
+			}
+		}),
+		...NODE_ENV === 'production' ?
+		[
+			new webpack.optimize.UglifyJsPlugin({
+				compress: {
+					warnings: false, // Suppress uglification warnings
+					unsafe: true,
+					unsafe_comps: true,
+					screw_ie8: true
+				},
+				output: {
+					comments: false,
+				},
+				exclude: [/\.min\.js$/gi]
+			}),
+			new webpack.optimize.AggressiveMergingPlugin(),
+			new CompressionPlugin({
+				asset: '[path].gz[query]',
+				algorithm: 'gzip',
+				test: /\.js$|\.css$|\.html$/,
+				threshold: 10240,
+				minRatio: 0.8
+			})
+		] :
+		[
+			new LiveReloadPlugin({appendScriptTag: true})
+		]
+	]
 }
