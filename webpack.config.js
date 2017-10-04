@@ -7,7 +7,7 @@ const webpack = require('webpack'),
 
 
 module.exports = {
-	entry: './client/index.jsx',
+	entry: './client/index.tsx',
 	output: {
 		path:  join(__dirname, '/client/public'),
 		filename: 'bundle.js'
@@ -26,7 +26,7 @@ module.exports = {
 			}
 		},
 		{
-			test: /\.ts?x$/,
+			test: /\.tsx?$/,
 			exclude: /(node_modules|bower_components)/,
 			loader: 'awesome-typescript-loader'
 		}]
@@ -63,5 +63,8 @@ module.exports = {
 		[
 			new LiveReloadPlugin({appendScriptTag: true})
 		]
-	]
+	],
+	externals: {
+		TweenMax: 'TweenMax'
+	}
 }

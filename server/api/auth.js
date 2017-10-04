@@ -1,5 +1,5 @@
 const router = module.exports = require('express').Router()
-    , User = require('../../db').model('users')
+    , User = require('../../db').model('user')
     , passport = require('passport')
     , configs = require('./authConfig')
 

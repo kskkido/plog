@@ -3,7 +3,7 @@ const api = module.exports = require('express').Router()
 // branch out to routers
 api
   .use('/auth', require('./auth'))
-  .use('/users', require('./user'))
+  .use('/user', require('./user'))
 
 // define error and send it to error handling middleware in server/index
   .use((req, res, next) => {

@@ -1,0 +1,4 @@
+export const MAIN_THEME = {
+  BACKGROUND_COLOR: '#000000',
+  FONT_COLOR: '#FFFFFF'
+}

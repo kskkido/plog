@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+      "strictNullChecks": true,
+      "outDir": "./client/public",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "module": "commonjs",
+      "target": "es6",
+      "jsx": "react"
+  },
+  "include": [
+      "./client/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
