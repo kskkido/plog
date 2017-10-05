@@ -1,5 +1,5 @@
 import { NAVIGATION, navigation } from './'
-import { getFirst, Publisher }  from './utils'
+import { getFirst, Publisher }  from './util'
 
 
 class NavStore extends Publisher {

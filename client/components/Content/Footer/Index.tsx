@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Container } from './Styles'
+import { Container, List } from './Styles'
 import { NavigationStore } from '../../../data/store'
-import Navigation from './Navigation'
+import { createTable } from './util'
 
 export interface Props {
   mainKey: string
@@ -45,7 +45,9 @@ class LocalContainer extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { mainKey } = nextProps
 
-    this.unsubscribe() && (this.unsubscribe = NavigationStore.subscribe(mainKey, this.onListListener))
+    this.unsubscribe()
+    this.unsubscribe = NavigationStore.subscribe(mainKey, this.onListListener)
+
     this.setState({
       activeIndex: NavigationStore.getIndex(mainKey),
       childList: NavigationStore.getSublist(mainKey)
@@ -69,11 +71,9 @@ class LocalContainer extends React.Component<Props, State> {
 
     return (
       <Container>
-        <Navigation
-          activeIndex={activeIndex}
-          list={childList}
-          onClickHandler={this.handleClick}
-        />
+        <List>
+          {createTable(childList, activeIndex, this.handleClick)}
+        </List>
       </Container>
     )
   }

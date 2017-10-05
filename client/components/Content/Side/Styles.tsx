@@ -2,6 +2,10 @@ import styled from 'styled-components'
 import { MAIN_HEIGHT } from '../Styles'
 import { OFFSET as SIDE_WIDTH } from '../Body/Styles'
 
+export interface Props {
+  active: boolean
+}
+
 export const HEIGHT = MAIN_HEIGHT
 export const WIDTH = SIDE_WIDTH
 export const NAVIGATION_WIDTH = 95
@@ -24,7 +28,7 @@ export const List = styled.ul`
 export const ListRow = styled.li`
   padding: 0;
   display: table-row;
-  cursor: pointer;
+  cursor: ${(props: Props) => props.active ? 'default' : 'pointer'};
 
   &:after {
     content: '';

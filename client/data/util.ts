@@ -1,3 +1,20 @@
+
+
+const Logger = process.env.NODE_ENV === 'production' ?
+  (i: any, ii?: any) => i :
+  (fn: Function, type?: string) =>
+    function(...args: any[]) {
+      let i = 0
+
+      console.log('CALLING', type || 'unnamed function')
+      for (i = 0; i < args.length; i += 1) {
+        console.log('argument', i, ': ', args[i])
+      }
+      console.log('COMPLETE', type || 'unnamed function')
+
+      return fn.apply(this, args)
+    }
+
 interface _Publisher {
   subscribers: {
     [s: string]: any[]
@@ -13,21 +30,21 @@ class _Publisher {
     })
   }
 
-  subscribe (type: string, callback: Function) {
+  subscribe = Logger(function (type: string, callback: Function) {
     const subscribers = this.subscribers
 
     this.check(type) || (subscribers[type] = [])
     subscribers[type].push(callback)
     return this.unsubscribe.bind(this, type, callback)
-  }
+  }, 'SUBSCRIBE')
 
-  unsubscribe (type: string, callback: Function) {
+  unsubscribe = Logger(function (type: string, callback: Function) {
     this.check(type) && this.access('unsubscribe', type, callback)
-  }
+  }, 'UNSUBSCRIBE')
 
-  dispatch (type: string, ...args: any[]) {
+  dispatch = Logger(function (type: string, ...args: any[]) {
     this.check(type) && this.access('dispatch', type, ...args)
-  }
+  }, 'DISPATCH')
 
   access (event: string, type: string, ...args: any[]) {
     const subscribers = this.subscribers[type],
