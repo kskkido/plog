@@ -5,7 +5,7 @@ import Card from './Card'
 import Slide from '../Slide'
 
 export interface Props {
-  targetKey: string,
+  mainKey: string,
   [s: string]: any
 }
 
@@ -24,10 +24,10 @@ class LocalContainer extends React.Component<Props, State> {
   }
 
   componentWillMount() {
-    const { targetKey } = this.props
+    const { mainKey } = this.props
 
-    NavigationStore.subscribe(targetKey, this.setStateWrapper.bind(this))
-    this.childList = NavigationStore.getSublist(targetKey)
+    NavigationStore.subscribe(mainKey, this.setStateWrapper.bind(this))
+    this.childList = NavigationStore.getSublist(mainKey)
   }
 
   setStateWrapper(index: number) {

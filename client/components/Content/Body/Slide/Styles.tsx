@@ -17,4 +17,6 @@ export const SlideContainer = styled.div.attrs({
   height: ${MAIN_HEIGHT - FOOTER_HEIGHT}vh;
   min-width: ${(props: Props) => 100 * (props.previewCount || 1)}%;
   display: flex;
+
+  transition: transform 0.3s;
 `

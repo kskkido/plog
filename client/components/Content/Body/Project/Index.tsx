@@ -6,7 +6,7 @@ import { NavigationStore } from '../../../../data/store'
 const Project = () => (
   <div>
     PROJECT
-    <Preview targetKey="PROJECT" />
+    <Preview mainKey="PROJECT" />
   </div>
 )
 

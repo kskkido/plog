@@ -6,7 +6,7 @@ import { NavigationStore } from '../../../../data/store'
 const Article = () => (
   <div>
     ARTICLE
-    <Preview targetKey="ARTICLE" />
+    <Preview mainKey="ARTICLE" />
   </div>
 )
 
