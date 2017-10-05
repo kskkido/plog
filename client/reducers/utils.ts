@@ -13,3 +13,13 @@ export const actionCreator = <A = {}>(type: string): ActionCreator<A> =>
 // so payload as argument must match P
 
 export type Dispatch = (action: Action<any>) => void
+
+export const getKey: Error | any = (key: string, map: Map<any, any>) => {
+  const property = map.get(key)
+
+  if (typeof property === 'undefined') {
+    throw Error ('Property ' + property + 'does not exist in' + map)
+  } else {
+    return property
+  }
+}

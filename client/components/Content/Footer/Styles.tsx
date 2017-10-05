@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { OFFSET as SIDE_WIDTH } from '../Body/Styles'
 
+export interface PropsRow {
+  active: boolean
+}
+
 export const HEIGHT = 10
 export const WIDTH = 100
 
@@ -9,7 +13,7 @@ export const Container = styled.section`
   bottom: 0;
   height: ${HEIGHT}%;
   width: ${WIDTH}%;
-  padding-left: ${SIDE_WIDTH}vw;
+  padding-left: ${10}vw;
   z-index: 1;
 `
 
@@ -25,7 +29,9 @@ export const List = styled.ul`
 
 export const ListRow = styled.li`
   padding: 0;
-  flex: 1
+  flex: 1;
+  background-color: ${(props: PropsRow) => props.active ? 'black' : 'grey'};
+  cursor: pointer;
 
   &:after {
     content: '';

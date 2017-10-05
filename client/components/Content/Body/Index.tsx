@@ -6,6 +6,7 @@ import Contact from './Contact'
 import Project from './Project'
 import Recent from './Recent'
 
+
 const Body = () => (
   <Container>
     <Recent />

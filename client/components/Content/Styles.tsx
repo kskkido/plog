@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { HEIGHT as FOOTER_HEIGHT } from './Footer/Styles'
 import { HEIGHT as HEADER_HEIGHT } from './Header/Styles'
 
 export const MAIN_HEIGHT = 100 - HEADER_HEIGHT

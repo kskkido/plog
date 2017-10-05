@@ -24,6 +24,7 @@ export const List = styled.ul`
 export const ListRow = styled.li`
   padding: 0;
   display: table-row;
+  cursor: pointer;
 
   &:after {
     content: '';

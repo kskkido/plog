@@ -2,52 +2,35 @@ import * as React from 'react'
 import { List, ListCell, ListRow } from './Styles'
 
 interface Props {
-
-}
-
-interface State {
   activeIndex: number,
-  list: string[]
+  list: string[],
+  onClickHandler: Function
 }
 
-class LocalContainer extends React.Component<Props, State> {
-  state: State = {
-    activeIndex: 0,
-    list: ['ARTICLE1', 'ARTICLE2', 'ARTICLE3', 'ARTICLE4']
-  }
-
-  listRef: any[]
-
-  constructor(props: Props) {
-    super(props)
-  }
-
-  componentWillMount() {
-    this.listRef = []
-  }
-
-  createTable () {
-
-    return this.state.list.map((item, i) => {
-
-      return (
-        <ListRow key={item + 'side'} innerRef={el => this.listRef[i] = el}>
-          <ListCell>
-            <span>{item}</span>
-          </ListCell>
-        </ListRow>
-      )
-    })
-  }
-
-  render() {
+const createTable = (props: Props) =>
+  props.list.map((item, i) => {
+    const active = props.activeIndex === i
 
     return (
-      <List>
-        {this.createTable()}
-      </List>
+      <ListRow
+        key={item + 'footer'}
+        active={active}
+        onClick={() => active || props.onClickHandler(i)}
+      >
+        <ListCell>
+          <span>{item}</span>
+        </ListCell>
+      </ListRow>
     )
-  }
+  })
+
+const Navigation = (props: Props) => {
+
+  return (
+    <List>
+      {createTable(props)}
+    </List>
+  )
 }
 
-export default LocalContainer
+export default Navigation
