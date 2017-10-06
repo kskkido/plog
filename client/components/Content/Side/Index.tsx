@@ -2,6 +2,7 @@ import * as React from 'react'
 import { TweenLite } from 'gsap'
 import { Container, List, ListCell, ListRow } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
+import { scrollController } from '../../Main'
 import { NavigationStore } from '../../../data/store'
 import { toArray, toHash } from './util'
 
@@ -11,19 +12,8 @@ const childList = Array.from(NavigationStore.getKey()),
 
 export interface Props {
   mainKey: string
+  onMainListener: Function
 }
-
-// const Side = (props: Props) => {
-//   const activeIndex = childHash[props.mainKey]
-
-//   return (
-//     <Container>
-//       <List>
-//         {createTable(childList, activeIndex, handleClick)}
-//       </List>
-//     </Container>
-//   )
-// }
 
 class LocalContainer extends React.Component<Props, {}> {
   childList = NavigationStore.getKey()
@@ -52,8 +42,8 @@ class LocalContainer extends React.Component<Props, {}> {
   }
 
   handleClick(nextKey: string, i: number) {
-    // TweenLite.to(window, 0.3, {y: `${MAIN_HEIGHT * i}vh`})
-    NavigationStore.dispatch('MAIN', nextKey)
+    scrollController.scrollTo(i)
+    this.props.onMainListener(nextKey, i)
   }
 
   render () {

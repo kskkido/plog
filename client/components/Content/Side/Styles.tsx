@@ -28,6 +28,7 @@ export const List = styled.ul`
 export const ListRow = styled.li`
   padding: 0;
   display: table-row;
+  background-color: ${(props: Props) => props.active ? 'black' : 'grey'};
   cursor: ${(props: Props) => props.active ? 'default' : 'pointer'};
 
   &:after {

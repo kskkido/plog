@@ -6,6 +6,7 @@ import Slide from '../Slide'
 
 export interface Props {
   mainKey: string,
+  inputRef?: Function,
   [s: string]: any
 }
 
@@ -45,7 +46,7 @@ class LocalContainer extends React.Component<Props, State> {
           { activeIndex } = this.state
 
     return (
-      <Slide length={length} activeIndex={activeIndex}>
+      <Slide length={length} activeIndex={activeIndex} inputRef={this.props.inputRef}>
         {(ratio: number) => this.createCard(ratio)}
       </Slide>
     )

@@ -4,6 +4,7 @@ import { Container, ImageContainer, TextContainer, TextContent, TextHeader } fro
 export interface Props {
   activeIndex?: number,
   previewCount?: number,
+  inputRef?: Function,
   text?: {
     header: string,
     content: string,

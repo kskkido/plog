@@ -8,16 +8,24 @@ import Footer from './Footer'
 import Header from './Header'
 import Side from './Side'
 
+export interface Props {
+  mainKey: string,
+  onMainListener: Function
+}
+
 export interface State {
   mainKey: string
 }
 
-const Content = (props: State) => (
+const Content = (props: Props) => (
   <Container>
     <Header />
     <Main>
-      <Side mainKey={props.mainKey}/>
-      <Body />
+      <Side
+        mainKey={props.mainKey}
+        onMainListener={props.onMainListener}
+      />
+      <Body onMainListener={props.onMainListener}/>
     </Main>
     <Footer mainKey={props.mainKey}/>
   </Container>
@@ -27,22 +35,11 @@ class LocalContainer extends React.Component<any, State> {
   state: State = {
     mainKey: NavigationStore.getMain()
   }
-  onMainListener: Function
-  unsubscribe: Function
 
   constructor(props: any) {
     super(props)
 
     this.setStateWrapper = this.setStateWrapper.bind(this)
-  }
-
-  componentWillMount() {
-    this.onMainListener = this.setStateWrapper('mainKey')
-    this.unsubscribe = NavigationStore.subscribe('MAIN', this.onMainListener)
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
   }
 
   setStateWrapper(property: string, cb?: Function) {
@@ -51,7 +48,10 @@ class LocalContainer extends React.Component<any, State> {
 
   render() {
 
-    return <Content mainKey={this.state.mainKey} />
+    return <Content
+      mainKey={this.state.mainKey}
+      onMainListener={this.setStateWrapper('mainKey')}
+    />
   }
 }
 
