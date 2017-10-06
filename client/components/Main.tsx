@@ -1,10 +1,9 @@
 import * as React from 'react'
+import  * as ScrollMagic from 'scrollmagic'
 import { connect } from 'react-redux'
-import { TweenMax } from 'gsap'
 import { RootState } from '../reducers'
 import { actionCreators as fetchActions, FETCH_COMPLETE, State as FetchState } from '../reducers/fetch'
 import { ActionCreator, Dispatch } from '../reducers/utils'
-
 import Content from './Content'
 
 interface PropDispatch {
@@ -20,8 +19,14 @@ export interface State {
 }
 
 export interface Props extends PropDispatch, PropState {
-
 }
+
+export const scrollController = new ScrollMagic.Controller({
+  loglevel: 2,
+  globalSceneOptions: {
+    triggerHook: 'onLeave'
+  }
+})
 
 const Main = (props: Props) => {
 

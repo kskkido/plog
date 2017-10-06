@@ -4,10 +4,7 @@ import Preview from '../Preview'
 import { NavigationStore } from '../../../../data/store'
 
 const Article = () => (
-  <div>
-    ARTICLE
-    <Preview mainKey="ARTICLE" />
-  </div>
+  <Preview mainKey="ARTICLE" />
 )
 
 export default Article

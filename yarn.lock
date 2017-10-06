@@ -6,10 +6,6 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.2.tgz#b02d10ab028e2928ac592a051aaa4981a1941d03"
 
-"@types/gsap@^1.19.1":
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/@types/gsap/-/gsap-1.19.1.tgz#ee93590b1ef7dc86b0b779e94e38b5bad6e8c678"
-
 "@types/history@*":
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.0.tgz#093d67ed780d889c9543f6dca24ebee0b6b9fc45"
@@ -2193,6 +2189,13 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
+imports-loader@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/imports-loader/-/imports-loader-0.7.1.tgz#f204b5f34702a32c1db7d48d89d5e867a0441253"
+  dependencies:
+    loader-utils "^1.0.2"
+    source-map "^0.5.6"
+
 indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
@@ -3727,6 +3730,10 @@ rst-selector-parser@^2.2.1:
 safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
+
+scrollmagic@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/scrollmagic/-/scrollmagic-2.0.5.tgz#ad7597341c76fb1f4a5bec12968a09223bd08dd9"
 
 "semver@2 || 3 || 4 || 5", semver@^5.0.1, semver@^5.3.0:
   version "5.3.0"

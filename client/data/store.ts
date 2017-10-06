@@ -39,8 +39,10 @@ class NavStore extends Publisher {
   }
 
   setMain (key:string) {
-    if (this.check(key)) {
+    if (!this.check(key)) {
       throw new Error(key + 'key does not exist')
+    } else if (this.main === key) {
+      return
     }
 
     this.main = key
@@ -48,7 +50,7 @@ class NavStore extends Publisher {
   }
 
   getKey () {
-    return this.data.keys()
+    return Array.from(this.data.keys())
   }
 
   getSublist (key: string) {

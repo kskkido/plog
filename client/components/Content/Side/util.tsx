@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { TweenLite } from 'gsap'
 import { List, ListCell, ListRow } from './Styles'
+import { MAIN_HEIGHT } from '../Styles'
 import { NavigationStore } from '../../../data/store'
 
 export const toHash = (arr: any[]) => (
@@ -8,23 +10,24 @@ export const toHash = (arr: any[]) => (
 
 export const toArray = (iterable: ArrayLike<any>) => Array.from(iterable)
 
-export const handleClick = (mainKey: string) => {
-  NavigationStore.dispatch('MAIN', mainKey)
-}
+// export const handleClick = (mainKey: string) => {
+//   console.log(TweenLite)
+//   NavigationStore.dispatch('MAIN', mainKey)
+// }
 
-export const createTable = (list: string[], activeIndex: number, onClickHandler: Function) =>
-  list.map((item, i) => {
-    const active: boolean = activeIndex === i
+// export const createTable = (list: string[], activeIndex: number, onClickHandler: Function) =>
+//   list.map((item, i) => {
+//     const active: boolean = activeIndex === i
 
-    return (
-      <ListRow
-        key={item + 'side'}
-        active={active}
-        onClick={() => active || onClickHandler(item)}
-      >
-        <ListCell>
-          <span>{item}</span>
-        </ListCell>
-      </ListRow>
-    )
-  })
+//     return (
+//       <ListRow
+//         key={item + 'side'}
+//         active={active}
+//         onClick={() => active || onClickHandler(item)}
+//       >
+//         <ListCell>
+//           <span>{item}</span>
+//         </ListCell>
+//       </ListRow>
+//     )
+//   })

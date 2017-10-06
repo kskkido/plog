@@ -8,6 +8,7 @@ const global = css`
     font-family: 'Roboto', sans-serif;
     font-family: 'Open Sans', sans-serif;
     font-size: 0.9em;
+    overflow-X: hidden;
 
     section {
       margin: 0;
