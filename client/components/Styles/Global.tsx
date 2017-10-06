@@ -7,6 +7,8 @@ const global = css`
     color: ${MAIN_THEME.FONT_COLOR};
     font-family: 'Roboto', sans-serif;
     font-family: 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    overflow-X: hidden;
 
     section {
       margin: 0;
@@ -20,7 +22,13 @@ const global = css`
       border 1px solid white;
     }
 
+    h1 {
+      font-size: 3em;
+    }
+
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
   }

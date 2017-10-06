@@ -1,4 +1,4 @@
-const { join } = require('path'),
+const { join, resolve } = require('path'),
 			NODE_ENV = require('./').env.NODE_ENV
 
 const webpack = require('webpack'),
@@ -14,7 +14,10 @@ module.exports = {
 	},
 	devtool: NODE_ENV !== 'production' && 'source-map',
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*']
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*'],
+		alias: {
+
+		}
 	},
 	module: {
 		rules: [{
