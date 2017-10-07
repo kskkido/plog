@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as ScrollMagic from 'scrollmagic'
-import { TweenMax } from 'gsap'
+import { TweenMax, Power2 } from 'gsap'
 import * as ScrollToPlugin from "gsap/ScrollToPlugin"
-import { Container } from './Styles'
+import { Container, SubSection } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
 import { scrollController } from '../../Main'
 import { NavigationStore } from '../../../data/store'
@@ -48,9 +48,9 @@ class LocalContainer extends React.Component<Props, any> {
     return list.map((Component, i) => {
 
       return (
-        <div key={i} ref={(el: any) => (this.divs[i] = el, this.addToScene(el, i))} >
+        <SubSection key={i} innerRef={(el: any) => (this.divs[i] = el, this.addToScene(el, i))} >
           <Component />
-        </div>
+        </SubSection>
       )
     })
   }
@@ -58,7 +58,6 @@ class LocalContainer extends React.Component<Props, any> {
   addToScene(el: any, i: number) {
     new ScrollMagic.Scene({
         triggerElement: el,
-        offset: -70,
         duration: 100,
       })
       .on('start', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i]))
@@ -67,7 +66,10 @@ class LocalContainer extends React.Component<Props, any> {
 
   addScrollTo(refList: any[]) {
     scrollController.scrollTo(function(i: number) {
-      TweenMax.to(window, 0.5, {scrollTo: {y: refList[i], offsetY: 70}})
+      TweenMax.to(window, 0.5, {
+        scrollTo: {y: refList[i], offsetY: 90},
+        ease: Power2.easeIn
+      })
     })
   }
 

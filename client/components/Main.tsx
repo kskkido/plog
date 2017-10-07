@@ -24,7 +24,7 @@ export interface Props extends PropDispatch, PropState {
 export const scrollController = new ScrollMagic.Controller({
   loglevel: 2,
   globalSceneOptions: {
-    triggerHook: 'onLeave'
+    triggerHook: 0.1
   }
 })
 
