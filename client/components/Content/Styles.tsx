@@ -5,7 +5,6 @@ export const MAIN_HEIGHT = 100 - HEADER_HEIGHT
 export const MAIN_WIDTH = 100
 
 export const Container = styled.div`
-  height: 100vh;
   width: 100vw;
 `
 

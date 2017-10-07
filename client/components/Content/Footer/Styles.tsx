@@ -42,7 +42,6 @@ export const ListRow = styled.li`
 `
 
 export const ListCell = styled.div`
-  text-align: center;
   vertical-align: middle;
   display: table-cell;
 `
