@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Container, List } from './Styles'
-import { NavigationStore } from '../../../data/store'
+import { NavigationStore } from '../../../../data/store'
 import { createTable } from './util'
 
 export interface Props {

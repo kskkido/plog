@@ -1,5 +1,5 @@
 const db = require('../_db'),
-      { ARRAY, DATE, ENUM, INTEGER, NOW, STRING, TEXT } = require('sequelize')
+      { DATE, BOOLEAN, INTEGER, NOW, STRING, TEXT } = require('sequelize')
 
 const schema = {
   title: {
@@ -9,7 +9,7 @@ const schema = {
       notEmpty: true
     },
     set (_title) {
-      this.setDataValue(setTitle(_title))
+      this.setDataValue('title', setTitle(_title))
     }
   },
   date: {
@@ -21,7 +21,8 @@ const schema = {
     allowNull: false
   },
   status: {
-    type: ENUM(0, 1),
+    type: BOOLEAN,
+    defaultValue: true,
   },
   version: {
     type: INTEGER,
@@ -30,6 +31,12 @@ const schema = {
 }
 
 const options = {
+  defaultScope: {
+    include: [
+        { model: db.model('tag') }
+    ]
+  },
+
   hooks: {
     afterUpdate: (article) => {
       article.version += 1
@@ -45,7 +52,7 @@ const options = {
 const classMethods = {
   findByTitle (title) {
     return this.findOne({ // this refers to class
-      where: {title}
+      where: {title: setTitle(title)}
     })
   },
   findByTag (tagName) {

@@ -1,7 +1,7 @@
 const request = require('supertest')
     , { expect } = require('chai')
     , db = require('../../db')
-    , User = db.model('users')
+    , User = db.model('user')
     , app = require('../../server')
 
 /* ====== DEFINE DUMMY DATA ====== */
@@ -34,10 +34,10 @@ describe('User api', () => {
     return Promise.all(Object.keys(dummyList).map(id => User.create(dummyList[id])))
   })
 
-  describe('/api/users', () => {
+  describe('/api/user', () => {
     it('GET: can get all users', () => {
       return request(app)
-      .get('/api/users')
+      .get('/api/user')
       .then(res => {
         expect(res.body.length).to.equal(numberOfUsers)
         expect(res.body[0].name).to.equal('test1')
@@ -47,7 +47,7 @@ describe('User api', () => {
 
     it('GET /:id: can get a specific user', () => {
       return request(app)
-      .get('/api/users/2')
+      .get('/api/user/2')
       .then(res => {
         expect(res.body.name).to.equal('test2')
       })
@@ -57,7 +57,7 @@ describe('User api', () => {
     it('PUT: can modify a specific user', () => {
       const newName = 'notTest3'
       return request(app)
-      .put('/api/users/3')
+      .put('/api/user/3')
       .send({name: newName})
       .then(res => {
         expect(res.body.id).to.equal(3)

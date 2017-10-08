@@ -2,8 +2,8 @@ import * as React from 'react'
 import { TweenLite } from 'gsap'
 import { Container, List, ListCell, ListRow } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
-import { scrollController } from '../../Main'
-import { NavigationStore } from '../../../data/store'
+import { scrollController } from '../../../'
+import { NavigationStore } from '../../../../data/store'
 import { toArray, toHash } from './util'
 
 // global static

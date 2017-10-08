@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Container, Main } from './Styles'
-import { NavigationStore } from '../../data/store'
+import { Main } from '../Styles'
+import { NavigationStore } from '../../../data/store'
 
 import Body from './Body'
 import Footer from './Footer'
-import Header from './Header'
+import Route from './Route'
 import Side from './Side'
 
 export interface Props {
@@ -18,17 +18,16 @@ export interface State {
 }
 
 const Content = (props: Props) => (
-  <Container>
-    <Header />
+  <div>
     <Main>
       <Side
         mainKey={props.mainKey}
         onMainListener={props.onMainListener}
       />
-      <Body onMainListener={props.onMainListener}/>
+      <Body onMainListener={props.onMainListener} />
     </Main>
     <Footer mainKey={props.mainKey}/>
-  </Container>
+  </div>
 )
 
 class LocalContainer extends React.Component<any, State> {
@@ -43,7 +42,7 @@ class LocalContainer extends React.Component<any, State> {
   }
 
   setStateWrapper(property: string, cb?: Function) {
-    return (payload: string) => this.setState(() => ({[property]: payload}), cb && cb(payload))
+    return (payload: string): void => this.setState(() => ({[property]: payload}), cb && cb(payload))
   }
 
   render() {

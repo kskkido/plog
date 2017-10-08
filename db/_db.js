@@ -27,7 +27,7 @@ db.syncAndLaunch = (callback) => {
         })
         .then(() => attemptSync(true))
       } else {
-        console.error('failed to reattempt sync', err)
+        console.error('failed to reattempt sync')
       }
     })
   }

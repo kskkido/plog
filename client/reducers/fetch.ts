@@ -2,14 +2,15 @@
 import { Action, actionCreator } from './utils'
 
 /* ========== ACTIONS ========== */
-export interface FETCH_COMPLETE {
+export const FETCH_COMPLETE = 'FETCH_COMPLETE'
+export interface FETCH_COMPLETE_PAYLOAD {
   fetched: boolean
 }
 
 
 /* ========== ACTION CREATORS ========== */
 export const actionCreators = {
-  fetchComplete: actionCreator<FETCH_COMPLETE>('FETCH_COMPLETE') // CALLED AFTER PRELOAD COMPLETES FETCHING FROM DATABASE
+  fetchComplete: actionCreator<FETCH_COMPLETE_PAYLOAD>(FETCH_COMPLETE) // CALLED AFTER PRELOAD COMPLETES FETCHING FROM DATABASE
 }
 
 

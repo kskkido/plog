@@ -1,8 +1,6 @@
 import * as React from 'react'
-import { TweenLite } from 'gsap'
 import { List, ListCell, ListRow } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
-import { NavigationStore } from '../../../data/store'
 
 export const toHash = (arr: any[]) => (
   arr.reduce((hash, el, i) => (hash[el] = i, hash), {})

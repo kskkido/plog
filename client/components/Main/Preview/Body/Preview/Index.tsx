@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Container, ImageContainer, TextContainer, TextContent, TextHeader } from './Styles'
-import { NavigationStore } from '../../../../data/store'
+import { NavigationStore } from '../../../../../data/store'
 import Card from './Card'
 import Slide from '../Slide'
 

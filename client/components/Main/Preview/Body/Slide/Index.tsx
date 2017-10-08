@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { TweenMax } from 'gsap'
 import { SlideContainer as Container } from './Styles'
-import { NavigationStore } from '../../../../data/store'
 import Preview from '../Preview/Card'
 
 export interface Props {

@@ -4,8 +4,8 @@ import { TweenMax, Power2 } from 'gsap'
 import * as ScrollToPlugin from "gsap/ScrollToPlugin"
 import { Container, SubSection } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
-import { scrollController } from '../../Main'
-import { NavigationStore } from '../../../data/store'
+import { scrollController } from '../../../'
+import { NavigationStore } from '../../../../data/store'
 
 import Article from './Article'
 import Contact from './Contact'

@@ -34,7 +34,7 @@ module.exports = app
 	.use(express.static(join(__dirname, '../client/public')))
 
 	.get('*', (req, res, next) => {
-		res.sendFile(join(__dirname, '../client/public'))
+		res.sendFile(join(__dirname, '../client/public/index.html'))
 	})
 
 // error handling middlware

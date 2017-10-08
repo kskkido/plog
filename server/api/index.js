@@ -3,6 +3,8 @@ const api = module.exports = require('express').Router()
 // branch out to routers
 api
   .use('/auth', require('./auth'))
+  .use('/article', require('./article'))
+  .use('/tag', require('./tag'))
   .use('/user', require('./user'))
 
 // define error and send it to error handling middleware in server/index
