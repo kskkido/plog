@@ -42,7 +42,11 @@ class LocalContainer extends React.Component<any, State> {
   }
 
   setStateWrapper(property: string, cb?: Function) {
-    return (payload: string): void => this.setState(() => ({[property]: payload}), cb && cb(payload))
+    return (payload: string, logger?: string): void => {
+      logger && console.log(payload, logger)
+
+      this.setState(() => ({[property]: payload}),  cb && cb(payload))
+    }
   }
 
   render() {

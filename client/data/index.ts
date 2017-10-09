@@ -1,26 +1,25 @@
 import * as axios from 'axios'
-import { RootState } from '../reducers'
-import { actionCreators as fetchActions, FETCH_COMPLETE, State as FetchState } from '../reducers/fetch'
-import { ActionCreator, Dispatch } from '../reducers/utils'
+import { ARTICLE, PROJECT, CONTACT } from './dictionary'
+import { KEYS } from './key'
 
 export type navigation = Map<string, {activeIndex: number, subList: string[]}>
 
 export const NAVIGATION: navigation = new Map([
-  ['RECENT', {
+  [KEYS.RECENT, {
     activeIndex: 0,
-    subList: ['most recent 1', 'most recent 2', 'most recent 3', 'most recent 4']
+    subList: []
   }],
-  ['ARTICLE', {
+  [KEYS.ARTICLE, {
     activeIndex: 0,
-    subList: ['article1', 'article2', 'article3']
+    subList: Array.from(ARTICLE.keys())
   }],
-  ['PROJECT', {
+  [KEYS.PROJECT, {
     activeIndex: 0,
-    subList: ['Audiosphere', 'Stackquest', 'Portfolio']
+    subList: Array.from(PROJECT.keys())
   }],
-  ['CONTACT', {
+  [KEYS.CONTACT, {
     activeIndex: 0,
-    subList: ['github', 'linkedin', 'gmail']
+    subList: Array.from(CONTACT.keys())
   }]
 ])
 

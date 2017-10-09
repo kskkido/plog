@@ -42,11 +42,11 @@ const options = {
       article.version += 1
     }
   },
-  getterMethods: {
-    preview () {
-      return this.content.slice(0, 23) + '...'
-    }
-  }
+  // getterMethods: {
+  //   truncate () {
+  //     return this.content.slice(0, 23) + '...'
+  //   }
+  // }
 }
 
 const classMethods = {
@@ -61,6 +61,13 @@ const classMethods = {
         model: db.model('tag'),
         where: {tagName}
       }]
+    })
+  },
+  findRecent (limit = 5, condition = {}) {
+    return this.findAll({
+      limit,
+      where: condition,
+      order: [['created_at', 'DESC']]
     })
   }
 }

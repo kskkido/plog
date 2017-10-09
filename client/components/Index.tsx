@@ -1,14 +1,13 @@
 import * as React from 'react'
 import  * as ScrollMagic from 'scrollmagic'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { RootState } from '../reducers'
+import { fetchRecent } from '../reducers/fetch'
+import { Dispatch } from '../reducers/util'
+
 import Content from './Main'
-
-export interface State {
-  loaded: boolean
-}
-
-export interface Props {
-}
+import Preload from './Preload'
 
 export const scrollController = new ScrollMagic.Controller({
   loglevel: 2,
@@ -17,30 +16,45 @@ export const scrollController = new ScrollMagic.Controller({
   }
 })
 
-const Loaded = (props: Props) => {
+export interface PropState {
+  fetched: boolean
+}
 
-  return (
-    <Content />
-  )
+export interface PropDispatch {
+  fetchRecent: () => void
+}
+
+export interface Props extends PropState, PropDispatch {
+}
+
+export interface State {
+  fetched: boolean
 }
 
 class LocalContainer extends React.Component<Props, State> {
   state: State = {
-    loaded: false
+    fetched: false
+  }
+
+  componentWillMount() {
+    this.props.fetchRecent()
   }
 
   render() {
-    return <Loaded />
+    const { fetched } = this.props
+
+    return fetched ?
+      <Content /> :
+      <Preload />
   }
 }
 
-export default LocalContainer
+const mapStateToProps = (state: RootState) => ({
+  fetched: state.fetch.fetched
+})
 
-// const mapStateToProps = (state: RootState) => ({
-//   fetched: state.fetch.fetched
-// })
-// const mapDispatchToProps = (dispatch: Dispatch) => ({
-//   fetchComplete: (fetchState: boolean) => dispatch(fetchActions.fetchComplete({fetched: fetchState}))
-// })
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchRecent: () => dispatch(fetchRecent)
+})
 
-// export default connect<PropState, PropDispatch, any>(mapStateToProps, mapDispatchToProps)(LocalContainer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LocalContainer))

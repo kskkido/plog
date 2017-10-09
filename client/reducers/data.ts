@@ -1,5 +1,5 @@
 // generic parameters are used to define value types, not value itself
-import { Action, actionCreator, getKey } from './utils'
+import { Action, actionCreator, getKey } from './util'
 import { NAVIGATION, navigation } from '../data'
 
 /* ========== ACTIONS ========== */

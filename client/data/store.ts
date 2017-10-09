@@ -62,6 +62,18 @@ class NavStore extends Publisher {
       return keyData.subList
     }
   }
+
+  setSublist (key:string, subList: string[]) {
+    const keyData = this.data.get(key)
+
+    if (!keyData) {
+      throw Error(key + 'key does not exist')
+    } else {
+      keyData.subList = subList
+      keyData.activeIndex = 0
+      this.dispatch(key, 0)
+    }
+  }
 }
 
 export const NavigationStore = new NavStore(NAVIGATION)

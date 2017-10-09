@@ -28,7 +28,7 @@ class LocalContainer extends React.Component<Props, State> {
 
     this.state = {
       activeIndex: NavigationStore.getIndex(mainKey),
-      childList: NavigationStore.getSublist(mainKey)
+      childList: NavigationStore.getSublist(mainKey),
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -63,6 +63,7 @@ class LocalContainer extends React.Component<Props, State> {
   }
 
   handleClick(i: number) {
+
     NavigationStore.setIndex(this.props.mainKey, i)
   }
 

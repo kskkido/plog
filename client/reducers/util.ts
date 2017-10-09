@@ -12,7 +12,7 @@ export const actionCreator = <A = {}>(type: string): ActionCreator<A> =>
   Object.assign((payload: A): Action<A> => ({type, payload}), {type})
 // so payload as argument must match P
 
-export type Dispatch = (action: Action<any>) => void
+export type Dispatch = (action: Action<any> | Function) => void
 
 export const getKey: Error | any = (key: string, map: Map<any, any>) => {
   const property = map.get(key)
@@ -22,4 +22,12 @@ export const getKey: Error | any = (key: string, map: Map<any, any>) => {
   } else {
     return property
   }
+}
+
+export const tap = (fn: Function, arg: any) => {
+  const curried = (_arg: any) => (fn(_arg), _arg)
+
+  return typeof arg === undefined ?
+    curried :
+    curried(arg)
 }

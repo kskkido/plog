@@ -1,45 +1,51 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Main } from '../Styles'
+import { toTitle } from '../../../cms/util'
+import { DICTIONARY } from '../../../data/dictionary'
 import { RootState } from '../../../reducers'
-import { fetchArticle } from '../../../cms/local'
 
 export type entry = { //
-  header: string,
+  title: string,
   content: string,
   date?: string,
-  media?: string
+  media?: string,
 }
 
 export interface Props {
-  param: string | number
+  fetchMethod: Function,
+  match?: any,
+  location?: any
 }
 
 export interface State {
-  ready: boolean,
   data: entry | null
 }
 
 class LocalContainer extends React.Component<Props, State> {
   state: State = {
-    ready: false,
     data: null
   }
 
   componentWillMount() {
-    fetchArticle(this.props.param)
-      .then(data => this.setState(() => ({ready: true, data})))
+    const { title } = this.props.match.params
+
+    this.props.fetchMethod(toTitle(title || 'Test_Article10'))
+      .then((res: any) => this.setState(() => ({data: res.data})))
+      .catch(console.error)
   }
 
   render() {
-    console.log(this.props)
-    // if (!this.state.ready) {
-    //   return <span>not ready</span>
-    // }
+    const { data } = this.state
 
+    if (data === null) {
+      return <span>not ready</span>
+    }
+    console.log(data)
     return (
       <Main>
-        <span>ready</span>
+        <h1>{data.title}</h1>
+        <span>{data.content}</span>
       </Main>
     )
   }

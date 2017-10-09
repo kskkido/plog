@@ -6,7 +6,7 @@ import { Container, SubSection } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
 import { scrollController } from '../../../'
 import { NavigationStore } from '../../../../data/store'
-
+console.log(ScrollToPlugin)
 import Article from './Article'
 import Contact from './Contact'
 import Project from './Project'
@@ -26,9 +26,10 @@ const components: componentList = [
 ]
 
 const keyList: any[] = NavigationStore.getKey()
-console.log(ScrollToPlugin)
+
 class LocalContainer extends React.Component<Props, any> {
   divs: any[] = []
+  scenes: any[] = []
 
   constructor (props: Props) {
     super(props)
@@ -44,6 +45,12 @@ class LocalContainer extends React.Component<Props, any> {
     return false
   }
 
+  componentWillUnmount() {
+    this.scenes.forEach((scene) => scene.off('enter', () => console.log('removed items')))
+    scrollController.removeScene(this.scenes)
+    console.log('removed them')
+  }
+
   wrapChildren(list: componentList) {
     return list.map((Component, i) => {
 
@@ -56,12 +63,14 @@ class LocalContainer extends React.Component<Props, any> {
   }
 
   addToScene(el: any, i: number) {
-    new ScrollMagic.Scene({
+    const scene = new ScrollMagic.Scene({
         triggerElement: el,
         duration: 100,
       })
-      .on('start', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i]))
+      .on('enter', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i], 'CALLING FROM SCROLL MAGIC'))
       .addTo(scrollController)
+
+    this.scenes.push(scene)
   }
 
   addScrollTo(refList: any[]) {

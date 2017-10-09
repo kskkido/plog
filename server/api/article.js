@@ -1,11 +1,12 @@
 const router = module.exports = require('express').Router(),
-      Article = require('../../db').model('article')
+      Article = require('../../db').model('article'),
+      { toString } = require('../util')
 
-router.param('id', (req, res, next, id) => {
-  Article.findById(id)
+router.param('title', (req, res, next, title) => {
+  Article.findByTitle(toString(title))
     .then(article => {
-      if (typeof article === 'undefined') {
-        return res.status(404)
+      if (article === null) {
+        return res.sendStatus(404)
       }
       req.targetArticle = article
       next()
@@ -25,12 +26,19 @@ router.route('/')
     .catch(next)
 })
 
-router.route('/:id')
+router.route('/recent')
+.get(({ query }, res, next) => {
+  Article.findRecent(query.limit, query.condition)
+    .then(articles => res.json(articles))
+    .catch(next)
+})
+
+router.route('/:title')
 .get((req, res, next) => {
-  res.json(req.targetArticle)
+  res.status(200).json(req.targetArticle)
 })
 .put((req, res, next) => {
-  req.targetArticle.update(req.body)
+  res.targetArticle.update(req.body)
     .then(article => res.status(201).json(article))
     .catch(next)
 })
