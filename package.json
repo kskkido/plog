@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register --watch-extensions js,jsx tests/**/*.test.js",
     "build": "webpack",
+    "seed": "node db/seed",
     "start": "node server",
     "start-dev": "webpack -w & NODE_ENV=development nodemon ./server --watch server",
     "start-prod": "NODE_ENV=production npm run build && npm run start"
@@ -14,9 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/react-dom": "^15.5.5",
-    "@types/react-router-dom": "^4.0.8",
-    "@types/redux-logger": "^3.0.4",
+    "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-session-sequelize": "^4.1.0",
@@ -24,6 +23,7 @@
     "express-session": "^1.15.3",
     "gsap": "^1.20.3",
     "history": "^4.6.3",
+    "marked": "^0.3.6",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
@@ -35,6 +35,7 @@
     "react-redux-typescript": "^2.3.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
@@ -45,7 +46,10 @@
   },
   "devDependencies": {
     "@types/react": "^16.0.7",
+    "@types/react-dom": "^16.0.1",
     "@types/react-redux": "^5.0.9",
+    "@types/react-router-dom": "^4.0.8",
+    "@types/redux-logger": "^3.0.4",
     "awesome-typescript-loader": "^3.2.3",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",

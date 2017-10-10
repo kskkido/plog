@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Main from './components/Main'
+import Main from './components/'
 import { BrowserRouter } from 'react-router-dom'
 import styled, { injectGlobal } from 'styled-components'
 import globalStyle from './components/Styles/Global'
@@ -9,8 +9,6 @@ injectGlobal`${globalStyle}`
 
 export const App = () => (
   <BrowserRouter>
-    <main>
-      <Main fetched={false} />
-    </main>
+    <Main />
   </BrowserRouter>
 )

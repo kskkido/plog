@@ -1,5 +1,5 @@
 const db = require('../_db'),
-      { ARRAY, DATE, ENUM, INTEGER, NOW, STRING, TEXT } = require('sequelize')
+      { DATE, BOOLEAN, INTEGER, NOW, STRING, TEXT } = require('sequelize')
 
 const schema = {
   title: {
@@ -9,7 +9,7 @@ const schema = {
       notEmpty: true
     },
     set (_title) {
-      this.setDataValue(setTitle(_title))
+      this.setDataValue('title', setTitle(_title))
     }
   },
   date: {
@@ -20,8 +20,12 @@ const schema = {
     type: TEXT('long'),
     allowNull: false
   },
+  html: {
+    type: TEXT('long')
+  },
   status: {
-    type: ENUM(0, 1),
+    type: BOOLEAN,
+    defaultValue: true,
   },
   version: {
     type: INTEGER,
@@ -30,22 +34,28 @@ const schema = {
 }
 
 const options = {
+  defaultScope: {
+    include: [
+        { model: db.model('tag') }
+    ]
+  },
+
   hooks: {
     afterUpdate: (article) => {
       article.version += 1
     }
   },
-  getterMethods: {
-    preview () {
-      return this.content.slice(0, 23) + '...'
-    }
-  }
+  // getterMethods: {
+  //   truncate () {
+  //     return this.content.slice(0, 23) + '...'
+  //   }
+  // }
 }
 
 const classMethods = {
   findByTitle (title) {
     return this.findOne({ // this refers to class
-      where: {title}
+      where: {title: setTitle(title)}
     })
   },
   findByTag (tagName) {
@@ -54,6 +64,13 @@ const classMethods = {
         model: db.model('tag'),
         where: {tagName}
       }]
+    })
+  },
+  findRecent (limit = 5, condition = {}) {
+    return this.findAll({
+      limit,
+      where: condition,
+      order: [['created_at', 'DESC']]
     })
   }
 }
@@ -70,7 +87,7 @@ module.exports = (() => {
   return Article
 })()
 
-const matchTitle = /\b([a-z])/g
+const matchInitial = /\b([a-z])/g
 function setTitle (title) {
-  return title.replace(matchTitle, (all, letter) => letter.toUpperCase())
+  return title.replace(matchInitial, (all, letter) => letter.toUpperCase())
 }

@@ -1,5 +1,5 @@
 const db = require('../_db'),
-      { STRING } = require('sequelize')
+      { INTEGER, STRING } = require('sequelize')
 
 
 const schema = {
@@ -8,6 +8,10 @@ const schema = {
     allowNull: false,
     unique: true,
     primaryKey: true,
+  },
+  count: {
+    type: INTEGER,
+    defaultValue: 0
   }
 }
 
@@ -20,6 +24,7 @@ const classMethods = {
 }
 
 const instanceMethods = {
+
 }
 
 module.exports = (() => {
