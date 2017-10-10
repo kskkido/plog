@@ -1,6 +1,21 @@
 import axios from 'axios'
 import { checkDictionary, toUrl } from './util'
 
+export type article = {
+  title: string,
+  content: string,
+  [key: string]: any
+}
+
+export type tag = {
+  tagName: string,
+  [key: string]: any
+}
+
+export type data = article | tag
+
+export type fetched = Promise<data | data[]>
+
 export const fetchArticles = () => {
   return axios.get(`/api/article`)
 }

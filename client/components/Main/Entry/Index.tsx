@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Main } from '../Styles'
+import { Body, EntryContainer, Main } from './Styles'
 import { toTitle } from '../../../cms/util'
 import { DICTIONARY } from '../../../data/dictionary'
 import { RootState } from '../../../reducers'
+
+import Footer from './Footer'
+import Side from './Side'
 
 export type entry = { //
   title: string,
@@ -41,11 +44,17 @@ class LocalContainer extends React.Component<Props, State> {
     if (data === null) {
       return <span>not ready</span>
     }
-    console.log(data)
+
     return (
       <Main>
-        <h1>{data.title}</h1>
-        <span>{data.content}</span>
+        <Side />
+        <Body>
+          <EntryContainer>
+          <h1>{data.title}</h1>
+          <p>{data.content}</p>
+          </EntryContainer>
+        </Body>
+        <Footer />
       </Main>
     )
   }

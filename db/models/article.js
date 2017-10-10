@@ -20,6 +20,9 @@ const schema = {
     type: TEXT('long'),
     allowNull: false
   },
+  html: {
+    type: TEXT('long')
+  },
   status: {
     type: BOOLEAN,
     defaultValue: true,
@@ -84,7 +87,7 @@ module.exports = (() => {
   return Article
 })()
 
-const matchTitle = /\b([a-z])/g
+const matchInitial = /\b([a-z])/g
 function setTitle (title) {
-  return title.replace(matchTitle, (all, letter) => letter.toUpperCase())
+  return title.replace(matchInitial, (all, letter) => letter.toUpperCase())
 }

@@ -1,6 +1,7 @@
 const router = module.exports = require('express').Router(),
       Article = require('../../db').model('article'),
-      { toString } = require('../util')
+      { toString } = require('../util'),
+      parseToHtml = require('../parser')
 
 router.param('title', (req, res, next, title) => {
   Article.findByTitle(toString(title))
@@ -20,7 +21,7 @@ router.route('/')
     .then(res.json)
     .catch(next)
 })
-.post((req, res, next) => {
+.post(parseToHtml, (req, res, next) => {
   Article.create(req.body) // maybe have utility function to convert payload
     .then(() => res.sendStatus(201))
     .catch(next)

@@ -7,10 +7,3 @@ export const MAIN_WIDTH = 100
 export const Container = styled.div`
   width: 100vw;
 `
-
-export const Main = styled.section`
-  margin-top: ${HEADER_HEIGHT}vh;
-  display: inline-block;
-  height: ${MAIN_HEIGHT}vh;
-  width: ${MAIN_WIDTH}%;
-`
