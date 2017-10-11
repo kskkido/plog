@@ -8,6 +8,7 @@ import { fetchArticleTitle, fetchArticleTag } from '../../cms'
 import Preview, { Props } from './Preview'
 import Entry from './Entry'
 import Header from './Header'
+import Post from './Post'
 
 const ContentRoute = (props: any) => (
   <Container>
@@ -15,8 +16,8 @@ const ContentRoute = (props: any) => (
     <Route render={({ location }) => {
       return (
         <Switch location={location}>
-          <Route path='/post' component={Preview} />
-          <Route path={`/entry/:title?`} render={(props: any) => (
+          <Route path='/post' component={Post} />
+          <Route path='/entry/:title?' render={(props: any) => (
             <Entry {...props} fetchMethod={fetchArticleTitle} />
           )} />
           <Route exact path='/' component={Preview} />

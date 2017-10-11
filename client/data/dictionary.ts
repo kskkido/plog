@@ -8,8 +8,9 @@ export type payload = {
 }
 
 export type sublist = Map<string, payload>
+export type tag = Map<string, any>
 
-export const ARTICLE: sublist = new Map([
+export const ARTICLE: sublist= new Map([
   ['ARTICLE1', {
     local: true,
     data: {

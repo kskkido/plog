@@ -12,7 +12,7 @@ module.exports = {
 		path:  join(__dirname, '/client/public'),
 		filename: 'bundle.js'
 	},
-	devtool: NODE_ENV !== 'production' && 'source-map',
+	devtool: NODE_ENV === 'production' || 'source-map',
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*'],
 		alias: {
