@@ -1,8 +1,6 @@
 import * as React from 'react'
-import { Container } from './Styles'
-
-import Collapse from './Collapse'
-import Logo from './Logo'
+import { CollapsibleContainer as Container } from '../Styles'
+import Button from './Button'
 
 export interface Props {
   toggle: boolean,
@@ -10,13 +8,12 @@ export interface Props {
   onToggleOff: Function
 }
 
-const Header = (props: Props) => {
+const Collapsible = (props: Props) => {
   const { toggle, onToggleOn, onToggleOff } = props
 
   return (
     <Container>
-      <Logo />
-      <Collapse
+      <Button
         toggle={toggle}
         onToggleOn={onToggleOn}
         onToggleOff={onToggleOff}
@@ -25,4 +22,4 @@ const Header = (props: Props) => {
   )
 }
 
-export default Header
+export default Collapsible

@@ -65,7 +65,7 @@ class LocalContainer extends React.Component<Props, State> {
     this.onChangeTag(tagList, cb)
   }
 
-  onTitle = (title) => {
+  onTitle = (title: string) => {
     this.onChangeTitle(title)
   }
 

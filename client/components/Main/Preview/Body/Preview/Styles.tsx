@@ -45,5 +45,6 @@ export const ImageContainer = styled.div`
   top; 0;
   height: ${PREVIEW_CHILD_HEIGHT + 15}%;
   width: ${PREVIEW_CHILD_WIDTH}%;
+  border-width: 1px;
   z-index: 0;
 `
