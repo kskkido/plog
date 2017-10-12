@@ -13,7 +13,7 @@ export const createTable = (list: string[], activeIndex: number, onClickHandler:
 
     return (
       <ListRow
-        key={item + 'footer'}
+        key={item + '_' + i}
         active={active}
         onClick={() => active || onClickHandler(i)}
       >
