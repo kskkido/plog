@@ -28,6 +28,13 @@ module.exports = app
 	.use(passport.initialize())
 	.use(passport.session())
 
+// session cookie
+	.use((req, res, next) => {
+		req.session.draft = req.session.draft || {title: '', editorState: null, tagList: []}
+
+		next()
+	})
+
 // redirect to api routes
 	.use('/api', require('./api'))
 

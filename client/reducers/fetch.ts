@@ -1,6 +1,6 @@
 // generic parameters are used to define value types, not value itself
 import { Action, actionCreator, Dispatch, tap } from './util'
-import { fetchArticleRecent } from '../cms'
+import { fetchArticleRecent, fetchTags } from '../cms'
 import { DICTIONARY, setDictionary } from '../data/dictionary'
 import { KEYS } from '../data/key'
 import { NavigationStore } from '../data/store'
@@ -42,11 +42,16 @@ export const reducer = (state: State = initialState, action: Action<any>): State
 export const fetchRecent = (dispatch: Dispatch) =>
   fetchArticleRecent(5)
     .then(res => {
-      const key = KEYS.RECENT,
+      const key = KEYS.RECENT, // change this later on
             sublist = res.data.map((data: any) => tap(setDictionary(key), data).title.toUpperCase())
 
       NavigationStore.setSublist(key, sublist)
-      console.log(sublist)
     })
     .then(() => dispatch(actionCreators.fetchComplete({fetched: true})))
     .catch(console.error)
+
+export const fetchTag = (dispatch: Dispatch) =>
+  fetchTags()
+    .then(res => {
+      res.data.map((data: any) => setDictionary(KEYS.TAG))
+    })

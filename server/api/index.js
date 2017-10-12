@@ -4,6 +4,7 @@ const api = module.exports = require('express').Router()
 api
   .use('/auth', require('./auth'))
   .use('/article', require('./article'))
+  .use('/draft', require('./draft'))
   .use('/tag', require('./tag'))
   .use('/user', require('./user'))
 

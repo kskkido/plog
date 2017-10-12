@@ -1,7 +1,6 @@
 const router = module.exports = require('express').Router(),
       Article = require('../../db').model('article'),
-      { toString } = require('../util'),
-      parseToHtml = require('../parser')
+      { createTag, toString } = require('../util')
 
 router.param('title', (req, res, next, title) => {
   Article.findByTitle(toString(title))
@@ -21,8 +20,9 @@ router.route('/')
     .then(res.json)
     .catch(next)
 })
-.post(parseToHtml, (req, res, next) => {
-  Article.create(req.body) // maybe have utility function to convert payload
+.post(createTag, ({ body }, res, next) => {
+  Article.create({title: body.title, content: body.content}) // maybe have utility function to convert payload
+    .then((article) => body.tagModels && article.setTags(body.tagModels))
     .then(() => res.sendStatus(201))
     .catch(next)
 })

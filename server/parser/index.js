@@ -1,16 +1,13 @@
-const marked = require('marked'),
-      Article = require('../../db').model('article')
-
+const { stateToHTML } = require('draft-js-export-html')
 // config
-marked.setOptions(require('./config'));
 
 // middleware that parses article text to html... should be used for post requests
-const parseToHtml = (req, res, next) => {
-  return marked(req.body, (err, content) =>
-    err ?
-    res.sendStatus(404) :
-    (Object.assign(req.body, {html: content}), next())
-  )
+const parseToHtml = ({ body }, res, next) => {
+  console.log(body, 'touch my body')
+  const html = stateToHTML(body.article)
+  return html ?
+    (Object.assign(body, {html}), next()) :
+    res.sendStatus(404)
 }
 
 module.exports = parseToHtml
