@@ -11,6 +11,7 @@ export const Container = styled.div`
 `
 
 export const Form = styled.form`
+  margin-top: 20px;
   display: block;
 
 `
@@ -39,6 +40,7 @@ export const Add = styled.div`
 `
 
 export const Tag = styled.div`
+  margin-top: 5px;
   padding-left: 5px;
   max-width: 80%;
   overflow-X: hidden;

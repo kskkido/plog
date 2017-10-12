@@ -1,39 +1,55 @@
 import * as React from 'react'
+import { tagList } from '../'
 import { Add, Container, Form, Input } from './Styles'
 import Card from './Card'
 
 export interface Props {
-
+  tagList: tagList,
+  _onTagAdd: Function,
+  _onTagRemove: Function,
 }
 
 export interface State {
-  added: Set<string>,
   value: string,
   error: string
 }
 
 class LocalContainer extends React.Component<Props, State> {
+  onTagAdd: Function
+  onTagRemove: Function
+
   state: State = {
-    added: new Set(),
     value: 'fill me with love...',
     error: '',
   }
 
-  validateTag = (fn: Function) =>
-    (e: any) => {
-      let { added, value } = this.state
-      value = value.trim()
+  constructor(props: Props) {
+    super(props)
 
+    this.onTagAdd = this.validate(
+      this.props._onTagAdd(
+        () => this.setState(() => ({value: ''}))
+      )
+    )
+    this.onTagRemove = this.props._onTagRemove()
+  }
+
+  validate = (fn: Function) =>
+    (e: any) => {
+      const { tagList } = this.props
+      let { value } = this.state
+
+      value = value.trim()
       return value.length === 0 ?
-        this.onError("YOU'RE TOO SHORT") :
-        added.has(value) ?
+        this.onError("YOU'RE TOO SHORT") : // extract error
+        tagList.has(value) ?
           this.onError('TAG ALREADY EXISTS') :
           fn(value)
     }
 
   onError = (error: string) => {
     this.state.error || this.setState(
-      ({added, value}) => ({added, value, error}),
+      ({value}) => ({value, error}),
       () => setTimeout(() => this.setState(() => ({error: ''})), 1000)
     )
   }
@@ -44,24 +60,10 @@ class LocalContainer extends React.Component<Props, State> {
     this.setState(() => ({value}))
   }
 
-  onTagRemove = (tagName: string) => {
-    const { added } = this.state
-
-    added.delete(tagName) && this.setState(() => ({added}))
-  }
-
-  onTagAdd = this.validateTag((tagName: string) => {
-    this.setState(({added}) => ({added: new Set(added.add(tagName)), value: ''}))
-  })
-
-  onSubmit = (e: any) => {
-    e.preventDefault()
-  }
-
   createTags = () => {
     const tagList = []
 
-    for (const tagName of this.state.added) {
+    for (const tagName of this.props.tagList) {
       const tag = <Card
         key={tagName}
         tagName={tagName}
@@ -77,19 +79,17 @@ class LocalContainer extends React.Component<Props, State> {
   render() {
 
     return (
-      <Container>
+      <Form onSubmit={(e: any) => e.preventDefault()}>
         If you want to, you can add tags...
-        <Form onSubmit={this.onSubmit}>
-          <Input
-            value={this.state.value}
-            onChange={this.onChange}
-          />
-          <Add onClick={this.onTagAdd}>
-            <span>ADD THAT TAG</span>
-          </Add>
-        </Form>
+        <Input
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+        <Add onClick={() => this.onTagAdd()}>
+          <span>Attach tag</span>
+        </Add>
         {this.createTags()}
-      </Container>
+      </Form>
     )
   }
 }

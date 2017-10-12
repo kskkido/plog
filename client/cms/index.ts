@@ -41,6 +41,14 @@ export const fetchArticleTag = checkDictionary((tag: string) => {
   return axios.get(`/api/tag/${toUrl(tag)}`)
 }) // get back to this
 
-export const postArticle = (data: object) => {
-  return axios.post('/api/article')
+export const fetchDraft = () => {
+  return axios.get('/api/draft')
+}
+
+export const postArticle = (data: {title: string, content: any, tagList: any}) => {
+  return axios.post('/api/article', data)
+}
+
+export const postDraft = (data: {type: string, payload: any}) => {
+  return axios.post('/api/draft', data)
 }

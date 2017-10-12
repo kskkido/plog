@@ -9,6 +9,12 @@ export interface State {
   response: any
 }
 
-class Subscriber extends React.Component {
+class Subscriber extends React.Component<Props, State> {
+  state: State = {
+    response: undefined
+  }
 
+  componentWillMount() {
+    const { event, publisher } = this.props.publisher
+  }
 }
