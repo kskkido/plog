@@ -30,7 +30,7 @@ const Content = (props: Props) => (
   </div>
 )
 
-class LocalContainer extends React.Component<any, State> {
+class LocalContainer extends React.Component<{}, State> {
   state: State = {
     mainKey: NavigationStore.getMain()
   }

@@ -13,13 +13,19 @@ const global = css`
     section {
       margin: 0;
       padding: 0;
-      border: 2px solid white;
+      border: 1px solid white;
     }
 
     div {
       margin: 0;
       padding: 0;
-      border 1px solid white;
+      border 0px solid white;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 20px;
+      color: white;
     }
 
     h1 {

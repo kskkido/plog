@@ -6,14 +6,14 @@ export const MAIN_WIDTH = 100
 export const OFFSET = 10
 
 export const Main = styled.section`
-  margin-top: ${HEADER_HEIGHT}vh;
+  padding-top: ${HEADER_HEIGHT}vh;
   height: ${MAIN_HEIGHT}vh;
   width: ${MAIN_WIDTH}%;
   display: flex;
 `
 
 export const Body = styled.section`
-  height: 100vh;
+  height: 100%;
   width: 50%;
 `
 

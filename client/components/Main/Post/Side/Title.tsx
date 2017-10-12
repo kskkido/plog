@@ -61,7 +61,7 @@ class LocalContainer extends React.Component<Props, State> {
           value={value}
           onChange={this.onChange}
         />
-        <Add onClick={this.onTitle}>
+        <Add onClick={() => this.onTitle()}>
           <span>Save title</span>
         </Add>
       </Form>

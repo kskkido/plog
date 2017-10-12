@@ -6,7 +6,7 @@ export interface Props {
 
 export const Container = styled.div`
   margin: 5px;
-  display: block;
+  border-width: 0px 0px 1px 0px;
 `
 
 export const Button = styled.span`
