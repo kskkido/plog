@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import { Container } from './Styles'
 import { fetchArticleTitle, fetchArticleTag } from '../../cms'
 
-import Entry from './Entry'
+import Search from './Search'
+import Entry from './Entry/'
 import Header from './Header'
 import Overlay from './Overlay'
 import Post from './Post'
@@ -35,6 +36,7 @@ const Main = (props: Props) => {
       <Route render={({ location }) => {
         return (
           <Switch location={location}>
+            <Route path='/search' component={Search} />
             <Route path='/post' component={Post} />
             <Route path='/entry/:title?' render={(props: any) => (
               <Entry {...props} fetchMethod={fetchArticleTitle} />

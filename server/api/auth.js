@@ -64,7 +64,7 @@ router.get('/login/:strategy/callback', (req, _, next) => (
 
 router.get('/logout', (req, res, next) => {
   req.logout()
-  res.sendStatus(200)
+  res.redirect('/api/auth/me')
 })
 
 // returns user object assign to session

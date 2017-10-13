@@ -15,7 +15,7 @@ export interface Props {
 const Navigations: Navigation[] = [
   {text: 'Go home already', url: '/'},
   {text: 'Get cooking', url: '/post'},
-  {text: 'All articles', url: '/entry'}
+  {text: 'All articles', url: '/search'}
 ]
 
 const Overlay = (props: Props) => {

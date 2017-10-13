@@ -8,6 +8,7 @@ router.param('title', (req, res, next, title) => {
       if (article === null) {
         return res.sendStatus(404)
       }
+
       req.targetArticle = article
       next()
     })
@@ -17,7 +18,7 @@ router.param('title', (req, res, next, title) => {
 router.route('/')
 .get((req, res, next) => {
   Article.findAll()
-    .then(res.json)
+    .then((articles) => res.json(articles))
     .catch(next)
 })
 .post(createTag, ({ body }, res, next) => {
