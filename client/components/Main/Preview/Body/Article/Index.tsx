@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { SubContainer as Container } from '../Styles'
 import Preview from '../Preview'
 import { KEYS } from '../../../../../data/key'

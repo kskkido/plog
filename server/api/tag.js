@@ -6,7 +6,7 @@ const router = module.exports = require('express').Router(),
 router.route('/')
 .get((req, res, next) => {
   Tag.findAll()
-    .then(res.json)
+    .then((tags) => res.json(tags))
     .catch(next)
 })
 

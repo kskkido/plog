@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 // import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 import { Container } from './Styles'
-import { fetchArticleTitle, fetchArticleTag } from '../../cms'
+import { fetchArticleTitle, fetchArticleTag, fetchTags } from '../../cms'
 
 import Search from './Search'
 import Entry from './Entry/'
@@ -36,8 +36,10 @@ const Main = (props: Props) => {
       <Route render={({ location }) => {
         return (
           <Switch location={location}>
-            <Route path='/search' component={Search} />
             <Route path='/post' component={Post} />
+            <Route path='/search' render={(props: any) => (
+              <Search {...props} fetchMethod={fetchTags} />
+            )} />
             <Route path='/entry/:title?' render={(props: any) => (
               <Entry {...props} fetchMethod={fetchArticleTitle} />
             )} />

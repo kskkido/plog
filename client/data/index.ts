@@ -2,7 +2,18 @@ import * as axios from 'axios'
 import { ARTICLE, PROJECT, CONTACT } from './dictionary'
 import { KEYS } from './key'
 
-export type navigation = Map<string, {activeIndex: number, subList: string[]}>
+export type subList = {
+  activeIndex: number,
+  subList: string[]
+}
+export type navigation = Map<string, subList>
+
+export interface navigationKeys {
+  RECENT: string,
+  ARTICLE: string,
+  PROJECT: string,
+  CONTACT: string
+}
 
 export const NAVIGATION: navigation = new Map([
   [KEYS.RECENT, {

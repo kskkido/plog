@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { Container, ImageContainer, TextContainer, TextContent, TextHeader } from './Styles'
 import { NavigationStore } from '../../../../../data/store'
 import { DICTIONARY } from '../../../../../data/dictionary'
@@ -30,7 +31,6 @@ class LocalContainer extends React.Component<Props, State> {
 
   componentWillMount() {
     const { mainKey } = this.props
-
     this.unsubscribe = NavigationStore.subscribe(mainKey, this.setStateWrapper.bind(this))
     this.childList = NavigationStore.getSublist(mainKey)
     this.dictionary = DICTIONARY.get(mainKey)

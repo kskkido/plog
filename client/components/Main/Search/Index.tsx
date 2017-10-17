@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Body, Main } from './Styles'
+import Factory from '../../HOC/Fetch'
 import { fetchArticles } from '../../../cms'
 import Content from './Content'
 import Side from './Side'
@@ -8,33 +9,30 @@ import Side from './Side'
 // hit an y point in page scroll, load next x amount of articles
 // side component will have search queries
 
-export interface Props {
+export type title = string
+export type tags = any
 
+export interface Props {
+  payload: any
 }
 
 export interface State {
-  title: string,
-  tags: Set<string>
+  tags: tags
 }
 
 class LocalContainer extends React.Component<Props, State> {
   state: State = {
-    title: '',
     tags: new Set()
   }
 
   isEmpty = () => {
-    const { title, tags } = this.state
+    const { tags } = this.state
 
-    return !title && tags.size === 0
+    return tags.size === 0
   }
 
   onChange = (type: string, query: any) => {
     this.setState(() => ({[type]: query}))
-  }
-
-  onTitle = (title: string) => {
-    this.onChange('title', title)
   }
 
   onTagAdd = (tag: string) => {
@@ -50,11 +48,16 @@ class LocalContainer extends React.Component<Props, State> {
   }
 
   render () {
+    const { payload } = this.props
     const fetchMethod = this.isEmpty() ? fetchArticles : fetchArticles
 
     return (
       <Main>
-        <Side />
+        <Side
+          tags={payload}
+          onTagAdd={this.onTagAdd}
+          onTagRemove={this.onTagRemove}
+        />
         <Body>
           <Content fetchMethod={fetchMethod} />
         </Body>
@@ -63,4 +66,4 @@ class LocalContainer extends React.Component<Props, State> {
   }
 }
 
-export default LocalContainer
+export default Factory(LocalContainer)

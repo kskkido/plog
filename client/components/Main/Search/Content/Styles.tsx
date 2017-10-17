@@ -8,7 +8,9 @@ export const Container = styled.div`
 `
 
 export const Card = styled.div`
-  margin 40px 10px;
-  width: 25%;
-  border-width: 1px;
+  margin: 20px 5px;
+  padding: 5px 10px;
+  height: 300px;
+  width: 100%;
+  border-width: 0 0 1px 0;
 `

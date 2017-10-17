@@ -1,10 +1,14 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import * as ScrollMagic from 'scrollmagic'
 import { TweenMax, Power2 } from 'gsap'
 import * as ScrollToPlugin from "gsap/ScrollToPlugin"
 import { Container, SubSection } from './Styles'
 import { MAIN_HEIGHT } from '../Styles'
 import { scrollController } from '../../../'
+import { RootState } from '../../../../reducers'
+import { actionCreators } from '../../../../reducers/main'
+import { Dispatch } from '../../../../reducers/util'
 import { NavigationStore } from '../../../../data/store'
 console.log(ScrollToPlugin)
 import Article from './Article'
@@ -12,7 +16,11 @@ import Contact from './Contact'
 import Project from './Project'
 import Recent from './Recent'
 
-export interface Props {
+export interface PropDispatch {
+  slide: (key: string) => void
+}
+
+export interface Props extends PropDispatch {
   onMainListener: Function
 }
 
@@ -67,7 +75,7 @@ class LocalContainer extends React.Component<Props, any> {
         triggerElement: el,
         duration: 100,
       })
-      .on('enter', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i], 'CALLING FROM SCROLL MAGIC'))
+      .on('enter', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i]))
       .addTo(scrollController)
 
     this.scenes.push(scene)
@@ -92,4 +100,8 @@ class LocalContainer extends React.Component<Props, any> {
   }
 }
 
-export default LocalContainer
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  slide: (key: string) => dispatch(actionCreators.slideVertical({key}))
+})
+
+export default connect(null, mapDispatchToProps)(LocalContainer)

@@ -31,3 +31,16 @@ export const tap = (fn: Function, arg: any) => {
     curried :
     curried(arg)
 }
+
+export const factoryReducer = (reducerFn: Function, condition: Function) =>
+  (state: any, action: Action<any>) => {
+    const initialRun = action.payload === undefined
+    const shouldSkip = initialRun || !condition(state, action)
+
+    return shouldSkip ? state : reducerFn(state, action)
+  }
+
+export const provideInitialState = <T>(initialState: T, reducer: Function) =>
+  function (state: T, action: Action<any>) {
+    return state === undefined ? reducer(initialState, action) : reducer(state, action)
+  }

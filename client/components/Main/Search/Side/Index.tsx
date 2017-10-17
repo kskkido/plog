@@ -1,16 +1,60 @@
 import * as React from 'react'
+import { tags, title } from '../'
 import { Container, List, ListRow, ListCell } from './Styles'
+import { DICTIONARY } from '../../../../data/dictionary'
 
-const Side = () => {
-
-  return (
-    <Container>
-      <List>
-        <ListRow />
-        <ListRow />
-      </List>
-    </Container>
-  )
+export interface Props {
+  tags: tags,
+  onTagAdd: Function,
+  onTagRemove: Function
 }
 
-export default Side
+export interface State {
+  activeIndex: number | null
+}
+
+class LocalContainer extends React.Component<Props, State> {
+  state: State = {
+    activeIndex: null
+  }
+
+  createList = () => {
+    const { tags } = this.props
+    return tags.map(({ tagName }, i: number) => (
+      <ListRow
+        key={tagName}
+        onClick={() => this.onClick(tagName, i)}
+      >
+        <ListCell>
+          {tagName}
+        </ListCell>
+      </ListRow>
+    ))
+  }
+
+  onClick = (tagName: string, i: number) => {
+    const { activeIndex } = this.state
+    const { onTagAdd, onTagRemove } = this.props
+
+    this.setState(() => ({activeIndex: i}), () => {
+      if (activeIndex === i) {
+        onTagRemove(tagName)
+      } else {
+        onTagAdd(tagName)
+      }
+    })
+  }
+
+  render() {
+
+    return (
+      <Container>
+        <List>
+          {this.createList()}
+        </List>
+      </Container>
+    )
+  }
+}
+
+export default LocalContainer
