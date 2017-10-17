@@ -1,14 +1,20 @@
 import * as React from 'react'
-import { SubContainer as Container } from '../Styles'
-import { KEYS } from '../../../../../data/key'
+import { connect } from 'react-redux'
 import Preview from '../Preview'
+import { RootState } from '../../../../../reducers'
+import { KEYS } from '../../../../../data/key'
+
+export interface PropState {
+  navigation: any
+}
 
 export interface Props {
   inputRef?: Function
 }
 
-const Project = (props: Props) =>
-  <Preview mainKey={KEYS.PROJECT} inputRef={props.inputRef}/>
+const mapStateToProps = (state: RootState) => ({
+  mainKey: KEYS.PROJECT,
+  navigation: state[KEYS.PROJECT]
+})
 
-
-export default Project
+export default connect<any, any, any>(mapStateToProps)(Preview)

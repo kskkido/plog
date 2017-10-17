@@ -1,12 +1,20 @@
 import * as React from 'react'
-import { KEYS } from '../../../../../data/key'
+import { connect } from 'react-redux'
 import Preview from '../Preview'
+import { RootState } from '../../../../../reducers'
+import { KEYS } from '../../../../../data/key'
+
+export interface PropState {
+  navigation: any
+}
 
 export interface Props {
   inputRef?: Function
 }
 
-const Recent = (props: Props) =>
-    <Preview mainKey={KEYS.RECENT}  inputRef={props.inputRef}/>
+const mapStateToProps = (state: RootState) => ({
+  mainKey: KEYS.RECENT,
+  navigation: state[KEYS.RECENT]
+})
 
-export default Recent
+export default connect<any, any, any>(mapStateToProps)(Preview)

@@ -4,24 +4,22 @@ import * as ScrollMagic from 'scrollmagic'
 import { TweenMax, Power2 } from 'gsap'
 import * as ScrollToPlugin from "gsap/ScrollToPlugin"
 import { Container, SubSection } from './Styles'
-import { MAIN_HEIGHT } from '../Styles'
 import { scrollController } from '../../../'
-import { RootState } from '../../../../reducers'
 import { actionCreators } from '../../../../reducers/main'
 import { Dispatch } from '../../../../reducers/util'
-import { NavigationStore } from '../../../../data/store'
-console.log(ScrollToPlugin)
+import { NAVIGATION } from '../../../../data'
 import Article from './Article'
 import Contact from './Contact'
 import Project from './Project'
 import Recent from './Recent'
+
+console.log(ScrollToPlugin)
 
 export interface PropDispatch {
   slide: (key: string) => void
 }
 
 export interface Props extends PropDispatch {
-  onMainListener: Function
 }
 
 export type componentList = any[]
@@ -33,9 +31,8 @@ const components: componentList = [
   Contact,
 ]
 
-const keyList: any[] = NavigationStore.getKey()
-
 class LocalContainer extends React.Component<Props, any> {
+  keyList: any[] = Array.from(NAVIGATION.keys())
   divs: any[] = []
   scenes: any[] = []
 
@@ -49,14 +46,9 @@ class LocalContainer extends React.Component<Props, any> {
     this.addScrollTo(this.divs)
   }
 
-  shouldComponentUpdate() {
-    return false
-  }
-
   componentWillUnmount() {
     this.scenes.forEach((scene) => scene.off('enter', () => console.log('removed items')))
     scrollController.removeScene(this.scenes)
-    console.log('removed them')
   }
 
   wrapChildren(list: componentList) {
@@ -75,7 +67,7 @@ class LocalContainer extends React.Component<Props, any> {
         triggerElement: el,
         duration: 100,
       })
-      .on('enter', () => TweenMax.isTweening(window) || this.props.onMainListener(keyList[i]))
+      .on('enter', () => TweenMax.isTweening(window) || this.props.slide(this.keyList[i]))
       .addTo(scrollController)
 
     this.scenes.push(scene)
