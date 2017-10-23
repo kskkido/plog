@@ -1,4 +1,4 @@
-import { actionCreator, Action, Dispatch, factoryReducer, provideInitialState } from './util'
+import { actionCreator, Action, Dispatch } from './util'
 import { navigation } from '../data'
 
 export interface SLIDE_HORIZONTAL {
@@ -30,42 +30,34 @@ export interface State {
 }
 
 export const reducer = (state: State, action: Action<any>) => { // provided initialState during runtime
-  switch(action.type) {
+  const { payload, type } = action
+
+  switch(type) {
   case actionCreators.slideHorizontal.type:
-    const { index } = action.payload
+    const { index } = payload
 
     return {...state, activeIndex: index}
 
   case actionCreators.appendList.type:
     const { subList } = state
 
-    return {...state, subList: subList.concat(action.payload.list)}
+    return {...state, subList: subList.concat(payload.list)}
 
   case actionCreators.newList.type:
-    return {...state, subList: action.payload.list}
+    return {...state, subList: payload.list}
 
   default:
     return state
   }
 }
 
-export const slideHorizontal = (index: number) => (dispatch: Dispatch, getState: Function) =>
-  dispatch(actionCreators.slideHorizontal({index, key: getState().main.key}))
+export const slideHorizontal = (index: number) => (dispatch: Dispatch, getState: Function) => {
+  const state = getState(),
+        { key } = state.main
+
+  dispatch(actionCreators.slideHorizontal({index, key}))
+}
 
 export interface reducers {
   [key: string]: Function
 }
-
-export const createSublistReducers = (navigation: navigation) => {
-  const reducers: reducers = {}
-
-  for (const [key, initialState] of navigation) {
-    reducers[key] = provideInitialState<State>(
-      initialState,
-      factoryReducer(reducer, (state: any, action: Action<any>) => action.payload.key === key)
-    )
-  }
-  console.log(reducers, 'REDUCERS')
-  return reducers
-}
-

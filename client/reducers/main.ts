@@ -11,7 +11,6 @@ export const actionCreators = {
   slideVertical: actionCreator<SLIDE_VERTICAL>('SLIDE_VERTICAL')
 }
 
-
 /* ========== STATE ========== */
 export interface State {
   key: string
@@ -20,7 +19,6 @@ export interface State {
 export const initialState: State = {
   key: 'RECENT'
 }
-
 
 /* ========== ACTIONS ========== */
 export const reducer = (state: State = initialState, action: Action<any>): State => {

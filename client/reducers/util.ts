@@ -32,15 +32,55 @@ export const tap = (fn: Function, arg: any) => {
     curried(arg)
 }
 
-export const factoryReducer = (reducerFn: Function, condition: Function) =>
-  (state: any, action: Action<any>) => {
+export const factoryReducer = (reducerFn: Function, condition: Function, initialState: any) =>
+  (state: any = initialState, action: Action<any>) => {
     const initialRun = action.payload === undefined
     const shouldSkip = initialRun || !condition(state, action)
 
     return shouldSkip ? state : reducerFn(state, action)
   }
 
-export const provideInitialState = <T>(initialState: T, reducer: Function) =>
-  function (state: T, action: Action<any>) {
-    return state === undefined ? reducer(initialState, action) : reducer(state, action)
+  export const memoize = (fn: Function) => {
+    const cache = new Map()
+
+    return function (...args: any[]) {
+      return cache.has(args) ?
+        cache.get(args) :
+        cache.set(args, fn(...args)) && cache.get(args)
+    }
   }
+
+export const reduceReducers = (...reducers: Function[]) => (state: any, action: Action<any>) =>
+  reducers.reduce((acc, reducer) => reducer(acc, action), state)
+
+export interface FlexibleState {
+  [key: string]: any
+}
+
+export const createInitialState = (map: Map<string, any>): FlexibleState => {
+  const state: FlexibleState = {}
+
+  for (const [key, value] of map) {
+    state[key] = value
+  }
+
+  return state
+}
+
+export interface FlexibleAction {
+  key: String
+}
+
+export const createReducers = <State>(map: Map<string, any>, reducer: Function) => {
+  const reducers = []
+
+  for (const [key, value] of map) {
+    reducers.push(factoryReducer(
+      reducer,
+      (state: State, action: Action<any>) => action.payload.key === key,
+      value
+    ))
+  }
+
+  return reduceReducers.apply(this, reducers)
+}

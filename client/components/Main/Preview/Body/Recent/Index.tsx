@@ -14,7 +14,7 @@ export interface Props {
 
 const mapStateToProps = (state: RootState) => ({
   mainKey: KEYS.RECENT,
-  navigation: state[KEYS.RECENT]
+  navigation: state.navigation[KEYS.RECENT]
 })
 
 export default connect<any, any, any>(mapStateToProps)(Preview)

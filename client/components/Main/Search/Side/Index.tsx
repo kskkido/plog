@@ -4,7 +4,7 @@ import { Container, List, ListRow, ListCell } from './Styles'
 import { DICTIONARY } from '../../../../data/dictionary'
 
 export interface Props {
-  tags: tags,
+  tags: any,
   onTagAdd: Function,
   onTagRemove: Function
 }
@@ -20,16 +20,21 @@ class LocalContainer extends React.Component<Props, State> {
 
   createList = () => {
     const { tags } = this.props
-    return tags.map(({ tagName }, i: number) => (
-      <ListRow
-        key={tagName}
-        onClick={() => this.onClick(tagName, i)}
-      >
-        <ListCell>
-          {tagName}
-        </ListCell>
-      </ListRow>
-    ))
+
+    return tags.map((tag, i: number) => {
+      const { tagName } = tag
+
+      return (
+        <ListRow
+          key={tagName}
+          onClick={() => this.onClick(tagName, i)}
+        >
+          <ListCell>
+            {tagName}
+          </ListCell>
+        </ListRow>
+      )
+    })
   }
 
   onClick = (tagName: string, i: number) => {

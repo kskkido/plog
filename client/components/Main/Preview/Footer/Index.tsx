@@ -58,7 +58,7 @@ const mapStateToProps = (state: RootState) => {
   const mainKey = state.main.key
 
   return ({
-    navigation: state[mainKey]
+    navigation: state.navigation[mainKey]
   })
 }
 

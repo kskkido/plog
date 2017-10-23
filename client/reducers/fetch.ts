@@ -39,7 +39,7 @@ export const reducer = (state: State = initialState, action: Action<any>): State
 }
 
 /* ========== DISPATCHER ========== */
-export const fetchRecent = (dispatch: Dispatch) =>
+export const fetchRecent = (dispatch: Dispatch, getState: Function) =>
   fetchArticleRecent(5)
     .then(res => {
       const key = KEYS.RECENT, // change this later on
