@@ -1,70 +1,51 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { Container, ImageContainer, TextContainer, TextContent, TextHeader } from './Styles'
-import { NavigationStore } from '../../../../../data/store'
-import { DICTIONARY } from '../../../../../data/dictionary'
+import { RootState } from '../../../../../reducers'
+import { selectItem } from '../../../../../reducers/selector'
 import Card from './Card'
 import Slide from '../Slide'
 
-export interface Props {
-  mainKey: string,
-  inputRef?: Function,
-  [s: string]: any
+export interface PropState {
+  activeIndex: number,
+  subList: any[],
 }
 
-export interface State {
-  activeIndex: number
+export interface Props extends PropState {
+  mainKey: string,
 }
+
+export interface State {}
 
 class LocalContainer extends React.Component<Props, State> {
-  childList: string[]
-  dictionary: any
-  unsubscribe: Function
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      activeIndex: NavigationStore.getIndex(this.props.mainKey),
-    }
-  }
-
-  componentWillMount() {
-    const { mainKey } = this.props
-
-    this.unsubscribe = NavigationStore.subscribe(mainKey, this.setStateWrapper.bind(this))
-    this.childList = NavigationStore.getSublist(mainKey)
-    this.dictionary = DICTIONARY.get(mainKey)
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  setStateWrapper(index: number) {
-    this.setState({activeIndex: index})
-  }
 
   createCard(ratio: number) {
+    const { subList } = this.props
 
-    return this.childList.map((el, i, { length }) =>
+    return subList.map((item: string, i: number, array: string[]) =>
         <Card
-          key={el + '_' + i}
-          data={this.dictionary.get(el)}
-          previewCount={length}
+          key={item + '_' + i}
+          data={item}
+          previewCount={array.length}
         />
     )
   }
 
   render() {
-    const { length } = this.childList,
-          { activeIndex } = this.state
+    const { activeIndex, subList } = this.props
 
     return (
-      <Slide length={length} activeIndex={activeIndex} inputRef={this.props.inputRef}>
+      <Slide length={subList.length} activeIndex={activeIndex} >
         {(ratio: number) => this.createCard(ratio)}
       </Slide>
     )
   }
 }
 
-export default LocalContainer
+const mapStateToProps = (state: RootState, props: Props) => {
+  const { mainKey } = props
+
+  return selectItem(state, mainKey)
+}
+
+export default connect<any, any, any>(mapStateToProps)(LocalContainer)

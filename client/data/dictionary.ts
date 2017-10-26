@@ -1,13 +1,13 @@
 import { toUrl } from '../cms/util'
 import { KEYS } from './key'
 
-export type payload = {
+export type entry = {
   local: boolean,
   data: object,
   url: string
 }
 
-export type sublist = Map<string, payload>
+export type sublist = Map<string, entry>
 export type tag = Map<string, any>
 
 export const ARTICLE: sublist= new Map([
@@ -67,17 +67,17 @@ export const PROJECT: sublist = new Map([
 export const CONTACT: sublist = new Map([
   ['GITHUB', {
     local: false,
-    data: {},
+    data: {title: 'GITHUB'},
     url: ''
   }],
   ['LINKEDIN',{
     local: false,
-    data: {},
+    data: {title: 'LINKEDIN'},
     url: ''
   }],
   ['FACEBOOK', {
     local: false,
-    data: {},
+    data: {title: 'FACEBOOK'},
     url: ''
   }]
 ])

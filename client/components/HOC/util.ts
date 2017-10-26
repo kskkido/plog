@@ -1,11 +1,11 @@
 export const identity = (i: any) => i // sketch
 
-export const safeCurry = (unaryFn: any, option: object = {}) =>
+export const safeCurry = (unaryFn: any, option: object = {}): Function =>
   (arg: any) => typeof unaryFn === 'function' ?
     unaryFn(arg) :
       Object.assign(safeCurry(identity), option) // do this so option doesn't get assigned to identity directly
 
-export const unaryCompose = (...fns: any[]) =>
+export const unaryCompose = (...fns: any[]): Function =>
   fns.reduce(
     (a: Function = identity, b: Function = identity) => (arg: any) => a(b(arg)), identity
   )

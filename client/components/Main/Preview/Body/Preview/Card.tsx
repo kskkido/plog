@@ -14,7 +14,7 @@ export interface Props {
 
 const Preview = (props: Props) => {
   const { data, local, url } = props.data
-  console.log(local, 'what the fuck')
+
   return (
     <Container previewCount={props.previewCount}>
       <TextContainer>

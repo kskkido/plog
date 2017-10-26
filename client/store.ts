@@ -5,11 +5,17 @@ import thunkMiddleware from 'redux-thunk'
 
 import rootReducer from './reducers'
 
+const logMiddleware = (store: any) => (next: Function) => (action: any) => {
+  return next(action)
+}
+
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
       createLogger({ collapsed: true }),
+      logMiddleware,
       thunkMiddleware
     )
   )

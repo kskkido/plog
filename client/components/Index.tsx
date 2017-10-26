@@ -17,7 +17,7 @@ export const scrollController = new ScrollMagic.Controller({
 })
 
 export interface PropState {
-  fetched: boolean
+  fetched: boolean,
 }
 
 export interface PropDispatch {

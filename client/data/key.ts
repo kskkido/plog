@@ -1,7 +1,7 @@
 export const KEYS = {
-  RECENT: 'RECENT',
-  ARTICLE: 'ARTICLE',
-  PROJECT: 'PROJECT',
-  CONTACT: 'CONTACT',
+  RECENT: 'recent',
+  ARTICLE: 'article',
+  PROJECT: 'project',
+  CONTACT: 'contact',
   TAG: 'TAG'
 }

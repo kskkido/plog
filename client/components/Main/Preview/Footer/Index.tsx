@@ -1,83 +1,69 @@
 import * as React from 'react'
-import { Container, List } from './Styles'
-import { NavigationStore } from '../../../../data/store'
-import { createTable } from './util'
+import { connect } from 'react-redux'
+import { Container, List, ListRow, ListCell } from './Styles'
+import { RootState } from '../../../../reducers'
+import { slideHorizontal } from '../../../../reducers/sublist'
+import { Dispatch } from '../../../../reducers/util'
+import { selectTitle } from '../../../../reducers/selector'
 
-export interface Props {
-  mainKey: string
-}
-
-export interface State {
+export interface PropState {
   activeIndex: number,
-  childList: string[]
+  subList: any[]
 }
 
-export interface unsubscribe {
-  onList: Function
+export interface PropDispatch {
+  slide: (i: number) => void
 }
 
-class LocalContainer extends React.Component<Props, State> {
-  childList: string[]
-  onListListener: Function
-  unsubscribe: Function
+export interface Props extends PropState, PropDispatch {
+}
 
-  constructor(props: Props) {
-    super(props)
-
-    const { mainKey } = this.props
-
-    this.state = {
-      activeIndex: NavigationStore.getIndex(mainKey),
-      childList: NavigationStore.getSublist(mainKey),
-    }
-
-    this.handleClick = this.handleClick.bind(this)
-    this.setStateWrapper = this.setStateWrapper.bind(this)
+class LocalContainer extends React.Component<Props, {}> {
+  handleClick = (i: number) => {
+    this.props.slide(i)
   }
 
-  componentWillMount() {
-    const { mainKey } = this.props
+  createTable = () => {
+    const { activeIndex, subList } = this.props
 
-    this.onListListener = this.setStateWrapper('activeIndex'),
-    this.unsubscribe = NavigationStore.subscribe(mainKey, this.onListListener)
-  }
+    return subList.map((item: string, i: number) => {
+      const active = activeIndex === i
 
-  componentWillReceiveProps(nextProps: Props) {
-    const { mainKey } = nextProps
-
-    this.unsubscribe()
-    this.unsubscribe = NavigationStore.subscribe(mainKey, this.onListListener)
-
-    this.setState({
-      activeIndex: NavigationStore.getIndex(mainKey),
-      childList: NavigationStore.getSublist(mainKey)
+      return (
+        <ListRow
+          key={item + '_' + i}
+          active={active}
+          onClick={() => active || this.handleClick(i)}
+        >
+          <ListCell>
+            <span>{item}</span>
+          </ListCell>
+        </ListRow>
+      )
     })
   }
 
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  setStateWrapper(property: string, cb?: Function) {
-    return (payload: string | number) => this.setState(() => ({[property]: payload}), cb && cb(payload))
-  }
-
-  handleClick(i: number) {
-
-    NavigationStore.setIndex(this.props.mainKey, i)
-  }
-
   render() {
-    const { activeIndex, childList } = this.state
+    const { activeIndex, subList } = this.props
 
     return (
       <Container>
         <List>
-          {createTable(childList, activeIndex, this.handleClick)}
+          {this.createTable()}
         </List>
       </Container>
     )
   }
 }
 
-export default LocalContainer
+const mapStateToProps = (state: RootState) => {
+  const mainKey = state.main.key
+
+  return selectTitle(state, mainKey)
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  slide: (index: number) => dispatch(slideHorizontal(index))
+})
+
+export default connect<any, any, any>(mapStateToProps, mapDispatchToProps)(LocalContainer)

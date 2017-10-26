@@ -1,14 +1,17 @@
 import * as React from 'react'
-import { SubContainer as Container } from '../Styles'
+import { connect } from 'react-redux'
 import Preview from '../Preview'
+import { RootState } from '../../../../../reducers'
 import { KEYS } from '../../../../../data/key'
+
+export interface PropState {
+  navigation: any
+}
 
 export interface Props {
   inputRef?: Function
 }
 
-const Article = (props: Props) => (
-  <Preview mainKey={KEYS.ARTICLE} inputRef={props.inputRef}/>
-)
+const Article = (props: Props) => <Preview mainKey="article" />
 
 export default Article

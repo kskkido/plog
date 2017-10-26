@@ -66,9 +66,8 @@ const classMethods = {
       }]
     })
   },
-  findRecent (limit = 5, condition = {}) {
+  findRecent (limit = 50, condition = {}) {
     return this.findAll({
-      limit,
       where: condition,
       order: [['created_at', 'DESC']]
     })

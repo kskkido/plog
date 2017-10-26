@@ -1,29 +1,34 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { TweenLite } from 'gsap'
 import { Container, List, ListCell, ListRow } from './Styles'
-import { MAIN_HEIGHT } from '../Styles'
 import { scrollController } from '../../../'
-import { NavigationStore } from '../../../../data/store'
+import { RootState } from '../../../../reducers'
+import { actionCreators } from '../../../../reducers/main'
+import { Dispatch } from '../../../../reducers/util'
+import { NAVIGATION } from '../../../../data'
 import { toArray, toHash } from './util'
 
 // global static
-const childList = Array.from(NavigationStore.getKey()),
-      childHash = toHash(childList)
 
-export interface Props {
+export interface PropState {
   mainKey: string
-  onMainListener: Function
+}
+
+export interface PropDispatch {
+  slide: (key: string) => void
+}
+
+export interface Props extends PropState, PropDispatch {
 }
 
 class LocalContainer extends React.Component<Props, {}> {
-  childList = NavigationStore.getKey()
+  childList = Array.from(NAVIGATION.keys())
   childHash = toHash(this.childList)
 
-  constructor(props: Props) {
-    super(props)
-  }
+  createTable () {
+    const activeIndex = this.childHash[this.props.mainKey]
 
-  createTable (activeIndex: number) {
     return this.childList.map((item, i) => {
       const active: boolean = activeIndex === i
 
@@ -42,21 +47,28 @@ class LocalContainer extends React.Component<Props, {}> {
   }
 
   handleClick(nextKey: string, i: number) {
+    this.props.slide(nextKey)
     scrollController.scrollTo(i)
-    this.props.onMainListener(nextKey, i)
   }
 
   render () {
-    const activeIndex = this.childHash[this.props.mainKey]
 
     return (
       <Container>
         <List>
-          {this.createTable(activeIndex)}
+          {this.createTable()}
         </List>
       </Container>
     )
   }
 }
 
-export default LocalContainer
+const mapStateToProps = (state: RootState) => ({
+  mainKey: state.main.key
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  slide: (key: string) => dispatch(actionCreators.slideVertical({key}))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocalContainer)
