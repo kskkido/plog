@@ -96,4 +96,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   slide: (key: string) => dispatch(actionCreators.slideVertical({key}))
 })
 
-export default connect(null, mapDispatchToProps)(LocalContainer)
+export default connect<any, PropDispatch, any>(null, mapDispatchToProps)(LocalContainer)

@@ -4,9 +4,11 @@ import { Container, List, ListRow, ListCell } from './Styles'
 import { RootState } from '../../../../reducers'
 import { slideHorizontal } from '../../../../reducers/sublist'
 import { Dispatch } from '../../../../reducers/util'
+import { selectTitle } from '../../../../reducers/selector'
 
 export interface PropState {
-  navigation: any
+  activeIndex: number,
+  subList: any[]
 }
 
 export interface PropDispatch {
@@ -22,7 +24,7 @@ class LocalContainer extends React.Component<Props, {}> {
   }
 
   createTable = () => {
-    const { navigation: { activeIndex, subList } } = this.props
+    const { activeIndex, subList } = this.props
 
     return subList.map((item: string, i: number) => {
       const active = activeIndex === i
@@ -42,7 +44,7 @@ class LocalContainer extends React.Component<Props, {}> {
   }
 
   render() {
-    const { navigation: { activeIndex, subList } } = this.props
+    const { activeIndex, subList } = this.props
 
     return (
       <Container>
@@ -57,13 +59,11 @@ class LocalContainer extends React.Component<Props, {}> {
 const mapStateToProps = (state: RootState) => {
   const mainKey = state.main.key
 
-  return ({
-    navigation: state.navigation[mainKey]
-  })
+  return selectTitle(state, mainKey)
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   slide: (index: number) => dispatch(slideHorizontal(index))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocalContainer)
+export default connect<any, any, any>(mapStateToProps, mapDispatchToProps)(LocalContainer)

@@ -1,16 +1,10 @@
 import styled from 'styled-components'
-import { OFFSET as SIDE_WIDTH } from '../Styles'
 
-export const HEIGHT = 100
-export const WIDTH = SIDE_WIDTH
+export interface Props {
+  active: boolean
+}
+
 export const NAVIGATION_WIDTH = 95
-
-export const Container = styled.section`
-  position: fixed;
-  height: ${HEIGHT}vh;
-  width: ${WIDTH}vw;
-  overflow-y: scroll;
-`
 
 export const List = styled.ul`
   padding: 0;
@@ -21,7 +15,13 @@ export const List = styled.ul`
   list-style: none;
 `
 
-export const ListRow = styled.li`
+export const ListRow = styled.li.attrs({
+  style: (props: Props) => props.active ?
+    {
+      backgroundColor: 'grey'
+    } :
+    {}
+})`
   padding: 0;
   height: 80px;
   display: table-row;

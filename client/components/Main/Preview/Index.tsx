@@ -7,8 +7,7 @@ import Footer from './Footer'
 import Route from './Route'
 import Side from './Side'
 
-export interface Props {
-}
+export interface Props {}
 
 const Content = (props: Props) => (
   <div>

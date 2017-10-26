@@ -1,69 +1,81 @@
 import * as React from 'react'
-import { Body, Main } from './Styles'
+import { connect } from 'react-redux'
+import { Body, Main, Side } from './Styles'
 import Factory from '../../HOC/Fetch'
 import { fetchArticles } from '../../../cms'
+import { selectArticle, selectTag } from '../../../reducers/selector'
 import Content from './Content'
-import Side from './Side'
+import { Tags, Title} from './Query/'
 // infinite scroller
 // initialize with x amount of articles
 // hit an y point in page scroll, load next x amount of articles
 // side component will have search queries
 
-export type title = string
-export type tags = any
-
-export interface Props {
-  payload: any
+export interface PropState {
+  articles: any,
+  tags: any
 }
 
+export interface Props extends PropState {}
+
 export interface State {
-  tags: tags
+  queryTags: Set<string>,
+  queryTitle: string
 }
 
 class LocalContainer extends React.Component<Props, State> {
+  static scrollTop: Function = () => window.scrollTo(0, 0)
+
   state: State = {
-    tags: new Set()
+    queryTags: new Set(),
+    queryTitle: ''
   }
 
-  isEmpty = () => {
-    const { tags } = this.state
+  onChange = (type: string, query: any) => this.setState(() => ({[type]: query}), () => LocalContainer.scrollTop())
 
-    return tags.size === 0
-  }
+  onTitleChange = (title: string) => this.onChange('queryTitle', title)
 
-  onChange = (type: string, query: any) => {
-    this.setState(() => ({[type]: query}))
-  }
+  onTagClick = (tag: string) => {
+    const { queryTags } = this.state
 
-  onTagAdd = (tag: string) => {
-    const { tags } = this.state
-
-    tags.has(tag) || this.onChange('tags', new Set(tags.add(tag)))
-  }
-
-  onTagRemove = (tag: string) => {
-    const { tags } = this.state
-
-    tags.delete(tag) && this.onChange('tags', new Set(tags))
+    queryTags.has(tag) && queryTags.delete(tag) || queryTags.add(tag)
+    this.onChange('queryTags', new Set(queryTags))
   }
 
   render () {
-    const { payload } = this.props
-    const fetchMethod = this.isEmpty() ? fetchArticles : fetchArticles
+    const { queryTags, queryTitle } = this.state
+    const { articles, tags } = this.props
 
     return (
       <Main>
-        <Side
-          tags={payload}
-          onTagAdd={this.onTagAdd}
-          onTagRemove={this.onTagRemove}
-        />
+        <Side>
+          <Title
+            queryTitle={queryTitle}
+            onTitleChange={this.onTitleChange}
+          />
+          <Tags
+            tags={tags}
+            queryTags={queryTags}
+            onTagClick={this.onTagClick}
+          />
+        </Side>
         <Body>
-          <Content fetchMethod={fetchMethod} />
+          <Content
+            articles={articles}
+            query={{
+              tags: Array.from(queryTags),
+              title: queryTitle
+            }}
+          />
         </Body>
       </Main>
     )
   }
 }
 
-export default Factory(LocalContainer)
+const mapStateToProps = (state: any): PropState => ({
+    articles: Array.from(selectArticle(state).values()),
+    tags: Array.from(selectTag(state).entries())
+  })
+
+export default connect<any, any, any>(mapStateToProps)(LocalContainer)

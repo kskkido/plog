@@ -28,8 +28,8 @@ export const fetchArticleTitle = checkDictionary((title: string ) => {
   return axios.get(`/api/article/${toUrl(title)}`)
 })
 
-export const fetchArticleRecent = (limit: number = 5, condition?: {attribute: string, target: string}) => {
-  const base = `/api/article/recent?limit=${limit}`
+export const fetchArticleRecent = (limit?: number, condition?: {attribute: string, target: string}) => {
+  const base = `/api/article/recent?${limit && 'limit=' + limit}`
   const url = condition ?
     base + `&condition[attribute]=${condition.attribute}&condition[target]=${condition.target}` : // can make it more complex later
     base

@@ -17,7 +17,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  key: 'RECENT'
+  key: 'recent'
 }
 
 /* ========== ACTIONS ========== */

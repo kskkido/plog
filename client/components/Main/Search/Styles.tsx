@@ -18,3 +18,9 @@ export const Body = styled.section`
   width: ${MAIN_WIDTH - OFFSET}%;
   overflow: hidden;
 `
+export const Side = styled.section`
+  position: fixed;
+  height: ${MAIN_HEIGHT}vh;
+  width: ${OFFSET}vw;
+  overflow-y: scroll;
+`

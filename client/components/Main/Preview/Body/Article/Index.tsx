@@ -12,9 +12,6 @@ export interface Props {
   inputRef?: Function
 }
 
-const mapStateToProps = (state: RootState) => ({
-  mainKey: KEYS.ARTICLE,
-  navigation: state.navigation[KEYS.ARTICLE]
-})
+const Article = (props: Props) => <Preview mainKey="article" />
 
-export default connect<any, any, any>(mapStateToProps)(Preview)
+export default Article

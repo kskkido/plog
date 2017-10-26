@@ -12,9 +12,6 @@ export interface Props {
   inputRef?: Function
 }
 
-const mapStateToProps = (state: RootState) => ({
-  mainKey: KEYS.RECENT,
-  navigation: state.navigation[KEYS.RECENT]
-})
+const Recent = (props: Props) => <Preview mainKey="recent" />
 
-export default connect<any, any, any>(mapStateToProps)(Preview)
+export default Recent

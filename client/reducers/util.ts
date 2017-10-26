@@ -24,6 +24,11 @@ export const getKey: Error | any = (key: string, map: Map<any, any>) => {
   }
 }
 
+export const callLeft = (fn: Function, ...la: any[]) =>
+  function (...ra: any[]) {
+    return fn.apply(this, [...la, ...ra])
+  }
+
 export const tap = (fn: Function, arg: any) => {
   const curried = (_arg: any) => (fn(_arg), _arg)
 
@@ -40,15 +45,15 @@ export const factoryReducer = (reducerFn: Function, condition: Function, initial
     return shouldSkip ? state : reducerFn(state, action)
   }
 
-  export const memoize = (fn: Function) => {
-    const cache = new Map()
+export const memoize = (fn: Function) => {
+  const cache = new Map()
 
-    return function (...args: any[]) {
-      return cache.has(args) ?
-        cache.get(args) :
-        cache.set(args, fn(...args)) && cache.get(args)
-    }
+  return function (...args: any[]) {
+    return cache.has(args) ?
+      cache.get(args) :
+      cache.set(args, fn(...args)) && cache.get(args)
   }
+}
 
 export const reduceReducers = (...reducers: Function[]) => (state: any, action: Action<any>) =>
   reducers.reduce((acc, reducer) => reducer(acc, action), state)
@@ -67,20 +72,28 @@ export const createInitialState = (map: Map<string, any>): FlexibleState => {
   return state
 }
 
-export interface FlexibleAction {
-  key: String
+export interface keyValue {
+  key: String,
+
 }
 
-export const createReducers = <State>(map: Map<string, any>, reducer: Function) => {
-  const reducers = []
+export const reducerFromObject = (reducer: Function) => ([key, initialState]: any[]) =>
+  factoryReducer(reducer, (state: any, action: Action<any>) => action.payload.key === key, initialState)
 
-  for (const [key, value] of map) {
-    reducers.push(factoryReducer(
-      reducer,
-      (state: State, action: Action<any>) => action.payload.key === key,
-      value
-    ))
+export function* mapIterable (fn: Function, iterable: any) {
+  for (const value of iterable) {
+    yield fn(value)
   }
+}
 
-  return reduceReducers.apply(this, reducers)
+export function* untilIterable (n: number, iterable: any) {
+  let count = n
+
+  for (const value of iterable) {
+    if (count-- <= 0) {
+      break
+    }
+
+    yield value
+  }
 }

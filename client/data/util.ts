@@ -1,5 +1,3 @@
-
-
 const Logger = process.env.NODE_ENV === 'production' ?
   (i: any, ii?: any) => i :
   (fn: Function, type?: string) =>

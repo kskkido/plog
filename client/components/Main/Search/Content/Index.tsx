@@ -1,29 +1,28 @@
 import * as React from 'react'
 import { Container } from './Styles'
-import Factory from '../../../HOC/Fetch'
+import { filterQuery, Query } from './util'
 import Card from './Card'
 
-export type entry = {
-  title: string,
-  content: string,
-  date?: string,
-  media?: string,
+export interface Entry {
+  data: object,
+  url: string,
+  local: boolean
 }
 
 export interface Props {
-  payload: entry[]
+  articles: any[]
+  query: Query
 }
 
 const Content = (props: Props) => {
-  const { payload } = props
+  const { articles, query } = props
+  const filter = filterQuery(query)
 
   return (
     <Container>
-      {payload.map((entry, i) =>
-        <Card key={'card_' + i} payload={entry}/>
-      )}
+      {articles.map((entry: Entry, i: number) => filter(entry) && <Card key={'card_' + i} payload={entry}/>)}
     </Container>
   )
 }
 
-export default Factory(Content)
+export default Content

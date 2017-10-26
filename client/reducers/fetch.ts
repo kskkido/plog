@@ -1,9 +1,10 @@
 // generic parameters are used to define value types, not value itself
-import { Action, actionCreator, Dispatch, tap } from './util'
+import { articleDictionary, tagDictionary } from './dictionary'
+import { navigationSetup } from './navigation'
+import { Action, actionCreator, Dispatch, callLeft, mapIterable, untilIterable } from './util'
 import { fetchArticleRecent, fetchTags } from '../cms'
 import { DICTIONARY, setDictionary } from '../data/dictionary'
 import { KEYS } from '../data/key'
-import { NavigationStore } from '../data/store'
 
 /* ========== ACTIONS ========== */
 export const FETCH_COMPLETE = 'FETCH_COMPLETE'
@@ -39,19 +40,42 @@ export const reducer = (state: State = initialState, action: Action<any>): State
 }
 
 /* ========== DISPATCHER ========== */
-export const fetchRecent = (dispatch: Dispatch, getState: Function) =>
-  fetchArticleRecent(5)
-    .then(res => {
-      const key = KEYS.RECENT, // change this later on
-            sublist = res.data.map((data: any) => tap(setDictionary(key), data).title.toUpperCase())
-
-      NavigationStore.setSublist(key, sublist)
+export const _fetchRecent = (dispatch: Dispatch) =>
+  fetchArticleRecent()
+    .then((res: any) => {
+      const dispatchToArticle = (data: any) => dispatch(articleDictionary.set(data.id, data)),
+            iterable = mapIterable(dispatchToArticle, res.data),
+            call = Array.from(iterable)
     })
-    .then(() => dispatch(actionCreators.fetchComplete({fetched: true})))
+    .then(() => {
+      dispatch(navigationSetup)
+      dispatch(actionCreators.fetchComplete({fetched: true}))
+    })
     .catch(console.error)
 
 export const fetchTag = (dispatch: Dispatch) =>
   fetchTags()
     .then(res => {
-      res.data.map((data: any) => setDictionary(KEYS.TAG))
+      const dispatchToTag = (tag: any) => dispatch(tagDictionary.set(tag.tagName, tag)),
+            iterable = mapIterable(dispatchToTag, res.data),
+            call = Array.from(iterable)
+
     })
+
+export const fetchRecent = (dispatch: Dispatch) =>
+    Promise.all([fetchArticleRecent(), fetchTags()])
+      .then((res: any) => {
+        const articles = res[0].data,
+              tags = res[1].data,
+              dispatchToArticle = (data: any) => dispatch(articleDictionary.set(data.id, data)),
+              dispatchToTag = (tag: any) => dispatch(tagDictionary.set(tag.tagName, tag)),
+              iterableArticle = mapIterable(dispatchToArticle, articles),
+              iterableTag = mapIterable(dispatchToTag, tags)
+
+        Array.from(iterableArticle) && Array.from(iterableTag)
+      })
+      .then(() => {
+        dispatch(navigationSetup)
+        dispatch(actionCreators.fetchComplete({fetched: true}))
+      })
+      .catch(console.error)
