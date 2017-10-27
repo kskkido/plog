@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Container } from './Styles'
+import { Container, CardContainer } from './Styles'
 import { filterQuery, Query } from './util'
 import Card from './Card'
 
@@ -20,7 +20,9 @@ const Content = (props: Props) => {
 
   return (
     <Container>
-      {articles.map((entry: Entry, i: number) => filter(entry) && <Card key={'card_' + i} payload={entry}/>)}
+      <CardContainer>
+        {articles.map((entry: Entry, i: number) => filter(entry) && <Card key={'card_' + i} payload={entry}/>)}
+      </CardContainer>
     </Container>
   )
 }

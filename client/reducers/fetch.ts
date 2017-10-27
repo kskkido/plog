@@ -67,7 +67,7 @@ export const fetchRecent = (dispatch: Dispatch) =>
       .then((res: any) => {
         const articles = res[0].data,
               tags = res[1].data,
-              dispatchToArticle = (data: any) => dispatch(articleDictionary.set(data.id, data)),
+              dispatchToArticle = (data: any) => dispatch(articleDictionary.set(`${data.id}`, data)),
               dispatchToTag = (tag: any) => dispatch(tagDictionary.set(tag.tagName, tag)),
               iterableArticle = mapIterable(dispatchToArticle, articles),
               iterableTag = mapIterable(dispatchToTag, tags)

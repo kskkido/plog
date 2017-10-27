@@ -1,11 +1,15 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { convertFromRaw, convertToRaw } from 'draft-js'
 import  { stateToHTML } from 'draft-js-export-html'
 import { editorState, tagList, title } from './'
 import { postArticle, fetchDraft, postDraft } from '../../../cms'
+import { RootState } from '../../../reducers'
+import { selectArticleByKey } from '../../../reducers/selector'
 
 export interface Props {
-
+  article?: any,
+  match?: object
 }
 
 export interface State {
@@ -96,6 +100,7 @@ function Proxy (PostComponent: any) { //used to fetch and post to cache. Also ch
 
     render () {
       const { ready, editorState, tagList, title } = this.state
+      console.log(this.props.article, 'PROPS')
 
       if (!ready) {
         return <span>IR not ready</span>
@@ -111,7 +116,16 @@ function Proxy (PostComponent: any) { //used to fetch and post to cache. Also ch
     }
   }
 
-  return Wrapped
+  const mapStateToProps = (state: RootState, props: Props) => {
+    const { id } = props.match.params
+    const article = selectArticleByKey(state, id)
+
+    return article === undefined ?
+      {} :
+      { article }
+  }
+
+  return connect<any, any, any>(mapStateToProps)(Wrapped)
 }
 
 export default Proxy

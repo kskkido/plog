@@ -1,8 +1,16 @@
 import styled from 'styled-components'
+import { MAIN_HEIGHT, OFFSET } from '../Styles'
 
 export interface Props {
   active: boolean
 }
+
+export const Container = styled.section`
+  position: fixed;
+  height: ${MAIN_HEIGHT}vh;
+  width: ${OFFSET}vw;
+  overflow-y: scroll;
+`
 
 export const NAVIGATION_WIDTH = 95
 

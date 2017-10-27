@@ -84,7 +84,7 @@ class LocalContainer extends React.Component<Props, State> {
   }
 
   render () {
-
+    console.log(this.props, 'PROPS')
 
     return (
       <Main>

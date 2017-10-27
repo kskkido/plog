@@ -1,6 +1,14 @@
 import styled from 'styled-components'
+import { MAIN_WIDTH, OFFSET } from '../Styles'
 
-export const Container = styled.div`
+export const Container = styled.section`
+  margin-left: ${OFFSET}vw;
+  height: auto;
+  width: ${MAIN_WIDTH - OFFSET}%;
+  overflow: hidden;
+`
+
+export const CardContainer = styled.div`
   padding 10px 20px;
   display: flex;
   flex-flow: row wrap;

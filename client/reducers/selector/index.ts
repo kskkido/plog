@@ -8,6 +8,7 @@ export const selectArticle = getArticle
 export const selectTag = getTag
 export const selectByKey = getByKey
 export const selectByKeys = getByKeys
+export const selectArticleByKey = (state: any, id: string) => selectByKey(state, 'article', id)
 export const selectRecentArticle = getRecentArticle
 export const selectVisibleArticle = getVisibleArticle
 
