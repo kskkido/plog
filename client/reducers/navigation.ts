@@ -1,7 +1,6 @@
 import { actionCreator, Action, Dispatch, createInitialState, callLeft, reducerFromObject, reduceReducers, mapIterable } from './util'
 import { selectRecentArticle } from './selector'
 import { actionCreators as sublistActions, reducer as sublistReducer, State as SublistState } from './sublist'
-import { fetchArticleRecent, fetchTags } from '../cms'
 import { navigation, NAVIGATION } from '../data'
 
 const sublistReducers = callLeft(mapIterable, reducerFromObject(sublistReducer))
@@ -38,7 +37,7 @@ export const reducer = (state: State = initialState, action: Action<any>) => {
 
 export const navigationSetup = (dispatch: Dispatch, getState: Function) => {
   const state = getState()
-  const articles = selectRecentArticle(state, 5)
+  const articles = Array.from(selectRecentArticle(state, 5).keys())
 
   dispatch(sublistActions.newList({key: 'recent', list: articles}))
   dispatch(sublistActions.newList({key: 'article', list: articles}))

@@ -1,113 +1,82 @@
 import * as React from 'react'
 import { Editor, EditorState, RichUtils } from 'draft-js'
-import { Main, Body, styleMap } from './Styles'
+import { Main } from './Styles'
 
-import Block from './Control/Block'
-import Inline from './Control/Inline'
+import Body from './Body'
 import Proxy from './Proxy'
 import Side from './Side'
 
 export type editorState = any
-export type tagList = Set<string>
+export type tags = Set<string>
 export type title = string
 
 export interface Props {
-  editorState: editorState | null,
-  tagList: tagList | null,
+  content: any,
+  status: boolean,
+  tags: tags | null,
   title: title,
-  cacheArticle: Function,
-  publishArticle: Function,
+  post: Function,
 }
 
 export interface State {
-  editorState: editorState,
-  tagList: tagList,
-  title: title
+  content: any,
+  status: boolean,
+  tags: tags,
+  title: title,
+  [type: string]: any
 }
 
 class LocalContainer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const {editorState, tagList, title } = props
+    const {content, status, tags, title } = props
 
     this.state = {
-      editorState: editorState ? EditorState.createWithContent(editorState) : EditorState.createEmpty(),
-      tagList: tagList || new Set(),
+      content: content ? EditorState.createWithContent(content) : EditorState.createEmpty(),
+      status: status,
+      tags: tags || new Set(),
       title: title
     }
   }
 
-  handleKeyCommand = (command: any, editorState: editorState) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return true;
-    }
-    return false;
+  componentWillUpdate(_: any, nextState: State) {
+    this.onPost(nextState)
   }
 
-  setStateWrapper = (type: string, payload: any, cb?: Function) =>
-    this.setState(() => ({[type]: payload}), () => cb && cb())
+  onPost = (state?: any) => this.props.post(state || this.state)
 
-  onChange = this.props.cacheArticle(this.setStateWrapper, 'editorState')
-  onChangeTag = this.props.cacheArticle(this.setStateWrapper, 'tagList') // caches changes while updating editor state or taglist
-  onChangeTitle = this.props.cacheArticle(this.setStateWrapper, 'title')
+  onChange = (type: string) => (updateFn: any, cb?: Function) =>
+    this.setState((state: State) => ({
+        [type]: typeof updateFn === 'function' ?
+          updateFn(state[type]) :
+          updateFn
+      }), () => cb && cb()
+    )
 
-  _onTagRemove = (cb: Function | undefined) => (tagName: string) => {
-    const { tagList } = this.state
-
-    tagList.delete(tagName) && this.onChangeTag(tagList, cb)
-  }
-  _onTagAdd = (cb: Function | undefined) => (tagName: string) => {
-    const tagList = new Set(this.state.tagList.add(tagName))
-
-    this.onChangeTag(tagList, cb)
-  }
-
-  onTitle = (title: string) => {
-    this.onChangeTitle(title)
-  }
-
-  onTab = (e: any) => {
-    const maxDepth = 4
-    this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth))
-  }
-  onToggle = (toggleFn: Function) =>
-    (style: string) =>
-      this.onChange(toggleFn(this.state.editorState, style))
-
-  onSubmit = (e: any) => {
-    const { editorState, tagList, title } = this.state
-
-    this.props.publishArticle({editorState, title, tagList}) // do something
-  }
+  onChangeContent = this.onChange('content')
+  onChangeStatus = this.onChange('status')
+  onChangeTag = this.onChange('tags')
+  onChangeTitle = this.onChange('title')
 
   render () {
-
+    const { content, status, tags, title } = this.state
 
     return (
       <Main>
         <Side
-          tagList={this.state.tagList}
-          title={this.state.title}
-          onSubmit={this.onSubmit}
-          onTitle={this.onTitle}
-          _onTagAdd={this._onTagAdd}
-          _onTagRemove={this._onTagRemove}
+          status={status}
+          tags={tags}
+          title={title}
+          onToggle={this.onChangeStatus}
+          onTag={this.onChangeTag}
+          onTitle={this.onChangeTitle}
+          onPost={this.onPost}
         />
-        <Body>
-          <Block onToggle={this.onToggle(RichUtils.toggleBlockType)} />
-          <Inline onToggle={this.onToggle(RichUtils.toggleInlineStyle)} />
-          <Editor
-            customStyleMap={styleMap}
-            editorState={this.state.editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onChange}
-            onTab={this.onTab}
-            spellCheck={true}
-          />
-        </Body>
+        <Body
+          content={content}
+          onChange={this.onChangeContent}
+        />
       </Main>
     )
   }

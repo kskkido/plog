@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Body, Main, Side } from './Styles'
+import { Main } from './Styles'
 import Factory from '../../HOC/Fetch'
 import { fetchArticles } from '../../../cms'
-import { selectArticle, selectTag } from '../../../reducers/selector'
-import Content from './Content'
-import { Tags, Title} from './Query/'
+import { selectArticle, selectPublicArticle, selectTag } from '../../../reducers/selector'
+import Body from './Body'
+import Side from './Side'
 // infinite scroller
 // initialize with x amount of articles
 // hit an y point in page scroll, load next x amount of articles
@@ -48,33 +48,27 @@ class LocalContainer extends React.Component<Props, State> {
 
     return (
       <Main>
-        <Side>
-          <Title
-            queryTitle={queryTitle}
-            onTitleChange={this.onTitleChange}
-          />
-          <Tags
-            tags={tags}
-            queryTags={queryTags}
-            onTagClick={this.onTagClick}
-          />
-        </Side>
-        <Body>
-          <Content
-            articles={articles}
-            query={{
-              tags: Array.from(queryTags),
-              title: queryTitle
-            }}
-          />
-        </Body>
+        <Side
+          queryTitle={queryTitle}
+          onTitleChange={this.onTitleChange}
+          tags={tags}
+          queryTags={queryTags}
+          onTagClick={this.onTagClick}
+        />
+        <Body
+          data={articles}
+          query={{
+            tags: Array.from(queryTags),
+            title: queryTitle
+          }}
+        />
       </Main>
     )
   }
 }
 
 const mapStateToProps = (state: any): PropState => ({
-    articles: Array.from(selectArticle(state).values()),
+    articles: Array.from(selectPublicArticle(state).values()),
     tags: Array.from(selectTag(state).entries())
   })
 

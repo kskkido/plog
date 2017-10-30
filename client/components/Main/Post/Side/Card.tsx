@@ -7,6 +7,7 @@ export interface Props {
 }
 
 const Card = (props: Props) => {
+  console.log(props)
 
   return (
     <Tag onClick={() => props._onClick(props.tagName)}>

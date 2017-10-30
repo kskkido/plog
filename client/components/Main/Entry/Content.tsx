@@ -1,27 +1,20 @@
 import * as React from 'react'
-import Factory from '../../HOC/Fetch'
 import { EntryContainer as Container } from './Styles'
 
-export type entry = {
-  title: string,
-  content: string,
-  date?: string,
-  media?: string,
-}
-
 export interface Props {
-  payload: entry
+  article: any
 }
 
 const Content = (props: Props) => {
-  const { payload } = props
+  const { article } = props,
+        { data } = article
 
   return (
     <Container>
-      <h1>{payload.title}</h1>
-      <p>{payload.content}</p>
+      <h1>{data.title}</h1>
+      <p>{data.content}</p>
     </Container>
   )
 }
 
-export default Factory(Content)
+export default Content

@@ -11,16 +11,3 @@ export const Main = styled.section`
   width: ${MAIN_WIDTH}%;
   display: inline-block;
 `
-
-export const Body = styled.section`
-  margin-left: ${OFFSET}vw;
-  height: auto;
-  width: ${MAIN_WIDTH - OFFSET}%;
-  overflow: hidden;
-`
-export const Side = styled.section`
-  position: fixed;
-  height: ${MAIN_HEIGHT}vh;
-  width: ${OFFSET}vw;
-  overflow-y: scroll;
-`

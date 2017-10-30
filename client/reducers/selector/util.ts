@@ -1,5 +1,7 @@
 import { memoize } from '../util'
 
+export const identity = (i: any) => i
+
 export const memoizeState = (fn: Function) => {
   let memoized = memoize(fn),
       previous: any = undefined
@@ -19,3 +21,5 @@ export const getProps = (property: string) => (state: any) => {
 }
 
 export const mapSelector = (fn: Function) => (selector: Function) => (state: any, ...rest: any[]) => selector(fn(state), ...rest)
+
+export const combineSelector = (selector1: any, selector2: any, fn: Function) => (state: any, ...rest: any[]) => fn(selector1(state), selector2(state), ...rest)

@@ -1,69 +1,53 @@
 import * as React from 'react'
-import { tagList } from '../'
 import { Add, Container, Form, Input } from './Styles'
 import Card from './Card'
 
 export interface Props {
-  title: string,
+  value: string,
   onTitle: Function
 }
 
 export interface State {
-  value: string,
   error: string
 }
 
 class LocalContainer extends React.Component<Props, State> {
-  onTitle: Function
-
-  state: State = {
-    value: 'untitled',
-    error: '',
-  }
+  onChange: Function
 
   constructor(props: Props) {
     super(props)
 
-    this.onTitle = this.validate(this.props.onTitle)
+    this.state = {
+      error: ''
+    }
+
+    this.onChange = this.validate(this.props.onTitle)
   }
 
   validate = (fn: Function) =>
     (e: any) => {
-      let { value } = this.state
+      let { value } = e.target
 
-      value = value.trim()
-      return value.length === 0 ?
-        this.onError("YOU'RE TOO SHORT") : // extract error
-          fn(value)
+      fn(value)
     }
 
   onError = (error: string) => {
     this.state.error || this.setState(
-      ({value}) => ({value, error}),
+      () => ({error}),
       () => setTimeout(() => this.setState(() => ({error: ''})), 1000)
     )
   }
 
-  onChange = (e: any) => {
-    const { value } = e.target
-
-    this.setState(() => ({value}))
-  }
-
-
   render() {
-    const { value } = this.state
+    const { value } = this.props
 
     return (
       <Form onSubmit={(e: any) => e.preventDefault()}>
         Make your title...
         <Input
           value={value}
-          onChange={this.onChange}
+          onChange={(e: any) => this.onChange(e)}
         />
-        <Add onClick={() => this.onTitle()}>
-          <span>Save title</span>
-        </Add>
       </Form>
     )
   }

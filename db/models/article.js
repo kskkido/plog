@@ -37,7 +37,8 @@ const options = {
   defaultScope: {
     include: [
         { model: db.model('tag') }
-    ]
+    ],
+    order: [['created_at', 'DESC']]
   },
 
   hooks: {
@@ -70,6 +71,16 @@ const classMethods = {
     return this.findAll({
       where: condition,
       order: [['created_at', 'DESC']]
+    })
+  },
+  findPublic () {
+    return this.findAll({
+      where: { status: true }
+    })
+  },
+  findPrivate () {
+    return this.findAll({
+      where: { status: false}
     })
   }
 }

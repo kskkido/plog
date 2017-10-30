@@ -15,3 +15,13 @@ export const createTree = (left: Function, right: Function) =>
     right():
     left()
 
+// export const mapValues = (obj: object, fn: Function) => {
+//   const result = {},
+//         hasOwn = Object.prototype.hasOwnProperty.bind(obj)
+
+//   for (let key in obj) if (hasOwn(key)) {
+//     result[key] = fn(obj[key], key)
+//   }
+
+//   return result
+// }

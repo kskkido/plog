@@ -7,12 +7,12 @@ export interface SLIDE_HORIZONTAL {
 }
 
 export interface APPEND_LIST {
-  list: string[]
+  list: any[]
   key: string
 }
 
 export interface NEW_LIST {
-  list: string[]
+  list: any[]
   key: string
 }
 
@@ -26,7 +26,7 @@ export const actionCreators = {
 
 export interface State {
   activeIndex: number,
-  subList: string[]
+  subList: any[]
 }
 
 export const reducer = (state: State, action: Action<any>) => { // provided initialState during runtime

@@ -1,13 +1,8 @@
 import * as React from 'react'
 import { List, ListRow, ListCell } from './Styles'
+import { PropTags } from './'
 
-export interface Props {
-  tags: any,
-  queryTags: Set<string>,
-  onTagClick: Function
-}
-
-const createList = ({tags, queryTags, onTagClick}: Props) =>
+const createList = ({tags, queryTags, onTagClick}: PropTags) =>
   tags.map((tag: any, i: number) => {
     const [ tagName ] = tag
 
@@ -24,7 +19,7 @@ const createList = ({tags, queryTags, onTagClick}: Props) =>
     )
   })
 
-const Tags = (props: Props) =>
+const Tags = (props: PropTags) =>
     <List>
       {createList(props)}
     </List>
