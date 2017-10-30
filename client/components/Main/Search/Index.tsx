@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Main } from './Styles'
 import Factory from '../../HOC/Fetch'
 import { fetchArticles } from '../../../cms'
-import { selectArticle, selectTag } from '../../../reducers/selector'
+import { selectArticle, selectPublicArticle, selectTag } from '../../../reducers/selector'
 import Body from './Body'
 import Side from './Side'
 // infinite scroller
@@ -56,7 +56,7 @@ class LocalContainer extends React.Component<Props, State> {
           onTagClick={this.onTagClick}
         />
         <Body
-          articles={articles}
+          data={articles}
           query={{
             tags: Array.from(queryTags),
             title: queryTitle
@@ -68,7 +68,7 @@ class LocalContainer extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any): PropState => ({
-    articles: Array.from(selectArticle(state).values()),
+    articles: Array.from(selectPublicArticle(state).values()),
     tags: Array.from(selectTag(state).entries())
   })
 

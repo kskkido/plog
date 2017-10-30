@@ -2,14 +2,15 @@ import * as React from 'react'
 import { Add } from './Styles'
 
 export interface Props {
-  onSubmit: Function
+  status: boolean,
+  onToggle: Function
 }
 
-const Publish = (props: Props) => {
+const Publish = ({ status, onToggle }: Props) => {
 
   return (
-    <Add onClick={() => props.onSubmit()}>
-      PUBLISH
+    <Add onClick={() => onToggle(!status)}>
+      {status ? 'CLOSE ARTICLE' : 'OPEN ARTICLE'}
     </Add>
   )
 }

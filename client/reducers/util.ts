@@ -97,3 +97,14 @@ export function* untilIterable (n: number, iterable: any) {
     yield value
   }
 }
+
+export function* filterIterable (fn: Function, iterable: any) {
+  for (const value of iterable) {
+
+    if (fn(value)) {
+      yield value
+    } else {
+      continue
+    }
+  }
+}

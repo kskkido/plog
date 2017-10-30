@@ -24,17 +24,17 @@ export const fetchTags = () => {
   return axios.get('/api/tag')
 }
 
+export const fetchArticleId = (id: number | string) => {
+  return axios.get(`api/article/${id}`)
+}
+
 export const fetchArticleTitle = checkDictionary((title: string ) => {
   return axios.get(`/api/article/${toUrl(title)}`)
 })
 
-export const fetchArticleRecent = (limit?: number, condition?: {attribute: string, target: string}) => {
-  const base = `/api/article/recent?${limit && 'limit=' + limit}`
-  const url = condition ?
-    base + `&condition[attribute]=${condition.attribute}&condition[target]=${condition.target}` : // can make it more complex later
-    base
+export const fetchArticlePublic = () => {
 
-  return axios.get(url)
+  return axios.get(`/api/article/public`)
 }
 
 export const fetchArticleTag = checkDictionary((tag: string) => {
@@ -45,10 +45,11 @@ export const fetchDraft = () => {
   return axios.get('/api/draft')
 }
 
-export const postArticle = (data: {title: string, content: any, tagList: any}) => {
-  return axios.post('/api/article', data)
-}
-
-export const postDraft = (data: {type: string, payload: any}) => {
-  return axios.post('/api/draft', data)
-}
+export const saveArticle = (data: {
+    title: string,
+    content: any,
+    tags: any,
+    status: boolean
+  },
+  id?: number | string
+) => id === undefined ? axios.post('/api/article', data) : axios.put(`/api/article/${id}`, data)

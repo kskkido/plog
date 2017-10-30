@@ -8,6 +8,7 @@ router.route('/')
 })
 .post((req, res, next) => {
   const { type, payload } = req.body
+  console.log(type, payload)
 
   if (type === undefined || payload === undefined) {
     return next()

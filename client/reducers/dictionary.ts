@@ -72,7 +72,7 @@ export const dictionaryReducer = (state: Map<string, any>, action: DICTIONARY_AC
 }
 
 const createMapAction = (payload: any, key: string, type: string): DICTIONARY_ACTION => {
-  const entry: entry = {data: payload, local: false, url: `/entry/${key}`}
+  const entry: entry = {data: payload, local: true, url: `/entry/${key}`}
 
   return {payload: entry, type, key}
 }

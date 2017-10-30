@@ -1,14 +1,13 @@
-import { getItem, getTitle } from './navigation'
-import { getArticle, getTag, getByKey, getByKeys, getRecentArticle, getVisibleArticle } from './dictionary'
+import { getItem, getNavigation, getTitle } from './navigation'
+import { getArticle, getDictionary, getTag, getRecentArticle, getPublicArticle, getPrivateArticle} from './dictionary'
 
-
+export const selectDictioanry = getDictionary
+export const selectNavigation = getNavigation
 export const selectItem = getItem
 export const selectTitle = getTitle
 export const selectArticle = getArticle
 export const selectTag = getTag
-export const selectByKey = getByKey
-export const selectByKeys = getByKeys
-export const selectArticleByKey = (state: any, id: string) => selectByKey(state, 'article', id)
 export const selectRecentArticle = getRecentArticle
-export const selectVisibleArticle = getVisibleArticle
+export const selectPublicArticle = getPublicArticle
+export const selectPrivateArticle = getPrivateArticle
 

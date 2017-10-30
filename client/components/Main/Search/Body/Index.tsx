@@ -1,30 +1,24 @@
 import * as React from 'react'
+import Filter from '../../../HOC/Filter'
 import { Container, CardContainer } from './Styles'
-import { filterQuery, Query } from './util'
 import Card from './Card'
 
-export interface Entry {
-  data: object,
-  url: string,
-  local: boolean
-}
-
 export interface Props {
-  articles: any[]
-  query: Query
+  generator: Function
 }
 
-const Content = (props: Props) => {
-  const { articles, query } = props
-  const filter = filterQuery(query)
+const createCard = (entry: any, i: number) =>
+  <Card key={'card_' + entry.data.id} payload={entry} />
+
+const Content = ({ generator }: Props) => {
 
   return (
     <Container>
       <CardContainer>
-        {articles.map((entry: Entry, i: number) => filter(entry) && <Card key={'card_' + i} payload={entry}/>)}
+        {Array.from(generator(createCard))}
       </CardContainer>
     </Container>
   )
 }
 
-export default Content
+export default Filter(Content)

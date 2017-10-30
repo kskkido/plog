@@ -1,16 +1,16 @@
 const Tag = require('../db').model('tag')
 
 const createTag = (req, res, next) => {
-  const { tagList } = req.body
+  const { tags } = req.body
+  delete req.body.tags
 
-  tagList && tagList.length > 0 ?
-    Promise.all(tagList.map((tagName) =>
+  tags && tags.length > 0 ?
+    Promise.all(tags.map((tagName) =>
       Tag.findOrCreate({where: {tagName}})
       .spread((tag) => tag)
     ))
-      .then((tags) => {
-        req.body.tagModels = tags
-
+      .then((_tags) => {
+        req.body.tagModels = _tags
         next()
       })
       .catch(console.error) :

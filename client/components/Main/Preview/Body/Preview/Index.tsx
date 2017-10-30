@@ -19,24 +19,21 @@ export interface State {}
 
 class LocalContainer extends React.Component<Props, State> {
 
-  createCard(ratio: number) {
-    const { subList } = this.props
-
-    return subList.map((item: string, i: number, array: string[]) =>
+  createCard = (ratio: number, subList: string[]) =>
+    subList.map((item: string, i: number, array: string[]) =>
         <Card
           key={item + '_' + i}
           data={item}
           previewCount={array.length}
         />
     )
-  }
 
   render() {
     const { activeIndex, subList } = this.props
 
     return (
       <Slide length={subList.length} activeIndex={activeIndex} >
-        {(ratio: number) => this.createCard(ratio)}
+        {(ratio: number) => this.createCard(ratio, subList)}
       </Slide>
     )
   }

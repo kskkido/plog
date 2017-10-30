@@ -1,34 +1,38 @@
 import * as React from 'react'
-import { tagList } from '../'
-import { Add, Container, Form, Input } from './Styles'
+import { tags } from '../'
+import { Container } from './Styles'
 import Publish from './Publish'
+import Save from './Save'
 import Tag from './Tag'
 import Title from './Title'
 
 export interface Props {
-  tagList: tagList,
+  status: boolean
+  tags: tags,
   title: string,
-  onSubmit: Function,
+  onToggle: Function,
+  onPost: Function,
   onTitle: Function,
-  _onTagAdd: Function,
-  _onTagRemove: Function,
+  onTag: Function
 }
 
 const Side = (props: Props) => {
-  const { tagList, title, onSubmit, onTitle, _onTagAdd, _onTagRemove } = props
+  const { status, tags, title, onPost, onTag, onTitle, onToggle } = props
 
   return (
   <Container>
+    <Save onSubmit={onPost} />
     <Publish
-      onSubmit={onSubmit} />
+      status={status}
+      onToggle={onToggle}
+    />
     <Title
-      title={title}
+      value={title}
       onTitle={onTitle}
     />
     <Tag
-      tagList={tagList}
-      _onTagAdd={_onTagAdd}
-      _onTagRemove={_onTagRemove}
+      tags={tags}
+      onTag={onTag}
     />
   </Container>
   )

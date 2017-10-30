@@ -30,7 +30,7 @@ module.exports = app
 
 // session cookie
 	.use((req, res, next) => {
-		req.session.draft = req.session.draft || {title: '', editorState: null, tagList: []}
+		req.session.draft = {content: '', status: false, title: '', tags: []}
 
 		next()
 	})

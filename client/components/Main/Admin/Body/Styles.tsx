@@ -20,5 +20,11 @@ export const Card = styled.div`
   padding: 5px 10px;
   height: 300px;
   width: 25%;
+  display: flex;
+  flex-direction: column;
   border-width: 1px;
+`
+
+export const Button = styled.div`
+
 `

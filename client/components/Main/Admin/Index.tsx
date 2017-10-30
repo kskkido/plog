@@ -16,18 +16,27 @@ export interface Props extends PropState {
 
 export interface State {
   selected?: object, // show meta data of selected data?
-  query?: object, //[alphabetical, lastUpdate, dateCreated, status]
+  query?: any, //[alphabetical, lastUpdate, dateCreated, status]
 }
 
 class LocalContainer extends React.Component<Props, State> {
+  state: State = {
+    selected: undefined,
+    query: undefined
+  }
+
 
   render () {
+    const { selected, query } = this.state
     const { articles } = this.props
 
     return (
       <Main>
         <Side />
-        <Body articles={Array.from(articles.values())} />
+        <Body
+          data={Array.from(articles.values())}
+          query={query}
+        />
       </Main>
     )
   }

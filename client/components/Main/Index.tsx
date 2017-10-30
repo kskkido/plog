@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 // import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 import { Container } from './Styles'
-import { fetchArticleTitle, fetchArticleTag, fetchTags } from '../../cms'
+import { fetchArticleId, fetchArticleTag, fetchTags } from '../../cms'
 
 import Admin from './Admin'
 import Search from './Search'
@@ -43,7 +43,7 @@ const Main = (props: Props) => {
               <Search {...props} fetchMethod={fetchTags} />
             )} />
             <Route path='/entry/:id?' render={(props: any) => (
-              <Entry {...props} fetchMethod={fetchArticleTitle} />
+              <Entry {...props} fetchMethod={fetchArticleId} />
             )} />
             <Route exact path='/' component={Preview} />
           </Switch>
@@ -74,13 +74,11 @@ class LocalContainer extends React.Component<{}, State> {
   render () {
     const { toggle } = this.state
 
-    return (
-      <Main
+    return <Main
         toggle={toggle}
         onToggleOn={this.onToggleOn}
         onToggleOff={this.onToggleOff}
       />
-    )
   }
 }
 

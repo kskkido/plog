@@ -1,12 +1,11 @@
 import * as React from 'react'
-import { tagList } from '../'
+import { tags } from '../'
 import { Add, Container, Form, Input } from './Styles'
 import Card from './Card'
 
 export interface Props {
-  tagList: tagList,
-  _onTagAdd: Function,
-  _onTagRemove: Function,
+  tags: tags,
+  onTag: Function
 }
 
 export interface State {
@@ -15,44 +14,21 @@ export interface State {
 }
 
 class LocalContainer extends React.Component<Props, State> {
-  onTagAdd: Function
-  onTagRemove: Function
-
   state: State = {
     value: 'fill me with love...',
-    error: '',
+    error: ''
   }
 
-  constructor(props: Props) {
-    super(props)
-
-    this.onTagAdd = this.validate(
-      this.props._onTagAdd(
-        () => this.setState(() => ({value: ''}))
-      )
+  onTagAdd = (tagName: string) => tagName.length > 1 &&
+    this.props.onTag((tags: tags) =>
+      new Set(tags.add(tagName))
+    , () => this.setState(() => ({value: ''}))
     )
-    this.onTagRemove = this.props._onTagRemove()
-  }
 
-  validate = (fn: Function) =>
-    (e: any) => {
-      const { tagList } = this.props
-      let { value } = this.state
-
-      value = value.trim()
-      return value.length === 0 ?
-        this.onError("YOU'RE TOO SHORT") : // extract error
-        tagList.has(value) ?
-          this.onError('TAG ALREADY EXISTS') :
-          fn(value)
-    }
-
-  onError = (error: string) => {
-    this.state.error || this.setState(
-      ({value}) => ({value, error}),
-      () => setTimeout(() => this.setState(() => ({error: ''})), 1000)
+  onTagRemove = (tagName: string) =>
+    this.props.onTag((tags: tags) =>
+      tags.delete(tagName) && new Set(tags)
     )
-  }
 
   onChange = (e: any) => {
     const { value } = e.target
@@ -60,20 +36,16 @@ class LocalContainer extends React.Component<Props, State> {
     this.setState(() => ({value}))
   }
 
-  createTags = () => {
-    const tagList = []
-
-    for (const tagName of this.props.tagList) {
-      const tag = <Card
+  createTags = function * (tags: tags){
+    for (const tagName of tags) {
+      const card = <Card
         key={tagName}
         tagName={tagName}
-        _onClick={this.onTagRemove}
+        _onClick={() => this.onTagRemove(tagName)}
       />
 
-      tagList.push(tag)
+      yield card
     }
-
-    return tagList
   }
 
   render() {
@@ -85,10 +57,10 @@ class LocalContainer extends React.Component<Props, State> {
           value={this.state.value}
           onChange={this.onChange}
         />
-        <Add onClick={() => this.onTagAdd()}>
+        <Add onClick={() => this.onTagAdd(this.state.value)}>
           <span>Attach tag</span>
         </Add>
-        {this.createTags()}
+        {Array.from(this.createTags(this.props.tags))}
       </Form>
     )
   }
