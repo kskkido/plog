@@ -1,7 +1,7 @@
 import * as React from 'react'
+import { KEYS } from 'Data/key'
 import { SubContainer as Container } from '../Styles'
 import { Container as SubContainer } from '../Preview/Styles'
-import { KEYS } from '../../../../../data/key'
 import Preview from '../Preview/Card'
 
 export interface Props {

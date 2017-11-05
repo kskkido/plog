@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Container } from './Styles'
-
 import Collapse from './Collapse'
 import Logo from './Logo'
 

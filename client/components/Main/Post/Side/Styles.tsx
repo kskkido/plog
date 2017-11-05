@@ -30,7 +30,6 @@ export const Input = styled.input`
 `
 
 export const Add = styled.div`
-  text-align: center;
   margin-top: 10px;
   padding-top: 5px;
   padding-bottom: 5px;

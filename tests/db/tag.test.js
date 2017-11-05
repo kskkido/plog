@@ -1,7 +1,9 @@
-const { expect } = require('chai'),
-      db = require('../../db'),
-      Article = db.model('article')
-      Tag = db.model('tag')
+import chai from 'chai'
+import db from '../../server/db'
+
+const { expect } = chai
+const Article = db.model('article')
+const Tag = db.model('tag')
 
 let dummyArticle,
     title = 'testArticle',

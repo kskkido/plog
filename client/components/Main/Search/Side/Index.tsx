@@ -4,31 +4,31 @@ import Tags from './Tags'
 import Title from './Title'
 
 export interface PropTags {
-  tags: any,
   queryTags: Set<string>,
-  onTagClick: Function
+  tags: any,
+  onTag: Function
 }
 
 export interface PropTitle {
   queryTitle: string,
-  onTitleChange: Function
+  onTitle: Function
 }
 
 export interface Props extends PropTags, PropTitle {}
 
 const Side = (props: Props) => {
-  const { tags, queryTags, queryTitle, onTagClick, onTitleChange} = props
+  const { tags, queryTags, queryTitle, onTag, onTitle} = props
 
   return (
     <Container>
       <Title
         queryTitle={queryTitle}
-        onTitleChange={onTitleChange}
+        onChange={onTitle}
       />
       <Tags
-        tags={tags}
         queryTags={queryTags}
-        onTagClick={onTagClick}
+        tags={tags}
+        onClick={onTag}
       />
     </Container>
   )

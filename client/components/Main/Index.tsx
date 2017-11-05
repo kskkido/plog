@@ -3,8 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 // import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 import { Container } from './Styles'
-import { fetchArticleId, fetchArticleTag, fetchTags } from '../../cms'
-
+import { fetchArticleId, fetchArticleTag, fetchTags } from 'Util/server'
 import Admin from './Admin'
 import Search from './Search'
 import Entry from './Entry/'
@@ -34,21 +33,18 @@ const Main = (props: Props) => {
         onToggleOn={onToggleOn}
         onToggleOff={onToggleOff}
       />
-      <Route render={({ location }) => {
-        return (
+      <Route render={({ location }) => (
           <Switch location={location}>
             <Route path='/admin' component={Admin} />
             <Route path='/post/:id?' component={Post} />
             <Route path='/search' render={(props: any) => (
               <Search {...props} fetchMethod={fetchTags} />
             )} />
-            <Route path='/entry/:id?' render={(props: any) => (
-              <Entry {...props} fetchMethod={fetchArticleId} />
-            )} />
+            <Route path='/entry/:id?' component={Entry} />
             <Route exact path='/' component={Preview} />
           </Switch>
         )
-      }}
+      }
       />
     </Container>
   )

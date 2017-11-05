@@ -2,10 +2,9 @@ import * as React from 'react'
 import  * as ScrollMagic from 'scrollmagic'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from '../reducers'
-import { fetchRecent } from '../reducers/fetch'
-import { Dispatch } from '../reducers/util'
-
+import { RootState } from 'Reducer'
+import { fetchInitial } from 'Reducer/fetch'
+import { Dispatch } from 'Util/reducer'
 import Content from './Main'
 import Preload from './Preload'
 
@@ -21,7 +20,7 @@ export interface PropState {
 }
 
 export interface PropDispatch {
-  fetchRecent: () => void
+  fetchInitial: () => void
 }
 
 export interface Props extends PropState, PropDispatch {
@@ -37,7 +36,7 @@ class LocalContainer extends React.Component<Props, State> {
   }
 
   componentWillMount() {
-    this.props.fetchRecent()
+    this.props.fetchInitial()
   }
 
   render() {
@@ -54,7 +53,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchRecent: () => dispatch(fetchRecent)
+  fetchInitial: () => dispatch(fetchInitial)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LocalContainer))

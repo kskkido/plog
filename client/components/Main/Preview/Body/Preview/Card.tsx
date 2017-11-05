@@ -22,7 +22,7 @@ const Preview = (props: Props) => {
           {data.title}
         </TextHeader>
         <TextContent>
-          {data.content}
+          {data.preview}
         </TextContent>
       </TextContainer>
       <PreviewLink local={local} url={url}>

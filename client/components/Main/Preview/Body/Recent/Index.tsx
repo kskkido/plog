@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import Preview from '../Preview'
-import { RootState } from '../../../../../reducers'
-import { KEYS } from '../../../../../data/key'
+import { RootState } from 'Reducer'
 
 export interface PropState {
   navigation: any

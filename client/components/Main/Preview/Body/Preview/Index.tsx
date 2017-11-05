@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Container, ImageContainer, TextContainer, TextContent, TextHeader } from './Styles'
-import { RootState } from '../../../../../reducers'
-import { selectItem } from '../../../../../reducers/selector'
+import { RootState } from 'Reducer'
+import { selectItem } from 'Reducer/selector'
 import Card from './Card'
 import Slide from '../Slide'
 

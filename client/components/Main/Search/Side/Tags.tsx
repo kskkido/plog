@@ -2,7 +2,7 @@ import * as React from 'react'
 import { List, ListRow, ListCell } from './Styles'
 import { PropTags } from './'
 
-const createList = ({tags, queryTags, onTagClick}: PropTags) =>
+const createList = ({tags, queryTags, onClick}: PropTags) =>
   tags.map((tag: any, i: number) => {
     const [ tagName ] = tag
 
@@ -10,7 +10,7 @@ const createList = ({tags, queryTags, onTagClick}: PropTags) =>
       <ListRow
         key={tagName}
         active={queryTags.has(tagName)}
-        onClick={() => onTagClick(tagName, i)}
+        onClick={() => onClick(tagName, i)}
       >
         <ListCell>
           {tagName}

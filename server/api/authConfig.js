@@ -1,6 +1,6 @@
-const { env, baseUrl } = require('../..')
+import { env } from '../..'
 
-module.exports = {
+export default {
   google: {
     authorization: {
       clientID: env.GOOGLE_CLIENT_ID || 'blah',

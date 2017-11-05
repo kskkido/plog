@@ -19,28 +19,21 @@ export const Body = styled.section`
   overflow: hidden;
 `
 
-export const EntryContainer = styled.div`
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
-`
+// export const HeaderContainer = styled.div`
 
-export const HeaderContainer = styled.div`
+// `
 
-`
+// export const HeaderText = styled.div`
 
-export const HeaderText = styled.div`
+// `
 
-`
+// export const HeaderImage = styled.div`
 
-export const HeaderImage = styled.div`
+// `
 
-`
+// export const TagContainer = styled.div`
+// `
 
-export const TagContainer = styled.div`
-`
+// export const SideContainer = styled.div`
 
-export const SideContainer = styled.div`
-
-`
+// `

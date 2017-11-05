@@ -1,4 +1,3 @@
-import { toUrl } from '../cms/util'
 import { KEYS } from './key'
 
 export type entry = {
@@ -15,7 +14,7 @@ export const ARTICLE: sublist= new Map([
     local: true,
     data: {
       title: 'ARTICLE1',
-      content: 'bleh bleh bleh article1'
+      preview: 'bleh bleh bleh article1'
     },
     url: '/entry/ARTICLE1'
   }],
@@ -23,7 +22,7 @@ export const ARTICLE: sublist= new Map([
     local: true,
     data: {
       title: 'ARTICLE2',
-      content: 'bleh bleh bleh article2'
+      preview: 'bleh bleh bleh article2'
     },
     url: ''
   }],
@@ -31,7 +30,7 @@ export const ARTICLE: sublist= new Map([
     local: true,
     data: {
       title: 'ARTICLE3',
-      content: 'bleh bleh bleh article3'
+      preview: 'bleh bleh bleh article3'
     },
     url: ''
   }]
@@ -42,7 +41,7 @@ export const PROJECT: sublist = new Map([
     local: false,
     data: {
       title: 'AUDIOSPHERE',
-      content: 'bleh bleh bleh audiosphere burhhhhh'
+      preview: 'bleh bleh bleh audiosphere burhhhhh'
     },
     url: 'https://audiosphere.herokuapp.com/'
   }],
@@ -50,7 +49,7 @@ export const PROJECT: sublist = new Map([
     local: false,
     data: {
       title: 'STACKQUEST',
-      content: 'bleh bleh bleh STACKQUEST'
+      preview: 'bleh bleh bleh STACKQUEST'
     },
     url: 'http://stackquest.herokuapp.com/'
   }],
@@ -58,7 +57,7 @@ export const PROJECT: sublist = new Map([
     local: false,
     data: {
       title: 'PORTFOLIO',
-      content: 'bleh bleh bleh PORTFOLIO'
+      preview: 'bleh bleh bleh PORTFOLIO'
     },
     url: 'http://www.kskido.me/'
   }]
@@ -82,16 +81,16 @@ export const CONTACT: sublist = new Map([
   }]
 ])
 
-export const DICTIONARY = new Map([[KEYS.ARTICLE, ARTICLE], [KEYS.PROJECT, PROJECT], [KEYS.CONTACT, CONTACT]])
+// export const DICTIONARY = new Map([[KEYS.ARTICLE, ARTICLE], [KEYS.PROJECT, PROJECT], [KEYS.CONTACT, CONTACT]])
 
-export const setDictionary = (key: string) => {
-  const _dictionary = DICTIONARY.get(key) || ((map) =>(DICTIONARY.set(key, map), map))(new Map())
+// export const setDictionary = (key: string) => {
+//   const _dictionary = DICTIONARY.get(key) || ((map) =>(DICTIONARY.set(key, map), map))(new Map())
 
-  return (data: {title: string, content: string, [key: string]: any}) =>
-    _dictionary.set(data.title.toUpperCase(), {
-        local: true,
-        data,
-        url: `/entry/${toUrl(data.title)}`
-      })
-}
+//   return (data: {title: string, content: string, [key: string]: any}) =>
+//     _dictionary.set(data.title.toUpperCase(), {
+//         local: true,
+//         data,
+//         url: `/entry/${toUrl(data.title)}`
+//       })
+// }
 

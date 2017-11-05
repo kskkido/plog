@@ -21,7 +21,7 @@ const Factory = (Component: any) => {
         <Component
           {...this.props}
           toggle={toggle}
-          onChange={this.onToggle}
+          onToggle={this.onToggle}
         />
       )
     }

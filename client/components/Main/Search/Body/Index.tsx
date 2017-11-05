@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Filter from '../../../HOC/Filter'
+import Filter from 'HOC/Filter'
 import { Container, CardContainer } from './Styles'
 import Card from './Card'
 
