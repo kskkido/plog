@@ -18,7 +18,6 @@ export interface Props {
 }
 
 const Entry = (props: Props) => {
-  console.log(props, 'entry')
 
   return (
     <Main>

@@ -24,13 +24,12 @@ export interface State {
   payload: any
 }
 
-
 const Factory = ({
   fetch,
   selector,
   cache,
   filter = identity,
-  query = (props: any) => []
+  query = (props: any) => [] // meh
 }: PreProps) => (Component: any) => {
   class LocalContainer extends React.Component<any, State> {
     state: State = {
