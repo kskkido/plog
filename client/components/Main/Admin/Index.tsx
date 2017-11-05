@@ -1,8 +1,8 @@
 import * as React from 'react' // list posted articles and be able to edit the articles
 import { connect } from 'react-redux'
 import { Main } from './Styles'
-import { RootState } from '../../../reducers'
-import { selectArticle } from '../../../reducers/selector'
+import { RootState } from 'Reducer'
+import { selectArticle } from 'Reducer/selector'
 import Body from './Body'
 import Side from './Side'
 

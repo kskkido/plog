@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { HEIGHT as HEADER_HEIGHT } from '../Header/Styles'
 
-export const MAIN_HEIGHT = 100 - HEADER_HEIGHT
+export const MAIN_HEIGHT = 100
 export const MAIN_WIDTH = 100
 export const OFFSET = 10
 
@@ -13,15 +13,7 @@ export const Main = styled.section`
 `
 
 export const Body = styled.section`
+  padding: 10px;
   height: 100%;
   width: 50%;
 `
-
-export const styleMap = { // doesn wook
-  CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2,
-  },
-};

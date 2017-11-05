@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Container, List, ListRow, ListCell } from './Styles'
-import { RootState } from '../../../../reducers'
-import { slideHorizontal } from '../../../../reducers/sublist'
-import { Dispatch } from '../../../../reducers/util'
-import { selectTitle } from '../../../../reducers/selector'
+import { RootState } from 'Reducer'
+import { slideHorizontal } from 'Reducer/sublist'
+import { Dispatch } from 'Reducer/util'
+import { selectTitle } from 'Reducer/selector'
 
 export interface PropState {
   activeIndex: number,

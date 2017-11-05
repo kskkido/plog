@@ -1,5 +1,8 @@
-const router = module.exports = require('express').Router()
-    , User = require('../../db').model('user')
+import express from 'express'
+import db from '../db'
+
+const router = express.Router()
+const User = db.model('user')
 
 router.param('id', (req, res, next, id) => {
   User.findById(id)
@@ -37,3 +40,5 @@ router.route('/:id')
   .then(user => res.status(201).json(user))
   .catch(next)
 })
+
+export default router

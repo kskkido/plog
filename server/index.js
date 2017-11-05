@@ -1,14 +1,18 @@
-const { join } = require('path')
-		, bodyParser = require('body-parser')
-		, express = require('express')
-		, app = express()
-		, db = require('../db')
-		, session = require('express-session')
-		, SequelizeStore = require('connect-session-sequelize')(session.Store)
-		, dbStore = new SequelizeStore({db})
-		, passport = require('passport')
+import path from 'path'
+import bodyParser from 'body-parser'
+import express from 'express'
+import session from 'express-session'
+import sessionSequelize from 'connect-session-sequelize'
+import passport from 'passport'
+import db from './db'
+import api from './api'
+import { root } from '../'
 
-module.exports = app
+const app = express()
+const SequelizeStore = sessionSequelize(session.Store)
+const dbStore = new SequelizeStore({db})
+
+app
 // logging middleware
 	.use(require('morgan')('dev'))
 
@@ -36,15 +40,13 @@ module.exports = app
 	})
 
 // redirect to api routes
-	.use('/api', require('./api'))
-
-	.use(express.static(join(__dirname, '../client/public')))
+	.use(express.static(path.join(root, 'app/public')))
+	.use('/api', api)
 
 	.get('*', (req, res, next) => {
-		res.sendFile(join(__dirname, '../client/public/index.html'))
+		res.sendFile(path.join(root, 'app/public/index.html'))
 	})
 
-// error handling middlware
 	.use((err, req, res, next) => {
 		console.error(err)
 		res.status(err.status || 500).send(err.message || 'Internal server error')
@@ -66,3 +68,5 @@ if (module === require.main) {
 		}
 	)
 }
+
+export default app

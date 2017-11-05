@@ -7,7 +7,7 @@ import globalStyle from './components/Styles/Global'
 
 injectGlobal`${globalStyle}`
 
-export const App = () => (
+export default () => (
   <BrowserRouter>
     <Main />
   </BrowserRouter>

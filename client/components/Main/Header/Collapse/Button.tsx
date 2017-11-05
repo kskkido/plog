@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { onHoverShape, onToggleShape, onToggleOnCallback, onToggleOffCallback } from './animation'
 import { ButtonContainer as Container } from '../Styles'
-import ButtonSVG from '../../../HOC/ButtonSVG'
+import ButtonSVG from 'HOC/ButtonSVG'
 import SVG from './SVG'
 
 export interface Props {

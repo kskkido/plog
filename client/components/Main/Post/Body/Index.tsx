@@ -1,9 +1,13 @@
 import * as React from 'react'
 import { Editor, EditorState, RichUtils } from 'draft-js'
+import createImagePlugin from 'draft-js-image-plugin'
+import { styleMap } from './config'
 import { Body as Container } from '../Styles'
 
 import Block from './Block'
 import Inline from './Inline'
+
+const imagePlugin = createImagePlugin()
 
 export interface Props {
   content: any,
@@ -46,6 +50,8 @@ class LocalContainer extends React.Component<Props, {}> {
           onChange={this.props.onChange}
           onTab={this.onTab}
           spellCheck={true}
+          customStyleMap={styleMap}
+          plugins={[imagePlugin]}
         />
       </Container>
     )

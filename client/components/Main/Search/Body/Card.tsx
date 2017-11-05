@@ -12,10 +12,8 @@ const Card = (props: Props) => {
 
   return (
     <Container>
-      <Link to={payload.url || 'url'}>
-        <h1>{data.title}</h1>
-        <p>{data.content}</p>
-      </Link>
+      <h1>{data.title}</h1>
+      <p>{data.preview}</p>
     </Container>
   )
 }

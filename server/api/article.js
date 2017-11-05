@@ -1,6 +1,9 @@
-const router = module.exports = require('express').Router(),
-      Article = require('../../db').model('article'),
-      { createTag, toString } = require('../util')
+import express from 'express'
+import db from '../db'
+import { createTag } from '../util'
+
+const router = express.Router()
+const Article = db.model('article')
 
 router.param('id', (req, res, next, id) =>
   Article.findById(id)
@@ -16,7 +19,7 @@ router.param('id', (req, res, next, id) =>
 
 router.route('/')
 .get((req, res, next) => {
-  Article.findAll()
+  Article.findAll({attributes: {exclude: ['content']}})
     .then((articles) => res.json(articles))
     .catch(next)
 })
@@ -36,16 +39,16 @@ router.route('/recent')
     .catch(next)
 })
 
-router.route('/public')
+router.route('/private')
 .get((req, res, next) => {
-  Article.findPublic()
+  Article.findPrivate()
     .then(articles => res.json(articles))
     .catch(next)
 })
 
-router.route('/private')
+router.route('/public')
 .get((req, res, next) => {
-  Article.findPrivate()
+  Article.findPublic()
     .then(articles => res.json(articles))
     .catch(next)
 })
@@ -62,3 +65,5 @@ router.route('/:id')
     })
     .catch(next)
 })
+
+export default router

@@ -9,11 +9,12 @@ export interface Props {
 
 const PreviewLink = (props: Props) =>
   props.local ?
-  <Link to={props.url || '/'}>
-    {props.children && props.children}
-  </Link> :
-  <a href={props.url} target="_blank" rel="noopener noreferrer">
-    {props.children && props.children}
-  </a>
+    <Link to={props.url || '/'}>
+      {props.children && props.children}
+    </Link>
+      :
+    <a href={props.url} target="_blank" rel="noopener noreferrer">
+      {props.children && props.children}
+    </a>
 
 export default PreviewLink

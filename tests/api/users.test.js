@@ -1,8 +1,10 @@
-const request = require('supertest')
-    , { expect } = require('chai')
-    , db = require('../../db')
-    , User = db.model('user')
-    , app = require('../../server')
+import request from 'request'
+import chai from 'chai'
+import app from '../../server'
+import db from '../../server/db'
+
+const { expect } = chai
+const User = db.model('user')
 
 /* ====== DEFINE DUMMY DATA ====== */
 const numberOfUsers = 3

@@ -2,9 +2,10 @@
 // module.exports getters that check for environment variables
 // some how make symlink work like bones
 const { join } = require('path')
-    , pkg = require('./package.json')
-    , env = require('process').env
-    , customEnv = join(env.HOME, `.${pkg.name}.env.json`)
+const pkg = require('./package.json')
+const process = require('process')
+const { env } = process
+const customEnv = join(env.HOME, `.${pkg.name}.env.json`)
 
 try {
   Object.assign(env, require(customEnv))
@@ -13,13 +14,12 @@ try {
 }
 
 module.exports = {
-  get name() { return pkg.name },
-  get port() {
-    return env.PORT || 1337
-  },
   get baseUrl() {
     return env.BASE_URL || `http://localhost:${module.exports.port}`
   },
+  get name() { return pkg.name },
+  get port() { return env.PORT || 1337 },
+  get root () { return process.cwd() },
   package: pkg,
   env,
 }

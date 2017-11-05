@@ -1,47 +1,40 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Body, Main } from './Styles'
-import Factory from '../../HOC/Fetch'
-import { toTitle } from '../../../cms/util'
-import { RootState } from '../../../reducers'
-import { selectArticle } from '../../../reducers/selector'
-
-import Content from './Content'
+import { Main } from './Styles'
+import Fetch from 'HOC/Fetch'
+import { articleDictionary } from 'Reducer/dictionary'
+import { selectArticle } from 'Reducer/selector'
+import { compose } from 'Util/decorator'
+import { getProps } from 'Util/getter'
+import { fetchArticleId } from 'Util/server'
+import Body from './Body'
 import Footer from './Footer'
 import Side from './Side'
 
-export interface PropState {
-  article: any
-}
-
-export interface Props extends PropState {
-  fetchMethod: Function,
+export interface Props {
+  payload: any,
   match?: any,
   location?: any
 }
 
-class LocalContainer extends React.Component<Props, {}> {
-  render() {
+const Entry = (props: Props) => {
+  console.log(props, 'entry')
 
-    return (
-      <Main>
-        <Side />
-        <Body>
-          <Content article={this.props.article} />
-        </Body>
-        <Footer />
-      </Main>
-    )
-  }
+  return (
+    <Main>
+      <Side />
+      <Body article={props.payload} />
+      <Footer />
+    </Main>
+  )
 }
 
-const mapStateToProps = (state: RootState, props: Props) => {
-  const articles = selectArticle(state),
-        { id } = props.match.params
+const Factory = Fetch({
+  cache: articleDictionary.set,
+  fetch: (props: any) => fetchArticleId(props.match.params.id),
+  filter: (article: any) => article.content,
+  query: (props: any) => [props.match.params.id]
+  selector: compose(getProps('data'), selectArticle),
+})
 
-  return {
-    article: articles.get(id)
-  }
-}
-
-export default connect<any, any, any>(mapStateToProps)(LocalContainer)
+export default Factory(Entry)

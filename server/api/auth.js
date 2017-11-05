@@ -1,7 +1,10 @@
-const router = module.exports = require('express').Router()
-    , User = require('../../db').model('user')
-    , passport = require('passport')
-    , configs = require('./authConfig')
+import express from 'express'
+import passport from 'passport'
+import configs from './authConfig'
+import db from '../db'
+
+const router = express.Router()
+const User = db.model('user')
 
 // define serialize and deserialize users
 passport.serializeUser((user, done) => {
@@ -52,6 +55,7 @@ passport.use(new (require('passport-local').Strategy)(
 ))
 
 // routes
+
 router.post('/login/local', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login'}))
 
 router.get('/login/:strategy', (req, res, next) => (
@@ -66,6 +70,7 @@ router.get('/logout', (req, res, next) => {
   req.logout()
   res.redirect('/api/auth/me')
 })
-
 // returns user object assign to session
 router.get('/me', (req, res) => res.json(req.user))
+
+export default router

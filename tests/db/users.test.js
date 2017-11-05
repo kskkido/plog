@@ -1,11 +1,12 @@
-const request = require('supertest')
-    , { expect } = require('chai')
-    , db = require('../../db')
-    , User = db.model('user')
-    , name = 'test1'
-    , email = 'test1@test.com'
-    , password = 'test1password'
+import request from 'supertest'
+import chai from 'chai'
+import db from '../../server/db'
 
+const { expect } = chai
+const User = db.model('user')
+const name = 'test1'
+const email = 'test1@test.com'
+const password = 'test1password'
 
 describe('User api', () => {
   before('Waiting to sync database', () => db.syncAndLaunch(() => console.log('complete sync')))

@@ -3,27 +3,24 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fromApi, fromState, toState } from './util'
 import { editorState, State as IndexState, tags, title } from '../'
-import { fetchArticleId, fetchDraft, saveArticle } from '../../../../cms'
-import { RootState } from '../../../../reducers'
-import { articleDictionary } from '../../../../reducers/dictionary'
-import { Dispatch } from '../../../../reducers/util'
-import { selectArticle } from '../../../../reducers/selector'
-
-export interface PropState {
-  article? : any
-}
+import { RootState } from 'Reducer'
+import { articleDictionary } from 'Reducer/dictionary'
+import { selectArticle } from 'Reducer/selector'
+import { Dispatch } from 'Util/reducer'
+import { fetchArticleId, fetchDraft, saveArticle } from 'Util/server'
+import Branch from './Branch'
 
 export interface PropDispatch {
   fetch: Function
 }
 
-export interface Props extends PropState, PropDispatch {
+export interface Props extends PropDispatch {
   match: any,
-  history: any
+  history: any,
+  payload?: any,
 }
 
 export interface State {
-  ready: boolean
   content: any,
   status: boolean,
   tags: tags | undefined,
@@ -32,73 +29,61 @@ export interface State {
 
 function Proxy (PostComponent: any) {
   class LocalContainer extends React.Component<Props, State> {
-    state: State = {
-      ready: true,
+    state: State = { // initialState
       content: undefined,
       status: false,
       tags: undefined,
       title: 'untitled',
     }
 
-    targetId: string | undefined
+    targetId: string | undefined = this.props.match.params.id
 
     componentWillMount() {
-      const { article } = this.props
+      const { payload } = this.props
 
-      if (article) {
-        this.targetId = article.id
-        this.convertToState(article)
-      }
+      payload && this.convertToState(payload)
+    }
+
+    shouldComponentUpdate() {
+      return false // temporarily
     }
 
     convertToState = (article: any) => this.setState(() => toState(article))
 
-    post = (state: IndexState) => {
+    save = (article: any, id?: number | string) =>
+      saveArticle(article, id)
+        .then((res: any) => this.props.cache(res.data) && res)
+
+    onUpdate = (state: IndexState) => {
       const article = fromState(state)
 
       this.targetId === undefined ?
-        saveArticle(article)
+        this.save(article)
           .then((res: any) => {
-            const { fetch, history } = this.props
-
             this.targetId = res.data.id
-            Promise.resolve(fetch(this.targetId))
-              .then(() => history.push(`/post/${this.targetId}`))
-          }) : // do some reducer action right here
-        saveArticle(article, this.targetId)
+            this.props.history.push(`/post/${this.targetId}`)
+          }) :
+        this.save(article, this.targetId)
     }
 
     render () {
-      const { ready, content, status, tags, title } = this.state
-
-      if (!ready) {
-        return <span>IR not ready</span>
-      }
+      const { content, status, tags, title } = this.state
 
       return <PostComponent
         content={content}
         status={status}
         tags={tags}
         title={title}
-        post={this.post}
+        onUpdate={this.onUpdate}
       />
     }
   }
 
-  const mapStateToProps = (state: RootState, props: Props): PropState => {
-    const { id } = props.match.params
-    const article = selectArticle(state).get(id)
-
-    return article === undefined ?
-      {} :
-      { article: article.data }
-  }
-
   const mapDispatchToProps = (dispatch: Dispatch, props: Props): PropDispatch => ({
-    fetch: (id: number | string) => dispatch(articleDictionary.set(id, fetchArticleId(id)))
+    cache: (article: any) => dispatch(articleDictionary.set(article))
   })
 
-  return withRouter(connect<any, any, any>(mapStateToProps, mapDispatchToProps)(LocalContainer))
+  return withRouter(connect<any, any, any>(null, mapDispatchToProps)(LocalContainer))
 }
 
 export default Proxy

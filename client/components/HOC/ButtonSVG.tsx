@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Container } from './Styles'
-import { createTree, identity, safeCurry, unaryCompose } from './util'
+import { compose, createTree, identity, maybeFn } from 'Util/decorator'
 
 /*
   INTERFACE
@@ -32,8 +32,7 @@ export interface Props {
   onToggleOffCallback?: Function,
 }
 
-export interface State {
-}
+export interface State {}
 
 const Factory = (SVG: any) => {
 
@@ -46,11 +45,11 @@ const Factory = (SVG: any) => {
     componentDidMount() {
       const { onHoverShape, onToggleShape, onToggleOnCallback, onToggleOffCallback } = this.props
 
-      this.onHoverShape = safeCurry(onHoverShape, noopTimeline)(this.svg)
-      this.onToggleShape = safeCurry(onToggleShape, noopTimeline)(this.svg)
+      this.onHoverShape = maybeFn(onHoverShape, noopTimeline)(this.svg)
+      this.onToggleShape = maybeFn(onToggleShape, noopTimeline)(this.svg)
       this.onToggleCallback = createTree(
-        unaryCompose((_: any) => this.onToggleShape.reverse(), onToggleOffCallback), // callback when button turns inactive
-        unaryCompose((_: any) => this.onToggleShape.play(), onToggleOnCallback) // callback when button turns active
+        compose((_: any) => this.onToggleShape.reverse(), onToggleOffCallback), // callback when button turns inactive
+        compose((_: any) => this.onToggleShape.play(), onToggleOnCallback) // callback when button turns active
       )
     }
 

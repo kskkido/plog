@@ -1,6 +1,8 @@
-const Tag = require('../db').model('tag')
+import db from './db'
 
-const createTag = (req, res, next) => {
+const Tag = db.model('tag')
+
+export const createTag = (req, res, next) => {
   const { tags } = req.body
   delete req.body.tags
 
@@ -17,9 +19,4 @@ const createTag = (req, res, next) => {
     next()
 }
 
-const toString = (param) => param.replace(/_/g, ' ')
-
-module.exports = {
-  createTag,
-  toString
-}
+export const toString = (param) => param.replace(/_/g, ' ')

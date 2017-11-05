@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { TweenLite } from 'gsap'
+import { NAVIGATION } from 'Data'
+import { RootState } from 'Reducer'
+import { actionCreators } from 'Reducer/main'
+import { arrToObj } from 'Util/converter'
+import { Dispatch } from 'Util/reducer'
 import { Container, List, ListCell, ListRow } from './Styles'
 import { scrollController } from '../../../'
-import { RootState } from '../../../../reducers'
-import { actionCreators } from '../../../../reducers/main'
-import { Dispatch } from '../../../../reducers/util'
-import { NAVIGATION } from '../../../../data'
-import { toArray, toHash } from './util'
 
 // global static
 
@@ -24,7 +24,7 @@ export interface Props extends PropState, PropDispatch {
 
 class LocalContainer extends React.Component<Props, {}> {
   childList = Array.from(NAVIGATION.keys())
-  childHash = toHash(this.childList)
+  childHash = arrToObj(this.childList)
 
   createTable () {
     const activeIndex = this.childHash[this.props.mainKey]

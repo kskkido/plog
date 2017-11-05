@@ -3,6 +3,7 @@ import { Editor, EditorState, RichUtils } from 'draft-js'
 import { Main } from './Styles'
 
 import Body from './Body'
+import Branch from './Branch'
 import Proxy from './Proxy'
 import Side from './Side'
 
@@ -15,7 +16,7 @@ export interface Props {
   status: boolean,
   tags: tags | null,
   title: title,
-  post: Function,
+  onUpdate: Function,
 }
 
 export interface State {
@@ -44,15 +45,14 @@ class LocalContainer extends React.Component<Props, State> {
     this.onPost(nextState)
   }
 
-  onPost = (state?: any) => this.props.post(state || this.state)
+  onPost = (state?: any) => this.props.onUpdate(state || this.state)
 
   onChange = (type: string) => (updateFn: any, cb?: Function) =>
     this.setState((state: State) => ({
         [type]: typeof updateFn === 'function' ?
           updateFn(state[type]) :
           updateFn
-      }), () => cb && cb()
-    )
+      }), () => cb && cb())
 
   onChangeContent = this.onChange('content')
   onChangeStatus = this.onChange('status')
@@ -82,4 +82,4 @@ class LocalContainer extends React.Component<Props, State> {
   }
 }
 
-export default Proxy(LocalContainer)
+export default Branch(Proxy(LocalContainer))

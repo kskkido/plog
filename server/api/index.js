@@ -1,16 +1,13 @@
-const api = module.exports = require('express').Router()
+import express from 'express'
+import auth from './auth'
+import article from './article'
+import draft from './draft'
+import tag from './tag'
+import user from './user'
 
-// branch out to routers
-api
-  .use('/auth', require('./auth'))
-  .use('/article', require('./article'))
-  .use('/draft', require('./draft'))
-  .use('/tag', require('./tag'))
-  .use('/user', require('./user'))
-
-// define error and send it to error handling middleware in server/index
-  .use((req, res, next) => {
-    const err = new Error('not found')
-    err.status = 404
-    next(err)
-  })
+export default express.Router()
+  .use('/article', article)
+  .use('/auth', auth)
+  .use('/draft', draft)
+  .use('/tag', tag)
+  .use('/user', user)

@@ -1,71 +1,93 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from '../../../reducers'
+import { RootState } from 'Reducer'
+import { identity } from 'Util/decorator'
+import { Dispatch } from 'Util/reducer'
+
+export interface PreProps {
+  fetch: Function,
+  selector: Function,
+  cache?: Function,
+  filter?: Function,
+  query?: Function,
+}
 
 export interface PropState {
   storePayload?: any
 }
 
-export interface Props extends PropState {
-  selector: Function,
-  fetch: Function,
-  query?: string[],
+export interface PropDispatch {
+  cache: any
 }
 
 export interface State {
-  ready: boolean,
   payload: any
 }
 
 
-const Factory = (Component: any) => {
-  class LocalContainer extends React.Component<Props, State> {
+const Factory = ({
+  fetch,
+  selector,
+  cache,
+  filter = identity,
+  query = (props: any) => []
+}: PreProps) => (Component: any) => {
+  class LocalContainer extends React.Component<any, State> {
     state: State = {
-      ready: false,
       payload: null
     }
 
     componentWillMount() {
-      const { fetch, storePayload } = this.props
+      this.attempt(this.props)
+    }
 
-      if (storePayload) {
-        this.onReady(storePayload)
+    attempt = (props: any) => {
+      const { cache, storePayload } = props
+
+      if (filter(storePayload)) {
+        this.ready(storePayload)
       } else {
-        fetch()
-          .then((res: any) => this.onReady(res.data))
+        fetch(props)
+          .then((res: any) => {
+            cache(res.data)
+            this.ready(res.data)
+          })
       }
     }
 
-    onReady = (payload: any) => {
-      this.setState(() => ({ ready: true, payload}))
-    }
+    ready = (payload: any) => this.setState(() => ({ payload }))
 
     render() {
-      const { ready, payload } = this.state
+      const { payload } = this.state
 
-      if (!ready) {
+      if (payload === null) {
         return <span>not ready dude</span>
       }
 
       return (
         <Component
-          {...this.props}
+          {...this.props} // currently sends both payload and storePayload currently...
           payload={payload}
         />
       )
     }
   }
 
-  const mapStateToProps = (state: RootState, props: Props): PropState => {
-    const { query, selector } = props
-          , storePayload = query ? selector(state, ...query) : props.selector(state)
+  const mapStateToProps = (state: RootState, props: any): PropState => {
+    const resolved = query(props)
+    const storePayload = selector(state, ...resolved)
 
-    return storePayload ?
+    return storePayload !== undefined ?
       { storePayload } :
       {}
-    }
+  }
 
-  return connect<any, any, any>(mapStateToProps)(LocalContainer)
+  const mapDispatchToProps = (dispatch: Dispatch): PropDispatch =>
+    cache instanceof Function ?
+      {cache: (payload: any) => dispatch(cache(payload))} :
+      {cache: identity}
+
+  return connect<any, any, any>(mapStateToProps, mapDispatchToProps)(LocalContainer)
 }
 
 export default Factory

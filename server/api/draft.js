@@ -1,4 +1,6 @@
-const router = module.exports = require('express').Router()
+import express from 'express'
+
+const router = express.Router()
 
 router.route('/')
 .get((req, res, next) => {
@@ -17,3 +19,6 @@ router.route('/')
   req.session.draft[type] = payload
   res.sendStatus(204)
 })
+
+export default router
+
