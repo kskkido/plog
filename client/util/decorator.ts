@@ -55,3 +55,11 @@ export const unary = (fn: Function) =>
   function (arg?: any) {
     return fn.call(this, arg)
   }
+
+export const withIndex = (fn: Function) => {
+  let index = 0
+
+  return function (arg: any) {
+    return fn.call(this, arg, index++)
+  }
+}

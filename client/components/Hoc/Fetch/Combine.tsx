@@ -5,15 +5,15 @@ import Async from './Async'
 import Local from './Local'
 
 const Factory = (test, asyncConfig, localConfig) => {
-  const AsyncBranch = Async(asyncConfig)
-  const LocalBranch = Local(localConfig)
-  const Combine = Branch(
-    test,
-    AsyncBranch
+  const AsyncFetch = Async(asyncConfig)
+  const LocalFetch = Local(localConfig)
+  const Combine = Branch(// runs async fetch if our reducer does not have content of our interest
+    (props: any) => test(props.payload),
+    AsyncFetch
   )
 
   return compose(
-    LocalBranch,
+    LocalFetch,
     Combine,
   ) // takes in component
 }

@@ -1,21 +1,17 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Card as Container } from './Styles'
+import Cards from 'HOC/Cards'
 
 export interface Props {
   payload: any
 }
 
-const Card = (props: Props) => {
-  const { payload } = props,
-        { data } = payload
-
-  return (
+const Card = ({ payload }: Props) => (
     <Container>
-      <h1>{data.title}</h1>
-      <p>{data.preview}</p>
+      <h1>{payload.title}</h1>
+      <p>{payload.preview}</p>
     </Container>
   )
-}
 
-export default Card
+export default Cards(Card)

@@ -7,8 +7,8 @@ import { Dispatch } from 'Util/reducer'
 export interface PreProps {
   fetch: Function,,
   cache?: Function,
-  filter?: Function,
-  query?: Function,
+  filter: Function,
+  query: Function,
 }
 
 export interface PropDispatch {
@@ -21,9 +21,9 @@ export interface State {
 
 const Factory = ({
   fetch,
-  cache,
   filter = identity,
-  query = (props: any) => [] // meh
+  query = (props: any) => [], // meh
+  cache,
 }: PreProps) => (Component: any) => {
   class LocalContainer extends React.Component<any, aby> {
     constructor (props) {
@@ -39,17 +39,14 @@ const Factory = ({
       this.attempt(this.props)
     }
 
-    attempt = (props: any) => {
-      const { cache } = props
-
-      fetch(...query(props))
+    attempt = ({ cache }: any) =>
+      Promise.resolve(fetch(...query(props)))
         .then((res: any) => {
           const payload = filter(res)
 
           cache(payload)
           this.ready(payload)
         })
-    }
 
     ready = (payload: any) => this.setState(() => ({ payload }))
 

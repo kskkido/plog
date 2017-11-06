@@ -37,7 +37,7 @@ const localConfig = {
 const FetchBranch = Branch(
   (props: object) => props.match.params.id !== undefined,
   CombineFetch(
-    (props: object) => props.payload === undefined || props.payload.content === undefined,
+    (payload: any) => payload.content === undefined || payload.content === null,
     asyncConfig,
     localConfig
   )

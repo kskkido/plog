@@ -1,22 +1,22 @@
 import * as React from 'react'
 import Filter from 'HOC/Filter'
 import { Container, CardContainer } from './Styles'
-import Card from './Card'
+import { createFactory } from './util.tsx'
+import Cards from './Cards'
 
 export interface Props {
   generator: Function
 }
 
-const createCard = (entry: any, i: number) =>
-  <Card key={'card_' + entry.data.id} payload={entry} />
-
 const Content = ({ generator }: Props) => {
 
   return (
     <Container>
-      <CardContainer>
-        {Array.from(generator(createCard))}
-      </CardContainer>
+      <Cards
+        createCard={(factory: Function) => generator(factory)}
+        createFactory={createFactory}
+        width={'100%'}
+      />
     </Container>
   )
 }

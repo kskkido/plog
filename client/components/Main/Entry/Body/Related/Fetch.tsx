@@ -1,23 +1,25 @@
 import * as React from 'react'
 import { selectRelatedArticle } from 'Reducer/selector'
 import { RootState } from 'Reducer'
-import { callLeft } from 'Util/decorator'
+import { callLeft, log } from 'Util/decorator'
 import { getProps } from 'Util/getter'
-import { flatMapIterable, mapIterable } from 'Util/generator'
-import Fetch from 'HOC/Fetch'
+import { flatMapIterable, filterIterable, mapIterable } from 'Util/generator'
+import { filterId } from './util'
+import Local from 'HOC/Fetch/Local'
 
 
 interface PropBase {
   article: any
 }
 
-const Factory = Fetch({
-  query: (props: PropBase) => [props.article.tags.map(getProps('tagName'))]
-  selector: (state: RootState, tags: string[]) => {
-    const curried = callLeft(selectRelatedArticle, state)
+const Factory = Local({
+  fetch: (state: RootState, tags: string[], id: string) => {
+    const select = callLeft(selectRelatedArticle, state)
+    const filter = filterId(id)
 
-    return new Map(flatMapIterable(curried, tags))
-  }
+    return Array.from(filterIterable(filter, flatMapIterable(select, tags)))
+  },
+  query: (props: PropBase) => [props.article.tags.map(getProps('tagName')), props.article.id]
 })
 
 export default Factory

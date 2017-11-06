@@ -21,7 +21,7 @@ const localConfig = {
 }
 
 const Combined = Combine(
-  (props: any) => props.payload.content === undefined,
+  (payload: any) => payload.content === undefined,
   asyncConfig,
   localConfig
 )
