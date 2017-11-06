@@ -5,7 +5,7 @@ import { identity } from 'Util/decorator'
 import { Dispatch } from 'Util/reducer'
 
 export interface PreProps {
-  fetch: Function,
+  fetch?: Function,
   selector: Function,
   cache?: Function,
   filter?: Function,
@@ -46,7 +46,7 @@ const Factory = ({
       if (filter(storePayload)) {
         this.ready(storePayload)
       } else {
-        fetch(props)
+        fetch && fetch(props)
           .then((res: any) => {
             cache(res.data)
             this.ready(res.data)
@@ -73,8 +73,7 @@ const Factory = ({
   }
 
   const mapStateToProps = (state: RootState, props: any): PropState => {
-    const resolved = query(props)
-    const storePayload = selector(state, ...resolved)
+    const storePayload = selector(state, ...query(props))
 
     return storePayload !== undefined ?
       { storePayload } :

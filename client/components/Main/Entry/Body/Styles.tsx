@@ -41,8 +41,20 @@ export const Meta = styled.h4`
 
 export const CardContainer = styled.div`
   padding 40px 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
+`
 
+export const Card = styled.div`
+  margin: 20px 5px;
+  padding: 5px 10px;
+  height: 250px;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  border-width: 1px;
 `

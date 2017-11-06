@@ -1,16 +1,14 @@
 import * as React from 'react'
-import * as Html from 'html-to-react'
 import { EntryContainer as Container, Content, Image, Header, Title, Meta } from './Styles'
+import Parser from 'HOC/Parser'
 
 export interface Props {
   article: any
 }
 
-const htmlToReact = new Html.Parser()
-
 const Entry = (props: Props) => {
   const { article } = props
-  const Parsed = htmlToReact.parse(article.content)
+  const Parse = Parser()
 
   return (
     <Container>
@@ -20,7 +18,7 @@ const Entry = (props: Props) => {
         <Meta>{article.date && article.date.slice(0, 10)}</Meta>
       </Header>
       <Content>
-      { Parsed}
+        <Parse html={article.content} />
       </Content>
     </Container>
   )
