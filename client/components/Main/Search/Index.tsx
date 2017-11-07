@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { TweenLite } from 'gsap'
 import { Main } from './Styles'
 import Factory from 'HOC/Fetch'
-import { selectArticle, selectPublicArticle, selectTag } from 'Reducer/selector'
+import { selectArticle, selectPublicArticle, selectRelevantTag } from 'Reducer/selector'
 import { fetchArticles } from 'Util/server'
 import Body from './Body'
 import Side from './Side'
@@ -20,7 +21,14 @@ export interface State {
 }
 
 class LocalContainer extends React.Component<Props, State> {
-  static scrollTop: Function = () => window.scrollTo(0, 0)
+  static scrollTop: Function = () => {
+    const body = document.body
+
+    TweenLite
+      .to(body, 0.4, {
+        scrollTop: 0,
+      })
+  }
 
   state: State = {
     queryTags: new Set(),
@@ -56,13 +64,13 @@ class LocalContainer extends React.Component<Props, State> {
           onTag={this.onTag}
           onTitle={this.onTitle}
         />
-        <Body
-          data={articles}
-          query={{
-            tags: Array.from(queryTags),
-            title: queryTitle
-          }}
-        />
+          <Body
+            data={articles}
+            query={{
+              tags: Array.from(queryTags),
+              title: queryTitle
+            }}
+          />
       </Main>
     )
   }
@@ -70,7 +78,7 @@ class LocalContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any): PropState => {
   const articleMap = selectPublicArticle(state)
-  const tagMap = selectTag(state)
+  const tagMap = selectRelevantTag(state)
 
   return {
     articles: Array.from(articleMap.values()),

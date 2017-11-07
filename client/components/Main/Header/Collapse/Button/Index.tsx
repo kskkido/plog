@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { onHoverShape, onToggleShape, onToggleOnCallback, onToggleOffCallback } from './animation'
-import { ButtonContainer as Container } from '../Styles'
-import ButtonSVG from 'HOC/ButtonSVG'
 import SVG from './SVG'
 
 export interface Props {
@@ -10,13 +8,11 @@ export interface Props {
   onToggleOff: Function,
 }
 
-const Wrapped = ButtonSVG(SVG)
-
 const Button = (props: Props) => {
   const { toggle, onToggleOn, onToggleOff } = props
 
   return (
-      <Wrapped
+      <SVG
         toggle={toggle}
         onChange={(_toggle: boolean) => _toggle ? onToggleOff() : onToggleOn()}
         onHoverShape={onHoverShape}

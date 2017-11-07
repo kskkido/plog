@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { MAIN_HEIGHT } from '../Styles'
 import { OFFSET as SIDE_WIDTH } from '../Body/Styles'
 
@@ -26,21 +26,31 @@ export const List = styled.ul`
 `
 
 export const ListRow = styled.li`
+  position: relative;
   padding: 0;
+  width: ${NAVIGATION_WIDTH}%;
   display: table-row;
-  background-color: ${(props: Props) => props.active ? 'black' : 'grey'};
   cursor: ${(props: Props) => props.active ? 'default' : 'pointer'};
-
-  &:after {
-    content: '';
-    height: 1px;
-    background-color: white;
-    width: ${NAVIGATION_WIDTH}%;
-  }
 `
 
 export const ListCell = styled.div`
   text-align: center;
   vertical-align: middle;
   display: table-cell;
+`
+
+export const Slider = styled.div`
+  position: absolute;
+  height: ${(HEIGHT - 5) / 4}%;
+  width: 100%;
+  z-index: -1;
+`
+
+export const Line = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 30%;
+  border: 1px solid white;
+  transform: translate(-50%, -50%);
 `

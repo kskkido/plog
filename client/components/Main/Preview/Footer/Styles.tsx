@@ -30,18 +30,29 @@ export const List = styled.ul`
 export const ListRow = styled.li`
   padding: 0;
   flex: 1;
-  background-color: ${(props: PropsRow) => props.active ? 'black' : 'grey'};
   cursor: pointer;
-
-  &:after {
-    content: '';
-    height: 1px;
-    background-color: white;
-    width: 100%;
-  }
 `
 
 export const ListCell = styled.div`
-  vertical-align: middle;
-  display: table-cell;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const Slider = styled.div`
+  position: absolute;
+  height: 100%;
+  width: ${(props) => `${90 / props.length}`}%;
+  z-index: -1;
+`
+
+export const Line = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40%;
+  border: 1px solid white;
+  transform: translate(-50%, -50%);
 `

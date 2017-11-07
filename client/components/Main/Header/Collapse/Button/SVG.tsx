@@ -1,4 +1,5 @@
 import * as React from 'react'
+import ButtonSVG from 'HOC/ButtonSVG'
 
 export interface Props {
   innerRef: Function,
@@ -18,4 +19,4 @@ const SVG = (props: Props) => {
   )
 }
 
-export default SVG
+export default ButtonSVG(SVG)

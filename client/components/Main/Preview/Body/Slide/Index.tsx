@@ -6,7 +6,7 @@ import Preview from '../Preview/Card'
 export interface Props {
   length: number,
   activeIndex: number,
-  children?: Function
+  children: Function
 }
 
 const Slide = (props: Props) => {
@@ -17,7 +17,7 @@ const Slide = (props: Props) => {
       previewCount={props.length}
       ratio={ratio * props.activeIndex}
     >
-      {props.children && props.children(ratio)}
+      {props.children(ratio)}
     </Container>
   )
 }

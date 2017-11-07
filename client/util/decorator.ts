@@ -18,6 +18,14 @@ export const identity = (i: any) => i
 
 export const invoke = (property: string) => (obj: dataObject) => obj[property]()
 
+export const log = (fn: Function, string?: string) =>
+function (...args: any[]) {
+  console.log('LOG', fn, args)
+  string && console.log(string)
+
+  return fn.apply(this, args)
+}
+
 export const mapWith = (fn: mapFn) => (list: any[]) => list.map(fn)
 
 export const maybeFn = (fn: any, option: object = {}): Function =>
@@ -35,14 +43,6 @@ export const memoize = (fn: Function) => {
   }
 }
 
-export const log = (fn: Function, string?: string) =>
-  function (...args: any[]) {
-    console.log('LOG', fn, args)
-    string && console.log(string)
-
-    return fn.apply(this, args)
-  }
-
 export const tap = (fn: Function, arg: any) => {
   const curried = (_arg: any) => (fn(_arg), _arg)
 
@@ -55,3 +55,11 @@ export const unary = (fn: Function) =>
   function (arg?: any) {
     return fn.call(this, arg)
   }
+
+export const withIndex = (fn: Function) => {
+  let index = 0
+
+  return function (arg: any) {
+    return fn.call(this, arg, index++)
+  }
+}

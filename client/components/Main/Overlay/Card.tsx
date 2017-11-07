@@ -7,7 +7,7 @@ const Card = (props: Navigation) => {
   const { text, url } = props
 
   return (
-    <Container>
+    <Container className={'onEnter'}>
       <Link to={url || '/'}>
         {text || 'placeholder'}
       </Link>

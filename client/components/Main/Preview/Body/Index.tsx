@@ -8,10 +8,8 @@ import { actionCreators } from 'Reducer/main'
 import { Dispatch } from 'Reducer/util'
 import { Container, SubSection } from './Styles'
 import { scrollController } from '../../../'
-import Article from './Article'
 import Contact from './Contact'
-import Project from './Project'
-import Recent from './Recent'
+import Preview from './Preview'
 
 console.log(ScrollToPlugin)
 
@@ -25,10 +23,10 @@ export interface Props extends PropDispatch {
 export type componentList = any[]
 
 const components: componentList = [
-  Recent,
-  Article,
-  Project,
-  Contact,
+  () => <Preview mainKey="recent"/>,
+  () => <Preview mainKey="article"/>,
+  () => <Preview mainKey="project"/>,
+  () => <Contact />,
 ]
 
 class LocalContainer extends React.Component<Props, any> {
@@ -51,12 +49,12 @@ class LocalContainer extends React.Component<Props, any> {
     scrollController.removeScene(this.scenes)
   }
 
-  wrapChildren(list: componentList) {
-    return list.map((Component, i) => {
+  wrapList(list: componentList) {
+    return list.map((factory, i) => {
 
       return (
         <SubSection key={i} innerRef={(el: any) => (this.divs[i] = el, this.addToScene(el, i))} >
-          <Component />
+          {factory()}
         </SubSection>
       )
     })
@@ -86,7 +84,7 @@ class LocalContainer extends React.Component<Props, any> {
 
     return (
       <Container>
-        {this.wrapChildren(components)}
+        {this.wrapList(components)}
       </Container>
     )
   }

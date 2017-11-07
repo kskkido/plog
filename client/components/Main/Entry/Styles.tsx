@@ -14,6 +14,7 @@ export const Main = styled.section`
 
 export const Body = styled.section`
   margin-left: ${OFFSET}vw;
+  margin-bottom: ${HEADER_HEIGHT}vh;
   height: auto;
   width: ${MAIN_WIDTH - OFFSET}%;
   overflow: hidden;

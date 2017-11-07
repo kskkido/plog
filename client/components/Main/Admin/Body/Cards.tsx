@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Card as Container, Button } from './Styles'
+import Cards from 'HOC/Cards'
 
 export interface Props {
   payload: any
@@ -19,4 +20,4 @@ const Card = ({ payload }: Props) => {
   )
 }
 
-export default Card
+export default Cards(Card)

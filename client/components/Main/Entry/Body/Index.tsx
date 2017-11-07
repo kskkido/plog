@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Body as Container } from '../Styles'
-import Content from './Content'
+import Fade from 'Transition/Fade'
+import Entry from './Entry'
 import Related from './Related'
 
 export interface Props {
@@ -9,7 +10,7 @@ export interface Props {
 
 const Body = (props: Props) => (
   <Container>
-    <Content {...props} />
+    <Entry {...props} />
     <Related {...props} />
   </Container>
 )

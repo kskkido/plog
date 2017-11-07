@@ -16,6 +16,7 @@ module.exports = {
       Data: join(CLIENT, 'data'),
       HOC: join(CLIENT, 'components/Hoc'),
       Reducer: join(CLIENT, 'reducer'),
+      Transition: join(CLIENT, 'components/Transition'),
       Util: join(CLIENT, 'util')
     },
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '*'],

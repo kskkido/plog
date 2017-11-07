@@ -13,13 +13,12 @@ const global = css`
     section {
       margin: 0;
       padding: 0;
-      border: 1px solid white;
+
     }
 
     div {
       margin: 0;
       padding: 0;
-      border 0px solid white;
     }
 
     a {
@@ -36,6 +35,7 @@ const global = css`
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      border 0px solid white;
     }
   }
 `
