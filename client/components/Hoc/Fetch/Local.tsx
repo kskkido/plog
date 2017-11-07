@@ -5,18 +5,18 @@ import { identity } from 'Util/decorator'
 
 export interface PreProps {
   fetch: Function,
-  filter?: Function,
-  query?: Function,
+  filter: Function,
+  query: Function,
 }
 
 export interface PropState {
-  storePayload?: any
+  payload: any
 }
 
 const Factory = ({
   fetch,
   filter = identity,
-  query = (props: any) => [] // meh
+  query = identity
 }: PreProps) => (Base: any) => {
   class LocalContainer extends React.Component<any, {}> {
 
@@ -28,14 +28,14 @@ const Factory = ({
 
       return (
         <Base
-          {...this.props} // currently sends both payload and storePayload currently...
+          {...this.props}
         />
       )
     }
   }
 
   const mapStateToProps = (state: RootState, props: any): PropState => {
-    const selected = fetch(state, ...query(props))
+    const selected = fetch(query(props))(state)
 
     return {
       payload: selected !== undefined ? filter(selected) : null

@@ -10,7 +10,8 @@ import {
   selectPublicArticle,
   selectPrivateArticle,
   selectRecentArticle,
-  selectRelatedArticle
+  selectRelatedArticle,
+  selectRelevantTag
 } from './dictionary'
 
 module.exports = {
@@ -23,5 +24,6 @@ module.exports = {
   selectPublicArticle,
   selectPrivateArticle,
   selectRecentArticle,
-  selectRelatedArticle
+  selectRelatedArticle,
+  selectRelevantTag
 }

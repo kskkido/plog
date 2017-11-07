@@ -9,6 +9,9 @@ const schema = {
     allowNull: false,
     unique: true,
     primaryKey: true,
+    set(value) {
+      this.setDataValue('tagName', value.toUpperCase())
+    }
   },
   count: {
     type: INTEGER,
@@ -17,14 +20,11 @@ const schema = {
 }
 
 const option = {
-  // defaultScope: {
-  //   include: [
-  //     {
-  //       model: db.model('article'),
-  //       attributes: ['id']
-  //     }
-  //   ]
-  // }
+  hooks: {
+    afterUpdate: (tag) => {
+      console.log(tag.getArticles, 'lol')
+    }
+  }
 }
 
 const classMethods = {

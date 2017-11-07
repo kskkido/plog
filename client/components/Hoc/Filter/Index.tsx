@@ -6,9 +6,8 @@ export interface Props {
   query?: Query
 }
 
-const Factory = (Wrapped: any) => ({ data, query }: Props) =>
+const Factory = (Base: any) => ({ data, query }: Props) =>
   query ?
-    <Wrapped generator={mapStream(filterStream(query)(data))} /> :
-    <Wrapped generator={mapStream(data)} />
-
+    <Base generator={mapStream(filterStream(query)(data))} /> :
+    <Base generator={mapStream(data)} />
 export default Factory

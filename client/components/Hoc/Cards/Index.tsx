@@ -9,8 +9,7 @@ interface Props {
 }
 
 const Factory = (Card: any) => ({ createCard, createFactory, height, width }: Props) => {
-  const factory = createFactory(Card)
-  const cardList = createCard(factory)
+  const cardList = createCard(createFactory(Card))
 
   return (
     <Container height={height} width={width}>

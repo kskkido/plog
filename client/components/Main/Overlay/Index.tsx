@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Container } from './Styles'
+import Transition from 'Transition/Overlay'
 
 import Card from './Card'
 
@@ -9,6 +10,7 @@ export type Navigation = {
 }
 
 export interface Props {
+  toggle: boolean,
   onToggleOff: Function
 }
 
@@ -18,13 +20,13 @@ const Navigations: Navigation[] = [
   {text: 'All articles', url: '/entry'}
 ]
 
-const Overlay = (props: Props) => {
+const Overlay = ({ onToggleOff }: Props) => {
 
   return (
-    <Container onClick={() => props.onToggleOff()}>
+    <Container onClick={() => onToggleOff()}>
       {Navigations.map((navigation) => <Card key={navigation.text} {...navigation} />)}
     </Container>
   )
 }
 
-export default Overlay
+export default Transition()(Overlay)

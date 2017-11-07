@@ -1,6 +1,7 @@
 import * as React from 'react'
 // import { TransitionGroup } from 'react-transition-group'
 import { Container } from './Styles'
+import Transition from 'Transition/Overlay'
 import Header from './Header'
 import Overlay from './Overlay'
 import Routes from './Routes'
@@ -20,7 +21,8 @@ const Main = (props: Props) => {
 
   return (
     <Container>
-      {toggle && <Overlay onToggleOff={onToggleOff} />}
+      <Overlay in={toggle} onToggleOff={onToggleOff} />
+      {/* {toggle && <Overlay onToggleOff={onToggleOff} />} */}
       <Header
         toggle={toggle}
         onToggleOn={onToggleOn}

@@ -13,7 +13,7 @@ const global = css`
     section {
       margin: 0;
       padding: 0;
-      border: 1px solid white;
+
     }
 
     div {

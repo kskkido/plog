@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Branch from 'HOC/Branch'
-import Fetch from 'HOC/Fetch'
 import Async from 'HOC/Fetch/Async'
 import CombineFetch from 'HOC/Fetch/Combine'
 import Local from 'HOC/Fetch/Local'
 import { compose } from 'Util/decorator'
 import { getProps } from 'Util/getter'
 import { fetchArticleId } from 'Util/server'
+import { RootState } from 'Reducer'
 import { articleDictionary } from 'Reducer/dictionary'
 import { selectArticle } from 'Reducer/selector'
 
@@ -22,16 +22,14 @@ import { selectArticle } from 'Reducer/selector'
 // )
 
 const asyncConfig = {
-  fetch: fetchArticleId,
+  fetch: (props: any) => fetchArticleId(props.match.params.id),
   filter: getProps('data'),
-  query: (props: any) => [props.match.params.id],
   cache: articleDictionary.set,
 }
 
 const localConfig = {
-  fetch: selectArticle,
-  filter: getProps('data'),
-  query: (props: any) => [props.match.params.id]
+  fetch: (props: any) => (state: RootState) => selectArticle(state, props.match.params.id),
+  filter: getProps('data')
 }
 
 const FetchBranch = Branch(

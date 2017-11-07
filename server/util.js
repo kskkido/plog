@@ -3,16 +3,15 @@ import db from './db'
 const Tag = db.model('tag')
 
 export const createTag = (req, res, next) => {
-  const { tags } = req.body
-  delete req.body.tags
+  let { tags } = req.body
 
-  tags && tags.length > 0 ?
+  return tags && tags.length > 0 ?
     Promise.all(tags.map((tagName) =>
       Tag.findOrCreate({where: {tagName}})
       .spread((tag) => tag)
     ))
       .then((_tags) => {
-        req.body.tagModels = _tags
+        req.body.tags = _tags
         next()
       })
       .catch(console.error) :

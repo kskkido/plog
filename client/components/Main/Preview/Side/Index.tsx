@@ -6,7 +6,8 @@ import { RootState } from 'Reducer'
 import { actionCreators } from 'Reducer/main'
 import { arrToObj } from 'Util/converter'
 import { Dispatch } from 'Util/reducer'
-import { Container, List, ListCell, ListRow } from './Styles'
+import { Container, Line, List, ListCell, ListRow, Slider } from './Styles'
+import { slide } from './util'
 import { scrollController } from '../../../'
 
 // global static
@@ -26,9 +27,11 @@ class LocalContainer extends React.Component<Props, {}> {
   childList = Array.from(NAVIGATION.keys())
   childHash = arrToObj(this.childList)
 
-  createTable () {
-    const activeIndex = this.childHash[this.props.mainKey]
+  componentWillReceiveProps(nextProps: Props) {
+    slide(this.ref, this.childHash[nextProps.mainKey])
+  }
 
+  createTable (activeIndex: number) {
     return this.childList.map((item, i) => {
       const active: boolean = activeIndex === i
 
@@ -37,6 +40,8 @@ class LocalContainer extends React.Component<Props, {}> {
           key={item + 'side'}
           active={active}
           onClick={() => active || this.handleClick(item, i)}
+          onMouseOver={() => this.handleMouseOver(i)}
+          onMouseOut={() => this.handleMouseOver(activeIndex)}
         >
           <ListCell>
             <span>{item}</span>
@@ -51,12 +56,20 @@ class LocalContainer extends React.Component<Props, {}> {
     scrollController.scrollTo(i)
   }
 
+  handleMouseOver = (i: number) => {
+    slide(this.ref, i)
+  }
+
   render () {
+    const activeIndex = this.childHash[this.props.mainKey]
 
     return (
       <Container>
+        <Slider innerRef={(div) => this.ref = div}>
+          <Line />
+        </Slider>
         <List>
-          {this.createTable()}
+          {this.createTable(activeIndex)}
         </List>
       </Container>
     )

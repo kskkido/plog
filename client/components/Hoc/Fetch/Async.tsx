@@ -6,9 +6,9 @@ import { Dispatch } from 'Util/reducer'
 
 export interface PreProps {
   fetch: Function,,
-  cache?: Function,
   filter: Function,
   query: Function,
+  cache?: Function,
 }
 
 export interface PropDispatch {
@@ -22,17 +22,17 @@ export interface State {
 const Factory = ({
   fetch,
   filter = identity,
-  query = (props: any) => [], // meh
+  query = identity,
   cache,
-}: PreProps) => (Component: any) => {
+}: PreProps) => (Base: any) => {
   class LocalContainer extends React.Component<any, aby> {
     constructor (props) {
       super(props)
 
-      const copy = Object.assign({}, props)
+      const copy = Object.assign({}, props, {payload: null})
       delete copy.cache
 
-      this.state = Object.assign({}, copy, {payload: null})
+      this.state = copy
     }
 
     componentWillMount() {
@@ -40,7 +40,7 @@ const Factory = ({
     }
 
     attempt = ({ cache }: any) =>
-      Promise.resolve(fetch(...query(props)))
+      Promise.resolve(fetch(query(props)))
         .then((res: any) => {
           const payload = filter(res)
 
@@ -56,7 +56,7 @@ const Factory = ({
       }
 
       return (
-        <Component
+        <Base
           {...this.state}
         />
       )

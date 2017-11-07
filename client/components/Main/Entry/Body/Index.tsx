@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Body as Container } from '../Styles'
+import Fade from 'Transition/Fade'
 import Entry from './Entry'
 import Related from './Related'
 

@@ -57,7 +57,7 @@ class LocalContainer extends React.Component<Props, State> {
           value={this.state.value}
           onChange={this.onChange}
         />
-        <Add onClick={() => this.onTagAdd(this.state.value)}>
+        <Add onClick={() => this.onTagAdd(this.state.value.toUpperCase())}>
           <span>Attach tag</span>
         </Add>
         {Array.from(this.createTags(this.props.tags))}

@@ -8,8 +8,10 @@ export interface Props {
 }
 
 const Card = ({ payload }: Props) => (
-    <Container>
-      <h1>{payload.title}</h1>
+    <Container className="onEnter">
+      <Link to={`/entry/${payload.id}`}>
+        <h2>{payload.title}</h2>
+      </Link>
       <p>{payload.preview}</p>
     </Container>
   )

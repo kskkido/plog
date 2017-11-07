@@ -4,6 +4,7 @@ import { RootState } from 'Reducer'
 import { CardContainer as Container } from '../Styles'
 import Cards from './Cards'
 import Fetch from './Fetch'
+import Fade from 'Transition/Fade'
 
 interface Props {
   payload: Map<any, any>

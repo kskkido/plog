@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Container, List, ListRow, ListCell } from './Styles'
+import { Container, Line, List, ListRow, ListCell, Slider } from './Styles'
 import { RootState } from 'Reducer'
 import { slideHorizontal } from 'Reducer/sublist'
 import { Dispatch } from 'Reducer/util'
 import { selectTitle } from 'Reducer/selector'
+import { slide } from './util'
 
 export interface PropState {
   activeIndex: number,
@@ -19,13 +20,19 @@ export interface Props extends PropState, PropDispatch {
 }
 
 class LocalContainer extends React.Component<Props, {}> {
+  componentWillReceiveProps(nextProps: Props) {
+    slide(this.ref, nextProps.activeIndex)
+  }
+
   handleClick = (i: number) => {
     this.props.slide(i)
   }
 
-  createTable = () => {
-    const { activeIndex, subList } = this.props
+  handleMouseOver = (i: number) => {
+    slide(this.ref, i)
+  }
 
+  createTable = (subList: any[], activeIndex: number) => {
     return subList.map((item: string, i: number) => {
       const active = activeIndex === i
 
@@ -34,6 +41,8 @@ class LocalContainer extends React.Component<Props, {}> {
           key={item + '_' + i}
           active={active}
           onClick={() => active || this.handleClick(i)}
+          onMouseOver={() => this.handleMouseOver(i)}
+          onMouseOut={() => this.handleMouseOver(activeIndex)}
         >
           <ListCell>
             <span>{item}</span>
@@ -48,8 +57,11 @@ class LocalContainer extends React.Component<Props, {}> {
 
     return (
       <Container>
+        <Slider length={subList.length} innerRef={(div: any) => this.ref = div}>
+          <Line />
+        </Slider>
         <List>
-          {this.createTable()}
+          {this.createTable(subList, activeIndex)}
         </List>
       </Container>
     )

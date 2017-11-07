@@ -11,7 +11,7 @@ const Card = ({ payload }: Props) => {
   const { data } = payload
 
   return (
-    <Container>
+    <Container className={'onEnter'}>
       <h1>{data.title}</h1>
       <Link to={`/entry/${data.id}`}>
         Click me

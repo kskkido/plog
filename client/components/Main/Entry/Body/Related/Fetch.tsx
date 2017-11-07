@@ -13,13 +13,14 @@ interface PropBase {
 }
 
 const Factory = Local({
-  fetch: (state: RootState, tags: string[], id: string) => {
+  fetch: (props: any) => (state: RootState) => {
+    const { id, tags } = props
     const select = callLeft(selectRelatedArticle, state)
     const filter = filterId(id)
-
+    console.log(id, tags, 'hmmm what ')
     return Array.from(filterIterable(filter, flatMapIterable(select, tags)))
   },
-  query: (props: PropBase) => [props.article.tags.map(getProps('tagName')), props.article.id]
+  query: (props: PropBase) => ({tags: props.article.tags.map(getProps('tagName')), id: props.article.id})
 })
 
 export default Factory

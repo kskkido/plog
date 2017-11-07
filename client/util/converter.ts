@@ -29,3 +29,14 @@ export const mapValue = (obj: object, fn: Function) => {
 
   return res
 }
+
+export const omit = (obj: object, exclude: any[]) => {
+  const hasOwn = Object.prototype.hasOwnProperty.bind(obj)
+  const res = {...obj}
+
+  for (const property of exclude) if (hasOwn(property)) {
+    delete res[property]
+  }
+
+  return res
+}

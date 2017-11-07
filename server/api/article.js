@@ -26,7 +26,7 @@ router.route('/')
 .post(createTag, ({ body }, res, next) => {
   Article.create({title: body.title, content: body.content}) // maybe have utility function to convert payload
     .then((article) => {
-      body.tagModels && article.setTags(body.tagModels)
+      article.setTags(body.tags)
       res.status(201).json({id: article.id})
     })
     .catch(next)
@@ -60,7 +60,7 @@ router.route('/:id')
 .put(createTag, ({ body, targetArticle }, res, next) => {
   targetArticle.update(body)
     .then(article => {
-      body.tagModels && article.setTags(body.tagModels)
+      article.setTags(body.tags)
       return res.status(201).json(article)
     })
     .catch(next)

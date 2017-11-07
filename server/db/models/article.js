@@ -22,7 +22,7 @@ const schema = {
     type: TEXT,
     allowNull: false,
     set(value) {
-      this.setDataValue('preview', value.slice(0, 50) + '...')
+      this.setDataValue('preview', value.slice(0, 100) + '...')
       this.setDataValue('content', value)
     },
   },
@@ -86,7 +86,7 @@ const classMethods = {
   },
   findPrivate () {
     return this.findAll({
-      where: { status: false}
+      where: { status: false }
     })
   }
 }
