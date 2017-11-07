@@ -10,11 +10,11 @@ export const Animation = (() => {
     const tl = new TimelineLite()
 
     return tl
-      .staggerFrom(children, 0.6, {
+      .staggerFrom(children, 0.5, {
         opacity: 0,
         y: '70px',
         clearProps: 'all'
-      }, 0.2)
+      }, 0.1)
   }
 
   const onExit = (target: any) => {
@@ -34,7 +34,7 @@ const Fade = (props: any) => {
       {...props}
       appear={true}
       exit={false}
-      timeout={800}
+      timeout={600}
       onEnter={Animation.onEnter}
     />
   )

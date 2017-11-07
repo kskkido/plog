@@ -14,6 +14,9 @@ export const Main = styled.section`
 
 export const Body = styled.section`
   padding: 10px;
-  height: 100%;
+  min-height: 100%;
   width: 50%;
+  display: block;
+  border-width: 0px 1px 0px 1px;
+  border-color: white;
 `

@@ -11,7 +11,7 @@ const Animation = (() => {
 
   const onEnter = (target: any) => {
     enter = new TimelineLite()
-    enter.add(Fade.onEnter(target), 0.4)
+    enter.add(Fade.onEnter(target), 0.5)
 
     return enter
       .to(target, 0.5, {
@@ -42,7 +42,7 @@ const Overlay = (props: any) => {
   return (
     <Transition
       {...props}
-      timeout={{enter: 1200, exit: 500}}
+      timeout={{enter: 1100, exit: 500}}
       onEnter={Animation.onEnter}
       onExit={Animation.onExit}
     />
