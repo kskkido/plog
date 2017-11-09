@@ -17,7 +17,7 @@ const db = new Sequelize(url, {
 // syncs database and runs callback if successful, called in ../server
 db.syncAndLaunch = (callback) => {
   const attemptSync = (reattempt = false) => {
-    db.sync({})
+    db.sync({force: true})
     .then(callback)
     .catch((err) => {
       console.error('failed to sync database')

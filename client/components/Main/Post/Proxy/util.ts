@@ -22,14 +22,14 @@ const mapTitle = createConvert('title')
 const mapTags = createConvert('tags')
 
 export const toApi = {
-  content: mapContent(stateFromHTML),
+  content: mapContent(identity),
   status: mapStatus(identity),
   tags: mapTags(compose(arrToSet, curriedMap(getMaybe('tagName')))),
   title: mapTitle(identity) || 'untitled article',
 }
 
 export const fromApi = {
-  content: mapContent(compose(stateToHTML, invoke('getCurrentContent'))),
+  content: mapContent(compose(JSON.stringify, convertToRaw, invoke('getCurrentContent'))),
   status: toApi.status,
   tags: mapTags(Array.from),
   title: toApi.title,

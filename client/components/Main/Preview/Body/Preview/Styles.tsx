@@ -14,7 +14,7 @@ export const Container = styled.div`
   float: left;
   margin: auto;
   height: ${PREVIEW_HEIGHT}%;
-  width: ${(props: Props) => PREVIEW_WIDTH /(props.previewCount || 1)}%;
+  width: ${(props: Props) => PREVIEW_WIDTH /(props.length || 1)}%;
 `
 
 /* ======= TEXT CONTAINER ======= */

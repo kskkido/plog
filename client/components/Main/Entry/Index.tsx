@@ -14,12 +14,13 @@ export interface Props {
 }
 
 const Entry = (props: Props) => {
+  const article = props.payload
 
   return (
     <Main>
       <Side />
-      <Body article={props.payload} />
-      <Footer />
+      <Body article={article} />
+      <Footer id={article.id}/>
     </Main>
   )
 }

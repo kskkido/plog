@@ -18,25 +18,24 @@ export interface Props extends PropState {
 export interface State {}
 
 class LocalContainer extends React.Component<Props, State> {
-
-  createCard = (ratio: number, subList: string[]) =>
-    subList.map((item: string, i: number, array: string[]) =>
-        <Card
-          key={item + '_' + i}
-          data={item}
-          previewCount={array.length}
-        />
-    )
-
   render() {
     const { activeIndex, subList } = this.props
 
     return (
       <Slide length={subList.length} activeIndex={activeIndex} >
-        {(ratio: number) => this.createCard(ratio, subList)}
+        {(ratio: number) => this.renderCard(ratio, subList)}
       </Slide>
     )
   }
+
+  renderCard = (ratio: number, subList: string[]) =>
+    subList.map((item: string, i: number, array: string[]) =>
+        <Card
+          key={item + '_' + i}
+          data={item}
+          length={array.length}
+        />
+    )
 }
 
 const mapStateToProps = (state: RootState, props: Props) => {

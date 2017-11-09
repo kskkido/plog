@@ -27,16 +27,11 @@ export const ListRow = styled.li`
   padding: 0;
   flex: 1;
   cursor: pointer;
-
-  &:after {
-    content: '';
-    height: 1px;
-    background-color: white;
-    width: 100%;
-  }
 `
 
 export const ListCell = styled.div`
-  vertical-align: middle;
-  display: table-cell;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

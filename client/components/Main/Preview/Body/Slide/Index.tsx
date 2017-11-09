@@ -10,12 +10,13 @@ export interface Props {
 }
 
 const Slide = (props: Props) => {
-  const ratio = 100 / props.length
+  const { activeIndex, length } = props
+  const ratio = 100 / length
 
   return (
     <Container
-      previewCount={props.length}
-      ratio={ratio * props.activeIndex}
+      previewCount={length}
+      ratio={ratio * activeIndex}
     >
       {props.children(ratio)}
     </Container>

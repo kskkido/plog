@@ -56,6 +56,7 @@ function Proxy (PostComponent: any) {
 
     onUpdate = (state: IndexState) => {
       const article = fromState(state)
+      console.log(article, 'wo')
 
       this.targetId === undefined ?
         this.save(article)

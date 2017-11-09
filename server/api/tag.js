@@ -9,8 +9,8 @@ router.route('/')
 .get((req, res, next) => {
   Tag.findAll({
     include: [{
-        model: Article,
-        attributes: ['id']
+      model: Article,
+      attributes: ['id']
     }]
   })
     .then((tags) => res.json(tags))
@@ -19,8 +19,16 @@ router.route('/')
 
 router.route('/:tagName')
 .get(({ params }, res, next) => {
-  Article.findByTag(params.tagName)
-    .then(res.json)
+  Tag.findOne({
+    where: {
+      tagName: params.tagName
+    },
+    include: [{
+      model: Article,
+      attributes: ['id']
+    }]
+  })
+    .then((tag) => res.json(tag))
     .catch(next)
 })
 

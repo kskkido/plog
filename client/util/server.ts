@@ -1,42 +1,48 @@
 import axios from 'axios'
+import { convertFromRaw } from 'draft-js'
 
-export type article = {
-  title: string,
-  content: string,
-  [key: string]: any
+const convertPayload = (article: object) => {
+  const { content } = article
+
+  article.content = convertFromRaw(JSON.parse(content))]
+  article.tags = article.tags || []
+  return article
 }
 
-export type tag = {
-  tagName: string,
-  [key: string]: any
-}
+const convertPromise = (fnPromise: Function) => (...args: any[]) =>
+  fnPromise(...args)
+    .then((res: any) => {
+      const { data } = res
 
-export type data = article | tag
+      return Object.assign(res, {
+        data: Array.isArray(data) ?
+          data.map(convertPayload) :
+          convertPayload(data)
+      })
+  })
 
-export type fetched = Promise<data | data[]>
-
-export const fetchArticles = () => axios.get(`/api/article`)
+export const fetchArticles = convertPromise(() => axios.get(`/api/article`))
 
 export const fetchTags = () => axios.get('/api/tag')
 
-export const fetchArticleId = (id: number | string) => axios.get(`/api/article/${id}`)
+export const fetchTag = (tagName: String) => axios.get(`/api/tag/${tagName}`)
+
+export const fetchArticleId = convertPromise((id: number | string) => axios.get(`/api/article/${id}`))
 
 export const fetchArticleTitle = (title: string ) => axios.get(`/api/article/${toUrl(title)}`)
 
 export const fetchArticlePublic = () => axios.get(`/api/article/public`)
 
-export const fetchArticleTag = (tag: string) => axios.get(`/api/tag/${toUrl(tag)}`)
-
 export const fetchDraft = () => axios.get('/api/draft')
 
-export const saveArticle = (data: {
+export const saveArticle = convertPromise((data: {
     title: string,
     content: any,
     tags: any,
     status: boolean
   },
   id?: number | string
-) => id === undefined ? axios.post('/api/article', data) : axios.put(`/api/article/${id}`, data)
+) => id === undefined ? axios.post('/api/article', data) : axios.put(`/api/article/${id}`, data))
 
 
 // import { DICTIONARY, setDictionary } from 'Data/dictionary'

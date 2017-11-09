@@ -22,7 +22,6 @@ const schema = {
     type: TEXT,
     allowNull: false,
     set(value) {
-      this.setDataValue('preview', value.slice(0, 100) + '...')
       this.setDataValue('content', value)
     },
   },
@@ -34,7 +33,7 @@ const schema = {
   },
   status: {
     type: BOOLEAN,
-    defaultValue: true,
+    defaultValue: false,
   },
   image: STRING,
   version: {
@@ -44,12 +43,6 @@ const schema = {
 }
 
 const options = {
-  defaultScope: {
-    include: [
-      { model: db.model('tag') }
-    ],
-    order: [['created_at', 'DESC']]
-  },
   hooks: {
     beforeUpdate: (article) => {
       article.version += 1
@@ -73,10 +66,7 @@ const classMethods = {
   },
   findRecent (limit = 50, condition = {}) {
     return this.findAll({
-      where: condition,
-      attributes: {
-        exclude: ['content']
-      }
+      where: condition
     })
   },
   findPublic () {
@@ -88,10 +78,27 @@ const classMethods = {
     return this.findAll({
       where: { status: false }
     })
+  },
+  createWithTag (scheme, tagModels = []) {
+    return this.create(scheme)
+      .then((article) => {
+        const p = tagModels.length > 0 && article.setTags(tagModels)
+
+        return Promise.resolve(p).then(() => article.id)
+      })
+      .then((id) => this.findById(id))
   }
 }
 
 const instanceMethods = {
+  updateWithTag (scheme, tagModels = []) {
+    return this.update(scheme)
+      .then((article) => {
+        const p = tagModels.length > 0 && article.setTags(tagModels)
+
+        return Promise.resolve(p).then(() => article)
+      })
+  }
 }
 
 export default (() => {

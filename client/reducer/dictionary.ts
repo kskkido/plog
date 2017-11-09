@@ -1,9 +1,14 @@
 // generic parameters are used to define value types, not value itself
+import { convertFromRaw, convertToRaw } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
+import { stateFromHTML } from 'draft-js-import-html'
 import { NAVIGATION, navigation } from 'Data'
 import { PROJECT, CONTACT, entry } from 'Data/dictionary'
-import { callLeft, memoize } from 'Util/decorator'
+import { callLeft, compose, identity, memoize } from 'Util/decorator'
 import { getKey } from 'Util/getter'
 import { actionCreator, Action, ActionCreator, Dispatch } from 'Util/reducer'
+import { fetchTag } from 'Util/server'
+import { selectTag } from 'Reducer/selector'
 import { actionCreators as SublistActions } from './sublist'
 
 /* ========== ACTIONS ========== */
@@ -73,36 +78,76 @@ export const dictionaryReducer = (state: Map<string, any>, action: DICTIONARY_AC
   }
 }
 
+class DictionaryActions {
+  constructor(actionCreator: Function, middlewares: Function[] = []) {
 
-const createMapAction = (payload: any, _key: string, type: string): DICTIONARY_ACTION => {
-  const key = _key instanceof Function ? _key(payload) : _key
-  const entry: entry = {data: payload, local: true, url: `/entry/${key}`}
+    this.create = (action) => (dispatch: Dispatch, getState: Function) => {
+      let middleware = identity
 
-  return { payload: entry, type, key }
-}
+      if (middlewares.length > 0) {
+        const curried = middlewares.map((fn: Function) => fn(dispatch, getState))
+        middleware = compose(...curried)
+      }
 
-const dictionaryActionCreator = (fetchMethod: any, key: string, type: string) =>
-  fetchMethod instanceof Function ?
-    dictionaryActionCreator(fetchMethod(), key: string, type) :
-    createMapAction(fetchMethod, key, type)
-
-const createDictionaryAction = (actionCreator: ActionCreator<any>) => {
-  return {
-    set: (key: Function | string, fetchMethod: Function | Object) =>
-      fetchMethod instanceof Promise ?
-        (dispatch: Dispatch) =>
-          fetchMethod
-            .then((res: any) => dispatch(
-              actionCreator(dictionaryActionCreator(res.data, key, 'SET'))
-            )) :
-        actionCreator(dictionaryActionCreator(fetchMethod, key, 'SET')),
-    delete: (key: string) =>
-      actionCreator(dictionaryActionCreator(null, key, 'DELETE'))
+      return action instanceof Promise ?
+        action.then((res: DICTIONARY_ACTION) => dispatch(actionCreator(middleware(res)))) :
+        dispatch(actionCreator(middleware(action)))
+    }
   }
+
+  static createMapAction = (payload: any, _key: string, type: string): DICTIONARY_ACTION => {
+    const key = _key instanceof Function ? _key(payload) : _key
+    const entry: entry = {data: payload, local: true, url: `/entry/${key}`}
+
+    return { payload: entry, type, key }
+  }
+
+  static dictionaryActionCreator = (fetchMethod: any, key: string, type: string) =>
+    fetchMethod instanceof Promise ?
+      fetchMethod.then((res: any) => DictionaryActions.createMapAction(res.data, key, type)) :
+      DictionaryActions.createMapAction(fetchMethod, key, type)
+
+  set = (key: Function | String, fetchMethod: Function | Object) =>
+    this.create(DictionaryActions.dictionaryActionCreator(fetchMethod, key, 'SET'))
+
+  delete = (key: String) =>
+    this.create(DictionaryActions.dictionaryActionCreator(null, key, 'DELETE'))
 }
 
-export const articleDictionary = createDictionaryAction(actionCreators.fetchArticle)
-export const tagDictionary = createDictionaryAction(actionCreators.fetchTag)
+export const articleDictionary = new DictionaryActions(actionCreators.fetchArticle, [previewMiddleware, tagMiddleware])
+export const tagDictionary = new DictionaryActions(actionCreators.fetchTag)
 
 articleDictionary.set = callLeft(articleDictionary.set, (data: any) => '' + data.id)
 tagDictionary.set = callLeft(tagDictionary.set, (data: any) => data.tagName)
+
+function previewMiddleware () {
+  return (action: DICTIONARY_ACTION) => {
+    if (action.type !== 'SET') { return action }
+
+    const { data } = action.payload
+
+    data.preview = data.content.getPlainText().slice(0, 150)
+    return Object.assign({}, action)
+  }
+}
+
+function tagMiddleware (dispatch: Dispatch, getState: Function) {
+  return (action: DICTIONARY_ACTION) => {
+    if (action.type !== 'SET') { return action }
+
+    const tagState = selectTag(getState())
+    const { data } = action.payload
+    const { tags } = data
+
+    tags.length > 0 && tags.forEach(
+      ({ tagName }: any) => dispatch(tagDictionary.set(fetchTag(tagName))))
+    return action
+  }
+}
+
+function appendMiddleware (dispatch: Dispatch, getState: Function) {
+  return (action: DICTIONARY_ACTION) => {
+    if (action.type !== 'SET') { return action }
+
+  }
+}

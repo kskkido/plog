@@ -4,6 +4,7 @@ const Tag = db.model('tag')
 
 export const createTag = (req, res, next) => {
   let { tags } = req.body
+  console.log(tags, 'dodododo')
 
   return tags && tags.length > 0 ?
     Promise.all(tags.map((tagName) =>

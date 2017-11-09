@@ -20,7 +20,6 @@ export const invoke = (property: string) => (obj: dataObject) => obj[property]()
 
 export const log = (fn: Function, string?: string) =>
 function (...args: any[]) {
-  console.log('LOG', fn, args)
   string && console.log(string)
 
   return fn.apply(this, args)

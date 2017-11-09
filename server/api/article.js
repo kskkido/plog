@@ -19,16 +19,13 @@ router.param('id', (req, res, next, id) =>
 
 router.route('/')
 .get((req, res, next) => {
-  Article.findAll({attributes: {exclude: ['content']}})
+  Article.findAll() // Article.findAll({attributes: {exclude: ['content']}})
     .then((articles) => res.json(articles))
     .catch(next)
 })
 .post(createTag, ({ body }, res, next) => {
-  Article.create({title: body.title, content: body.content}) // maybe have utility function to convert payload
-    .then((article) => {
-      article.setTags(body.tags)
-      res.status(201).json({id: article.id})
-    })
+  Article.createWithTag(body, body.tags) // maybe have utility function to convert payload
+    .then((article) => res.status(201).json(article))
     .catch(next)
 })
 
@@ -58,11 +55,8 @@ router.route('/:id')
   res.status(200).json(req.targetArticle)
 })
 .put(createTag, ({ body, targetArticle }, res, next) => {
-  targetArticle.update(body)
-    .then(article => {
-      article.setTags(body.tags)
-      return res.status(201).json(article)
-    })
+  targetArticle.updateWithTag(body, body.tags)
+    .then(article => res.status(201).json(article))
     .catch(next)
 })
 

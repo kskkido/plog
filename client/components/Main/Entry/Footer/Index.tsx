@@ -1,20 +1,30 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { Container, List, ListRow, ListCell } from './Styles'
 
-const Footer = () => {
+export interface Props {
+  id: number;
+}
+
+const Footer = (props: Props) => {
+  const { id } = props
 
   return (
     <Container>
       <List>
         <ListRow>
-          <ListCell>
-            Before
-          </ListCell>
+          <Link to={`/entry/${id - 1}`}>
+            <ListCell>
+              Before
+            </ListCell>
+          </Link>
         </ListRow>
         <ListRow>
-          <ListCell>
-            Next
-          </ListCell>
+          <Link to={`/entry/${id + 1}`}>
+            <ListCell>
+              Next
+            </ListCell>
+          </Link>
         </ListRow>
       </List>
     </Container>

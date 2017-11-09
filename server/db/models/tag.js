@@ -20,11 +20,6 @@ const schema = {
 }
 
 const option = {
-  hooks: {
-    afterUpdate: (tag) => {
-      console.log(tag.getArticles, 'lol')
-    }
-  }
 }
 
 const classMethods = {

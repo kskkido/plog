@@ -5,7 +5,7 @@ import PreviewLink from './Link'
 
 export interface Props {
   activeIndex?: number,
-  previewCount?: number,
+  length?: number,
   inputRef?: Function,
   data?: any,
   image?: string,
@@ -16,7 +16,7 @@ const Preview = (props: Props) => {
   const { data, local, url } = props.data
 
   return (
-    <Container previewCount={props.previewCount}>
+    <Container length={props.length}>
       <TextContainer>
         <TextHeader>
           {data.title}

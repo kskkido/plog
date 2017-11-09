@@ -38,7 +38,7 @@ const Factory = ({
     const selected = fetch(query(props))(state)
 
     return {
-      payload: selected !== undefined ? filter(selected) : null
+      payload: selected !== undefined ? filter(selected) : {}
     }
   }
 

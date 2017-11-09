@@ -20,6 +20,13 @@ export interface Props extends PropState, PropDispatch {
 }
 
 class LocalContainer extends React.Component<Props, {}> {
+  getOffset(props: Props) {
+    const { activeIndex, subList } = props
+    const { width } = this.list.getBoundingClientRect()
+
+    return (width / subList.length) * activeIndex
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     slide(this.ref, nextProps.activeIndex)
   }
@@ -60,7 +67,7 @@ class LocalContainer extends React.Component<Props, {}> {
         <Slider length={subList.length} innerRef={(div: any) => this.ref = div}>
           <Line />
         </Slider>
-        <List>
+        <List innerRef={(div: any) => this.list = div}>
           {this.createTable(subList, activeIndex)}
         </List>
       </Container>
