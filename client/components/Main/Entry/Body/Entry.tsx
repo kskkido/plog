@@ -16,14 +16,14 @@ const Entry = (props: Props) => {
 
   return (
     <Container>
-        <Image className="onEnter"/>
-        <Header className="onEnter">
-          <Title>{article.title}</Title>
-          <Meta>{article.date.slice(0, 10)}</Meta>
-        </Header>
-        <Content className="onEnter">
-          <Parse html={stateToHTML(article.content)} />
-        </Content>
+      <Image className="onEnter"/>
+      <Header className="onEnter">
+        <Title>{article.title}</Title>
+        <Meta>{article.date.slice(0, 10)}</Meta>
+      </Header>
+      <Content className="onEnter">
+        <Parse html={stateToHTML(article.content)} />
+      </Content>
     </Container>
   )
 }

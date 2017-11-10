@@ -5,9 +5,10 @@ import { Create } from 'Util/transition'
 
 export const Animation = (() => {
 
-  const onEnter = (target: any) => {
+  const onEnter = (delay: number = 0) => (target: any) => {
     const children = target.getElementsByClassName('onEnter')
     const tl = new TimelineLite()
+      .delay(delay)
 
     return tl
       .staggerFrom(children, 0.5, {
@@ -28,14 +29,15 @@ export const Animation = (() => {
 })()
 
 const Fade = (props: any) => {
+  const delay = props.delay || 0
 
   return (
     <Transition
       {...props}
       appear={true}
       exit={false}
-      timeout={600}
-      onEnter={Animation.onEnter}
+      timeout={600 + (delay * 1000)}
+      onEnter={Animation.onEnter(delay)}
     />
   )
 }

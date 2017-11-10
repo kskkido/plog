@@ -7,8 +7,7 @@ import Card from './Card'
 import Slide from '../Slide'
 
 export interface PropState {
-  activeIndex: number,
-  subList: any[],
+  navigation: object
 }
 
 export interface Props extends PropState {
@@ -19,7 +18,8 @@ export interface State {}
 
 class LocalContainer extends React.Component<Props, State> {
   render() {
-    const { activeIndex, subList } = this.props
+    console.log(this.props.navigation, 'lol')
+    const { activeIndex, subList } = this.props.navigation
 
     return (
       <Slide length={subList.length} activeIndex={activeIndex} >
@@ -41,7 +41,9 @@ class LocalContainer extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState, props: Props) => {
   const { mainKey } = props
 
-  return selectItem(state, mainKey)
+  return {
+    navigation: selectItem(state, mainKey)
+  }
 }
 
 export default connect<any, any, any>(mapStateToProps)(LocalContainer)

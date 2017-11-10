@@ -19,8 +19,8 @@ const mapDictionaryAlias = mapGetDictionary((dictionary: any, key: string) => di
 const memoizeNavigation = (fn: Function) => mapGetNavigation(memoizeState(fn))
 
 // FILTER
-const filterKey = (dictionary: any) => (key: string) => dictionary.get(key) || 'NOT FOUND'
-const filterTitle = (dictionary: any) => (key: string) => dictionary.has(key) ? dictionary.get(key).data.title : 'NOT FOUND'
+const filterKey = (dictionary: any) => (key: string) => dictionary.get(key) || {}
+const filterTitle = (dictionary: any) => (key: string) => dictionary.has(key) ? dictionary.get(key).data.title : {}
 const filterItemBy = (fn: Function) =>
   ({ activeIndex, subList }: any, dictionary: any) => ({
     activeIndex,

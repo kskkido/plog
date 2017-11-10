@@ -16,7 +16,7 @@ const memoizeArticle = (fn: Function) => mapGetDictionary(mapGetArticle(memoizeS
 const memoizeTag = (fn: Function) => mapGetDictionary(mapGetTag(memoizeState(fn)))
 
 // FILTERS
-const filterArticle = (articles: Articles, key?: string) => key === undefined ? articles : articles.get(key)
+const filterArticle = (articles: Articles, key?: number) => key === undefined ? articles : articles.get(+key)
 const filterTag = (tags: Tags, key?: string) => key === undefined ? tags : tags.get(key)
 const filterPublic = (articles: Articles) => new Map(filterIterable((article: any[]) => article[1].data.status, articles))
 const filterPrivate = (articles: Articles) => new Map(filterIterable((article: any[]) => !article[1].data.status, articles))
@@ -33,7 +33,7 @@ export const selectPrivateArticle = memoizeArticle(filterPrivate)
 export const selectRecentArticle = memoizeArticle(filterRecent)
 export const selectRelatedArticle = memoizeDictionary(combineSelector(
   mapGetTag(filterTag),
-  mapGetArticle((article: Article) => ({ id }: any) => [id, article.get('' + id)]),
+  mapGetArticle((article: Article) => ({ id }: any) => [id, article.get(+id)]),
   filterRelated
 ))
 export const selectRelevantTag = memoizeTag(filterRelevant)

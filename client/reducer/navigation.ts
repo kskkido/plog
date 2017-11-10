@@ -3,8 +3,8 @@ import { strMapToObj } from 'Util/converter'
 import { callLeft } from 'Util/decorator'
 import { mapIterable } from 'Util/generator'
 import { actionCreator, Action, Dispatch, reducerFromObject, reduceReducers } from 'Util/reducer'
-import { selectRecentArticle } from './selector'
-import { actionCreators as sublistActions, reducer as sublistReducer, State as SublistState } from './sublist'
+import { selectRecentArticle } from 'Reducer/selector'
+import { actionCreators as sublistActions, reducer as sublistReducer, State as SublistState } from 'Reducer/sublist'
 
 const sublistReducers = callLeft(mapIterable, reducerFromObject(sublistReducer))
 

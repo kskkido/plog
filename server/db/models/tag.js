@@ -23,11 +23,22 @@ const option = {
 }
 
 const classMethods = {
-
+  findByTagName(tagName) {
+    return this.findOne({
+      where: { tagName }
+    })
+  }
 }
 
 const instanceMethods = {
+  updateCount() {
+    return this.getArticles()
+      .then((articles) => {
+        const count = articles.reduce(countArticle, 0)
 
+        return this.update({ count })
+      })
+  }
 }
 
 export default (() => {
@@ -37,3 +48,7 @@ export default (() => {
   Object.assign(Tag.prototype, instanceMethods)
   return Tag
 })()
+
+function countArticle (total, article) {
+  return article.get('status') ? total + 1 : total
+}

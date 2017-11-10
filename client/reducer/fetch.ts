@@ -6,8 +6,8 @@ import { mapIterable, untilIterable } from 'Util/generator'
 import { actionCreator, Action, Dispatch } from 'Util/reducer'
 import { fetchArticles, fetchTags } from 'Util/server'
 import { selectDictionary } from 'Util/selector'
-import { articleDictionary, tagDictionary } from './dictionary'
-import { navigationSetup } from './navigation'
+import { articleDictionary, tagDictionary } from 'Reducer/dictionary'
+import { navigationSetup } from 'Reducer/navigation'
 
 /* ========== ACTIONS ========== */
 export interface FETCH_ERROR {
@@ -53,20 +53,6 @@ export const reducer = (state: State = initialState, action: Action<any>): State
 }
 
 /* ========== DISPATCHER ========== */
-
-export const fetchTimeline = (fetchMethod: Function) => (dispatch: Dispatch, getState: Function) => {
-  dispatch(fetchStart())
-}
-
-export const beforeFetch = (fetchMethod: Function, type: string) => (key: string, ...rest: any[]) => (dispatch: Dispatch, getState: Function) => {
-  const dictionary = selectDictionary(getState())
-  const section = dictionary[type]
-
-  return section.has(key) ?
-    Promise.resolve() :
-    dispatch(fetchMethod(key, ...rest))
-}
-
 export const fetchInitial = (dispatch: Dispatch) =>
     Promise.all([fetchArticles(), fetchTags()])
       .then((res: any) => {

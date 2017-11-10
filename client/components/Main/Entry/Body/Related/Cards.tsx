@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Card as Container } from '../Styles'
+import { Scroll } from 'Util/transition'
 import Cards from 'HOC/Cards'
+import Fade from 'Transition/Fade'
 
 export interface Props {
   payload: any
@@ -20,4 +22,4 @@ const Card = ({ payload }: Props) => {
   )
 }
 
-export default Cards(Card)
+export default Scroll(Fade({delay: 0.5})(Cards(Card)))

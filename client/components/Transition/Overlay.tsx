@@ -11,7 +11,7 @@ const Animation = (() => {
 
   const onEnter = (target: any) => {
     enter = new TimelineLite()
-    enter.add(Fade.onEnter(target), 0.5)
+    enter.add(Fade.onEnter(0)(target), 0.5)
 
     return enter
       .to(target, 0.5, {

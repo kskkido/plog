@@ -84,9 +84,9 @@ const classMethods = {
       .then((article) => {
         const p = tagModels.length > 0 && article.setTags(tagModels)
 
-        return Promise.resolve(p).then(() => article.id)
+        return Promise.resolve(p)
+          .then(() => this.findById(article.id))
       })
-      .then((id) => this.findById(id))
   }
 }
 
@@ -96,7 +96,8 @@ const instanceMethods = {
       .then((article) => {
         const p = tagModels.length > 0 && article.setTags(tagModels)
 
-        return Promise.resolve(p).then(() => article)
+        return Promise.resolve(p)
+          .then(() => article)
       })
   }
 }

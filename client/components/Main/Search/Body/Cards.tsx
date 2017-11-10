@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card as Container } from './Styles'
 import Cards from 'HOC/Cards'
 
+
 export interface Props {
   payload: any
 }

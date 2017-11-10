@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { CollapsibleContainer as Container } from '../Styles'
 import { onHoverShape, onToggleShape, onToggleOnCallback, onToggleOffCallback } from './animation'
 import SVG from './SVG'
 
@@ -12,6 +13,7 @@ const Button = (props: Props) => {
   const { toggle, onToggleOn, onToggleOff } = props
 
   return (
+    <Container>
       <SVG
         toggle={toggle}
         onChange={(_toggle: boolean) => _toggle ? onToggleOff() : onToggleOn()}
@@ -20,6 +22,7 @@ const Button = (props: Props) => {
         onToggleOnCallback={onToggleOnCallback()}
         onToggleOffCallback={onToggleOffCallback()}
       />
+    </Container>
   )
 }
 

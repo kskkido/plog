@@ -5,7 +5,6 @@ export function* flatMapIterable (fn: Function, iterable: any) {
 }
 
 export function* mapIterable (fn: Function, iterable: any) {
-  console.log(iterable, 'any more ')
   for (const value of iterable) {
     yield fn(value)
   }

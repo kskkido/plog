@@ -14,6 +14,7 @@ const Related = ({ payload }: Props) => (
   <Cards
     createCard={(factory: Function) => payload.map(factory)}
     createFactory={(Card: any) => ([key, value]: any) => <Card key={key} payload={value} />}
+    inputRef={(div: any) => this.content = div}
   />
 )
 

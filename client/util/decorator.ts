@@ -14,6 +14,9 @@ export const compose = (...fns: Function[]) =>
 export const createTree = (left: Function, right: Function) =>
   (condition: boolean) => condition ? right() : left()
 
+export const filterBy = (filterFn: Function) => (fn: Function) => (arg: any)
+  => filterFn(arg) ? fn(arg) : arg
+
 export const identity = (i: any) => i
 
 export const invoke = (property: string) => (obj: dataObject) => obj[property]()
